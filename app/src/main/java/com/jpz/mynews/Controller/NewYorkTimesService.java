@@ -15,7 +15,7 @@ public interface NewYorkTimesService {
     // Interface for calls (endpoints) on the New York Times API
 
     // Create Retrofit Object to do a request network
-    public static final Retrofit retrofit = new Retrofit.Builder()
+    Retrofit retrofit = new Retrofit.Builder()
             // Root URL
             .baseUrl("https://api.nytimes.com/")
             // GSON converter
