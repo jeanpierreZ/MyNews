@@ -3,9 +3,8 @@ package com.jpz.mynews.Model;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import javax.xml.transform.Result;
 
-public class NYTimesTopStories {
+public class NYTTopStories {
 
     @SerializedName("status")
     @Expose
@@ -24,7 +23,7 @@ public class NYTimesTopStories {
     private Integer numResults;
     @SerializedName("results")
     @Expose
-    private List<Result> results = null;
+    private List<NYTResult> results = null;
 
     public String getStatus() {
         return status;
@@ -66,11 +65,11 @@ public class NYTimesTopStories {
         this.numResults = numResults;
     }
 
-    public List<Result> getResults() {
+    public List<NYTResult> getResults() {
         return results;
     }
 
-    public void setResults(List<Result> results) {
+    public void setResults(List<NYTResult> results) {
         this.results = results;
     }
 }

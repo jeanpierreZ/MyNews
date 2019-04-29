@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.jpz.mynews.Model.NYTimesTopStories;
+import com.jpz.mynews.Model.NYTTopStories;
 import com.jpz.mynews.R;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
     // Override callback methods
 
     @Override
-    public void onResponse(@Nullable List<NYTimesTopStories> topStories) {
+    public void onResponse(@Nullable List<NYTTopStories> topStories) {
         // When getting response, we update UI
         if (topStories != null) updateUIWithListOfTopStories(topStories);
     }
@@ -58,10 +58,10 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
     // ------------------
 
     // Update UI showing only NYT top stories
-    private void updateUIWithListOfTopStories(List<NYTimesTopStories> topStories){
+    private void updateUIWithListOfTopStories(List<NYTTopStories> topStories){
         StringBuilder stringBuilder = new StringBuilder();
-        for (NYTimesTopStories nyTimesTopStories : topStories){
-            stringBuilder.append("-"+nyTimesTopStories.getSection()+"\n");
+        for (NYTTopStories nytTopStories : topStories){
+            stringBuilder.append("-"+nytTopStories.getSection()+"\n");
         }
         updateUIWhenStoppingHTTPRequest(stringBuilder.toString());
     }

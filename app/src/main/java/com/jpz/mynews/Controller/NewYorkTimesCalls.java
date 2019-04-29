@@ -1,7 +1,7 @@
 package com.jpz.mynews.Controller;
 
 import android.support.annotation.Nullable;
-import com.jpz.mynews.Model.NYTimesTopStories;
+import com.jpz.mynews.Model.NYTTopStories;
 import java.lang.ref.WeakReference;
 import java.util.List;
 import retrofit2.Call;
@@ -13,7 +13,7 @@ public class NewYorkTimesCalls {
 
     // Creating a callback
     public interface Callbacks {
-        void onResponse(@Nullable List<NYTimesTopStories> users);
+        void onResponse(@Nullable List<NYTTopStories> topStories);
         void onFailure();
     }
 
@@ -26,20 +26,20 @@ public class NewYorkTimesCalls {
         // Get a Retrofit instance and the related endpoints in the Interface
         NewYorkTimesService newYorkTimesService = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
 
-        // Create the call on NYTimesTopStories API
-        Call<List<NYTimesTopStories>> call = newYorkTimesService.getResult(sectionValue);
+        // Create the call on NYTTopStories API
+        Call<List<NYTTopStories>> call = newYorkTimesService.getTopStories(sectionValue);
 
         // Start the call
-        call.enqueue(new Callback<List<NYTimesTopStories>>() {
+        call.enqueue(new Callback<List<NYTTopStories>>() {
             @Override
-            public void onResponse(Call<List<NYTimesTopStories>> call, Response<List<NYTimesTopStories>> response) {
+            public void onResponse(Call<List<NYTTopStories>> call, Response<List<NYTTopStories>> response) {
                 // Call the proper callback used in controller (MainActivity)
                 if (callbacksWeakReference.get() != null)
                     callbacksWeakReference.get().onResponse(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<NYTimesTopStories>> call, Throwable t) {
+            public void onFailure(Call<List<NYTTopStories>> call, Throwable t) {
                 // Call the proper callback used in controller (MainActivity)
                 if (callbacksWeakReference.get() != null)
                     callbacksWeakReference.get().onFailure();

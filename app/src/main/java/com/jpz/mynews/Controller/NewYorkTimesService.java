@@ -1,6 +1,6 @@
 package com.jpz.mynews.Controller;
 
-import com.jpz.mynews.Model.NYTimesTopStories;
+import com.jpz.mynews.Model.NYTTopStories;
 
 import java.util.List;
 
@@ -24,6 +24,6 @@ public interface NewYorkTimesService {
 
     // GET type of REST request
     @GET("svc/topstories/v2/{sectionValue}.json?api-key=ZFLWOr4Llj4dNQEA4itSAoJJm2ggwLJx")
-    // sectionValue parameter return NYTimesTopStories Class
-    Call<List<NYTimesTopStories>> getResult(@Path("sectionValue") String sectionValue);
+    // sectionValue parameter return NYTTopStories Class
+    Call<List<NYTTopStories>> getTopStories(@Path("sectionValue") String sectionValue);
 }
