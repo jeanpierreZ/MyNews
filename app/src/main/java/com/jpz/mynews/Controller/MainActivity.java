@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls.Callbacks {
 
-    private TextView textView = findViewById(R.id.activity_main_text);
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
         setContentView(R.layout.activity_main);
 
         Button button = findViewById(R.id.activity_main_button);
+
+        textView = findViewById(R.id.activity_main_text);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
 
     // 4 - Execute HTTP request and update UI
     private void executeHttpRequestWithRetrofit(){
-        this.updateUIWhenStartingHTTPRequest();
+        updateUIWhenStartingHTTPRequest();
         NewYorkTimesCalls.fetchSectionValue(this, "upshot");
     }
 
@@ -42,13 +44,13 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
     @Override
     public void onResponse(@Nullable List<NYTimesTopStories> topStories) {
         // When getting response, we update UI
-        if (topStories != null) this.updateUIWithListOfTopStories(topStories);
+        if (topStories != null) updateUIWithListOfTopStories(topStories);
     }
 
     @Override
     public void onFailure() {
         // When getting error, we update UI
-        this.updateUIWhenStoppingHTTPRequest("An error happened !");
+        updateUIWhenStoppingHTTPRequest("An error happened !");
     }
 
     // ------------------
@@ -65,11 +67,11 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
     }
 
     private void updateUIWhenStartingHTTPRequest(){
-        this.textView.setText("Downloading...");
+        textView.setText("Downloading...");
     }
 
     private void updateUIWhenStoppingHTTPRequest(String response){
-        this.textView.setText(response);
+        textView.setText(response);
     }
 
 }
