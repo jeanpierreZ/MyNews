@@ -9,6 +9,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface NewYorkTimesService {
 
@@ -22,8 +23,16 @@ public interface NewYorkTimesService {
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
+/*
     // GET type of REST request
     @GET("svc/topstories/v2/{sectionValue}.json?api-key=ZFLWOr4Llj4dNQEA4itSAoJJm2ggwLJx")
     // sectionValue parameter return NYTTopStories Class
     Call<List<NYTTopStories>> getTopStories(@Path("sectionValue") String sectionValue);
+*/
+
+    // GET type of REST request
+    @GET("svc/topstories/v2/{sectionValue}.json")
+        // sectionValue parameter return NYTTopStories Class
+    Call<List<NYTTopStories>> getTopStories(@Path("sectionValue") String sectionValue, @Query("query") String key);
+
 }

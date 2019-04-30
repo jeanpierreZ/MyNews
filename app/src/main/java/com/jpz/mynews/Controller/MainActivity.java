@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
     // 4 - Execute HTTP request and update UI
     private void executeHttpRequestWithRetrofit(){
         updateUIWhenStartingHTTPRequest();
-        NewYorkTimesCalls.fetchSectionValue(this, "upshot");
+        NewYorkTimesCalls.fetchSectionValue(this, "upshot", "ZFLWOr4Llj4dNQEA4itSAoJJm2ggwLJx");
     }
 
     // Override callback methods
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
     private void updateUIWithListOfTopStories(List<NYTTopStories> topStories){
         StringBuilder stringBuilder = new StringBuilder();
         for (NYTTopStories nytTopStories : topStories){
-            stringBuilder.append("-"+nytTopStories.getSection()+"\n");
+            stringBuilder.append(nytTopStories.getResults());
         }
         updateUIWhenStoppingHTTPRequest(stringBuilder.toString());
     }
