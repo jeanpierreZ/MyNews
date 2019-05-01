@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.jpz.mynews.Model.NYTResult;
 import com.jpz.mynews.Model.NYTTopStories;
 import com.jpz.mynews.R;
 
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls.Callbacks {
 
@@ -36,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
     // Execute HTTP request and update UI
     private void executeHttpRequestWithRetrofit(){
         updateUIWhenStartingHTTPRequest();
-        NewYorkTimesCalls.fetchTopStories(this, NewYorkTimesService.API_SECTION_TOPSTORIES);
+        NewYorkTimesCalls.fetchTopStories(this, NewYorkTimesService.API_SECTION_TOPSTORIES, NewYorkTimesService.API_KEY);
     }
 
     // Override Callbacks Interface methods

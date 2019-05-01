@@ -9,7 +9,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface NewYorkTimesService {
-    // Interface for calls (endpoints) on the New York Times API
+    // Interface for calls (endpoints) on the New York Times APIs
 
     String API_SECTION_TOPSTORIES = "home";
     String API_BASE_URL = "https://api.nytimes.com/";
@@ -24,14 +24,7 @@ public interface NewYorkTimesService {
             .build();
 
     // GET type of REST request
-    @GET("svc/topstories/v2/{sectionValue}.json?api-key=" + API_KEY)
-    // sectionValue parameter return NYTTopStories Class
-    Call<NYTTopStories> getTopStories(@Path("sectionValue") String sectionValue);
-
-/*
-    // GET type of REST request
     @GET("svc/topstories/v2/{sectionValue}.json")
         // sectionValue parameter return NYTTopStories Class
-    Call<NYTTopStories> getTopStories(@Path("sectionValue") String sectionValue, @Query("query") String key);
-*/
+    Call<NYTTopStories> getTopStories(@Path("sectionValue") String sectionValue, @Query("api-key") String apiKey);
 }

@@ -17,7 +17,7 @@ public class NewYorkTimesCalls {
     }
 
     // Public method to start fetching the result for NYTTopStories
-    public static void fetchTopStories(Callbacks callbacks, String sectionValue){
+    public static void fetchTopStories(Callbacks callbacks, String sectionValue, String apiKey){
 
         // Create a weak reference to callback (avoid memory leaks)
         final WeakReference<Callbacks> callbacksWeakReference = new WeakReference<>(callbacks);
@@ -26,7 +26,7 @@ public class NewYorkTimesCalls {
         NewYorkTimesService newYorkTimesService = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
 
         // Create the call on NYTTopStories API
-        Call<NYTTopStories> call = newYorkTimesService.getTopStories(sectionValue);
+        Call<NYTTopStories> call = newYorkTimesService.getTopStories(sectionValue, apiKey);
 
         // Start the call
         call.enqueue(new Callback<NYTTopStories>() {
