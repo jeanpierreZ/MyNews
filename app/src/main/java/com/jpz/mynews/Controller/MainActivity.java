@@ -3,6 +3,7 @@ package com.jpz.mynews.Controller;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,10 +11,16 @@ import com.jpz.mynews.Model.NYTResult;
 import com.jpz.mynews.Model.NYTTopStories;
 import com.jpz.mynews.R;
 
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
-public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls.Callbacks {
+
+public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
+
+    //FOR DATA
+    private Disposable disposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +33,54 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                executeHttpRequestWithRetrofit();
+                executeHttpRequestWithRxJava();
             }
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Dispose subscription when activity is destroyed
+        this.disposeWhenDestroy();
+    }
+
+    // -------------------
+    // HTTP (RxJAVA)
+    // -------------------
+
+    // Execute our Stream
+    private void executeHttpRequestWithRxJava(){
+        // Update UI
+        this.updateUIWhenStartingHTTPRequest();
+        // Execute the stream subscribing to Observable defined inside NYTStream
+        this.disposable = NYTStreams.fetchTopStories(NewYorkTimesService.API_SECTION_TOPSTORIES, NewYorkTimesService.API_KEY)
+                .subscribeWith(new DisposableObserver<NYTTopStories>() {
+            @Override
+            public void onNext(NYTTopStories topStories) {
+                Log.e("TAG","On Next");
+                // Update UI with result of topStories
+                updateUIWithTopStories(topStories);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("TAG","On Error" + Log.getStackTraceString(e));
+            }
+
+            @Override
+            public void onComplete() {
+                Log.e("TAG","On Complete");
+            }
+        });
+    }
+
+    // Dispose subscription
+    private void disposeWhenDestroy(){
+        if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
+    }
+
+    /*
     // Execute HTTP request and update UI
     private void executeHttpRequestWithRetrofit(){
         updateUIWhenStartingHTTPRequest();
@@ -49,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
         // When getting a fail, we update UI
         updateUIWhenStoppingHTTPRequest("An error happened !");
     }
-
+*/
     // ------------------
     //  UPDATE UI
     // ------------------

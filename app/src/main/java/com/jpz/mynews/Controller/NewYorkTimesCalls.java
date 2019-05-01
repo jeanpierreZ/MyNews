@@ -9,7 +9,7 @@ import retrofit2.Response;
 
 public class NewYorkTimesCalls {
     // Execute Calls with Retrofit, to New York Times' API, in background (Asyntask)
-
+/*
     // Create a callback
     public interface Callbacks {
         void onResponse(@Nullable NYTTopStories topStories);
@@ -45,4 +45,5 @@ public class NewYorkTimesCalls {
             }
         });
     }
+    */
 }
