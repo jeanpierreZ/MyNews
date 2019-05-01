@@ -11,7 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface NewYorkTimesService {
+public interface NYTService {
     // Interface for calls (endpoints) on the New York Times APIs
 
     String API_SECTION_TOPSTORIES = "home";

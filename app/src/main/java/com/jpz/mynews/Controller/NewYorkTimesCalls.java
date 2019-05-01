@@ -23,7 +23,7 @@ public class NewYorkTimesCalls {
         final WeakReference<Callbacks> callbacksWeakReference = new WeakReference<>(callbacks);
 
         // Get a Retrofit instance and the related endpoints of the Interface
-        NewYorkTimesService newYorkTimesService = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
+        NYTService newYorkTimesService = NYTService.retrofit.create(NYTService.class);
 
         // Create the call on NYTTopStories API
         Call<NYTTopStories> call = newYorkTimesService.getTopStories(sectionValue, apiKey);

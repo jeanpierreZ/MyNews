@@ -1,6 +1,5 @@
 package com.jpz.mynews.Controller;
 
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         // Update UI
         this.updateUIWhenStartingHTTPRequest();
         // Execute the stream subscribing to Observable defined inside NYTStream
-        this.disposable = NYTStreams.fetchTopStories(NewYorkTimesService.API_SECTION_TOPSTORIES, NewYorkTimesService.API_KEY)
+        this.disposable = NYTStreams.fetchTopStories(NYTService.API_SECTION_TOPSTORIES, NYTService.API_KEY)
                 .subscribeWith(new DisposableObserver<NYTTopStories>() {
             @Override
             public void onNext(NYTTopStories topStories) {
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     // Execute HTTP request and update UI
     private void executeHttpRequestWithRetrofit(){
         updateUIWhenStartingHTTPRequest();
-        NewYorkTimesCalls.fetchTopStories(this, NewYorkTimesService.API_SECTION_TOPSTORIES, NewYorkTimesService.API_KEY);
+        NewYorkTimesCalls.fetchTopStories(this, NYTService.API_SECTION_TOPSTORIES, NYTService.API_KEY);
     }
 
     // Override Callbacks Interface methods

@@ -14,9 +14,9 @@ public class NYTStreams {
     // Public method to start fetching the result for NYTTopStories
     public static Observable<NYTTopStories> fetchTopStories(String sectionValue, String apiKey){
         // Get a Retrofit instance and the related Observable of the Interface
-        NewYorkTimesService newYorkTimesService = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
+        NYTService nytService = NYTService.retrofit.create(NYTService.class);
         // Create the call on NYTTopStories API
-        return newYorkTimesService.getTopStories(sectionValue, apiKey)
+        return nytService.getTopStories(sectionValue, apiKey)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
