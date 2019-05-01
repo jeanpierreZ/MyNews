@@ -6,8 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.jpz.mynews.Model.NYTResult;
 import com.jpz.mynews.Model.NYTTopStories;
 import com.jpz.mynews.R;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls.Callbacks {
 
@@ -54,8 +58,16 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
 
     // Update UI showing TopStories
     private void updateUIWithTopStories(NYTTopStories topStories){
-        // Show the "status" parameter
-        updateUIWhenStoppingHTTPRequest(topStories.getStatus());
+        // Run through TopStories to recover results of section, subsection, updated date and title
+        StringBuilder stringBuilder = new StringBuilder();
+        for (NYTResult nytResult : topStories.getResults()) {
+            stringBuilder.append(nytResult.getSection() + " > ");
+            stringBuilder.append(nytResult.getSubsection() + "\n");
+            stringBuilder.append(nytResult.getUpdatedDate() + "\n");
+            stringBuilder.append(nytResult.getTitle() + "\n");
+        }
+        // Show them all with formatting above
+        updateUIWhenStoppingHTTPRequest(stringBuilder.toString());
     }
 
     private void updateUIWhenStartingHTTPRequest(){
