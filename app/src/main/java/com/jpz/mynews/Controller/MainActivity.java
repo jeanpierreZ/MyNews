@@ -6,11 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.jpz.mynews.Model.NYTTopStories;
 import com.jpz.mynews.R;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls.Callbacks {
 
@@ -22,7 +19,6 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
         setContentView(R.layout.activity_main);
 
         Button button = findViewById(R.id.activity_main_button);
-
         textView = findViewById(R.id.activity_main_text);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -33,23 +29,22 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
         });
     }
 
-    // 4 - Execute HTTP request and update UI
+    // Execute HTTP request and update UI
     private void executeHttpRequestWithRetrofit(){
         updateUIWhenStartingHTTPRequest();
-        NewYorkTimesCalls.fetchSectionValue(this, "upshot", "ZFLWOr4Llj4dNQEA4itSAoJJm2ggwLJx");
+        NewYorkTimesCalls.fetchTopStories(this, NewYorkTimesService.API_SECTION_TOPSTORIES);
     }
 
-    // Override callback methods
-
+    // Override Callbacks Interface methods
     @Override
-    public void onResponse(@Nullable List<NYTTopStories> topStories) {
-        // When getting response, we update UI
-        if (topStories != null) updateUIWithListOfTopStories(topStories);
+    public void onResponse(@Nullable NYTTopStories topStories) {
+        // When getting a response, we update UI
+        if (topStories != null) updateUIWithTopStories(topStories);
     }
 
     @Override
     public void onFailure() {
-        // When getting error, we update UI
+        // When getting a fail, we update UI
         updateUIWhenStoppingHTTPRequest("An error happened !");
     }
 
@@ -57,13 +52,10 @@ public class MainActivity extends AppCompatActivity implements NewYorkTimesCalls
     //  UPDATE UI
     // ------------------
 
-    // Update UI showing only NYT top stories
-    private void updateUIWithListOfTopStories(List<NYTTopStories> topStories){
-        StringBuilder stringBuilder = new StringBuilder();
-        for (NYTTopStories nytTopStories : topStories){
-            stringBuilder.append(nytTopStories.getResults());
-        }
-        updateUIWhenStoppingHTTPRequest(stringBuilder.toString());
+    // Update UI showing TopStories
+    private void updateUIWithTopStories(NYTTopStories topStories){
+        // Show the "status" parameter
+        updateUIWhenStoppingHTTPRequest(topStories.getStatus());
     }
 
     private void updateUIWhenStartingHTTPRequest(){
