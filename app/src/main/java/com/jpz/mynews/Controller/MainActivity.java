@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import com.jpz.mynews.Model.NYTMostPopular;
 import com.jpz.mynews.Model.NYTResult;
+import com.jpz.mynews.Model.NYTResultMP;
 import com.jpz.mynews.Model.NYTTopStories;
 import com.jpz.mynews.R;
 
@@ -16,9 +18,10 @@ import io.reactivex.observers.DisposableObserver;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textView;
+    private TextView textViewTopStories;
+    private TextView textViewMostPopular;
 
-    //FOR DATA
+    // For data
     private Disposable disposable;
 
     @Override
@@ -26,13 +29,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button button = findViewById(R.id.activity_main_button);
-        textView = findViewById(R.id.activity_main_text);
+        Button buttonTopStories = findViewById(R.id.activity_main_button_topstories);
+        Button buttonMostPopular = findViewById(R.id.activity_main_button_mostpopular);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        textViewTopStories = findViewById(R.id.activity_main_text_topstories);
+        textViewMostPopular = findViewById(R.id.activity_main_text_mostpopular);
+
+        buttonTopStories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                executeHttpRequestWithRxJava();
+                executeTopStoriesRequest();
+            }
+        });
+
+        buttonMostPopular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                executeMostPopularRequest();
             }
         });
     }
@@ -49,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
     // -------------------
 
     // Execute our Stream
-    private void executeHttpRequestWithRxJava(){
+    private void executeTopStoriesRequest(){
         // Update UI
-        this.updateUIWhenStartingHTTPRequest();
+        this.updateUIWhenStartingHTTPRequest(textViewTopStories);
         // Execute the stream subscribing to Observable defined inside NYTStream
         this.disposable = NYTStreams.fetchTopStories(NYTService.API_SECTION_TOPSTORIES, NYTService.API_KEY)
                 .subscribeWith(new DisposableObserver<NYTTopStories>() {
@@ -73,6 +86,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Execute our Stream
+    private void executeMostPopularRequest(){
+        // Update UI
+        this.updateUIWhenStartingHTTPRequest(textViewMostPopular);
+        // Execute the stream subscribing to Observable defined inside NYTStream
+        this.disposable = NYTStreams.fetchMostPopular(NYTService.API_PERIOD, NYTService.API_KEY)
+                .subscribeWith(new DisposableObserver<NYTMostPopular>() {
+                    @Override
+                    public void onNext(NYTMostPopular mostPopular) {
+                        Log.e("TAG","On Next");
+                        // Update UI with result of topStories
+                        updateUIWithMostPopular(mostPopular);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("TAG","On Error" + Log.getStackTraceString(e));
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e("TAG","On Complete");
+                    }
+                });
+    }
+
+
+
 
     // Dispose subscription
     private void disposeWhenDestroy(){
@@ -114,14 +156,28 @@ public class MainActivity extends AppCompatActivity {
             stringBuilder.append(nytResult.getTitle() + "\n");
         }
         // Show them all with formatting above
-        updateUIWhenStoppingHTTPRequest(stringBuilder.toString());
+        updateUIWhenStoppingHTTPRequest(textViewTopStories, stringBuilder.toString());
     }
 
-    private void updateUIWhenStartingHTTPRequest(){
+    // Update UI showing MostPopular
+    private void updateUIWithMostPopular(NYTMostPopular mostPopular){
+        // Run through MostPopular to recover results of section, views, title and source
+        StringBuilder stringBuilder = new StringBuilder();
+        for (NYTResultMP nytResultMP : mostPopular.getResults()) {
+            stringBuilder.append(nytResultMP.getSection() + " > ");
+            stringBuilder.append(nytResultMP.getViews() + "\n");
+            stringBuilder.append(nytResultMP.getTitle() + "\n");
+            stringBuilder.append(nytResultMP.getSource() + "\n");
+        }
+        // Show them all with formatting above
+        updateUIWhenStoppingHTTPRequest(textViewMostPopular, stringBuilder.toString());
+    }
+
+    private void updateUIWhenStartingHTTPRequest(TextView textView){
         textView.setText("Downloading...");
     }
 
-    private void updateUIWhenStoppingHTTPRequest(String response){
+    private void updateUIWhenStoppingHTTPRequest(TextView textView, String response){
         textView.setText(response);
     }
 

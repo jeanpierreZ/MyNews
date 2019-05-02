@@ -1,5 +1,6 @@
 package com.jpz.mynews.Controller;
 
+import com.jpz.mynews.Model.NYTMostPopular;
 import com.jpz.mynews.Model.NYTTopStories;
 
 import io.reactivex.Observable;
@@ -15,7 +16,9 @@ public interface NYTService {
     // Interface for calls (endpoints) on the New York Times APIs
 
     String API_SECTION_TOPSTORIES = "home";
-    String API_BASE_URL = "https://api.nytimes.com/";
+    // Time period : 1, 7, or 30 days ; the following values are allowed: 1, 7, 30
+    int API_PERIOD = 1;
+    String API_BASE_URL = "https://api.nytimes.com/svc/";
     String API_KEY = "ZFLWOr4Llj4dNQEA4itSAoJJm2ggwLJx";
 
     // Create a Retrofit Object to do a request network
@@ -34,7 +37,10 @@ public interface NYTService {
     Call<NYTTopStories> getTopStories(@Path("sectionValue") String sectionValue, @Query("api-key") String apiKey);
 */
     // GET type of REST request
-    @GET("svc/topstories/v2/{sectionValue}.json")
+    @GET("topstories/v2/{sectionValue}.json")
     Observable<NYTTopStories> getTopStories(@Path("sectionValue") String sectionValue, @Query("api-key") String apiKey);
 
+    // GET type of REST request
+    @GET("mostpopular/v2/viewed/{period}.json")
+    Observable<NYTMostPopular> getMostPopular(@Path("period") int period, @Query("api-key") String apiKey);
 }
