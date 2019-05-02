@@ -1,23 +1,20 @@
-package com.jpz.mynews.Controller;
+package com.jpz.mynews.Controllers.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-
-import com.jpz.mynews.Model.Doc;
-import com.jpz.mynews.Model.NYTArticleSearch;
-import com.jpz.mynews.Model.NYTMostPopular;
-import com.jpz.mynews.Model.NYTResult;
-import com.jpz.mynews.Model.NYTResultMP;
-import com.jpz.mynews.Model.NYTTopStories;
+import com.jpz.mynews.Controllers.Utils.NYTService;
+import com.jpz.mynews.Controllers.Utils.NYTStreams;
+import com.jpz.mynews.Models.Doc;
+import com.jpz.mynews.Models.NYTArticleSearch;
+import com.jpz.mynews.Models.NYTMostPopular;
+import com.jpz.mynews.Models.NYTResult;
+import com.jpz.mynews.Models.NYTResultMP;
+import com.jpz.mynews.Models.NYTTopStories;
 import com.jpz.mynews.R;
-
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,43 +30,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button buttonTopStories = findViewById(R.id.activity_main_button_topstories);
-        Button buttonMostPopular = findViewById(R.id.activity_main_button_mostpopular);
-        Button buttonArticleSearch = findViewById(R.id.activity_main_button_articlesearch);
-
         textViewTopStories = findViewById(R.id.activity_main_text_topstories);
         textViewMostPopular = findViewById(R.id.activity_main_text_mostpopular);
         textViewArticleSearch = findViewById(R.id.activity_main_text_articlesearch);
 
-        /*
-        // Load articles of NY Times in the launching of the app
+        // Load articles of NY Times when launching the app
         executeTopStoriesRequest();
         executeMostPopularRequest();
         executeArticleSearchRequest();
-        */
-
-        buttonTopStories.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                executeTopStoriesRequest();
-            }
-        });
-
-        buttonMostPopular.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                executeMostPopularRequest();
-            }
-        });
-
-        buttonArticleSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                executeArticleSearchRequest();
-            }
-        });
-
-
     }
 
     @Override
@@ -162,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-
     // Dispose subscription
     private void disposeWhenDestroy(){
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
@@ -200,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         updateUIWhenStoppingHTTPRequest(textViewMostPopular, stringBuilder.toString());
     }
 
-    // Update UI showing MostPopular
+    // Update UI showing ArticleSearch
     private void updateUIWithArticleSearch(NYTArticleSearch articleSeach){
         // Run through MostPopular to recover results
         StringBuilder stringBuilder = new StringBuilder();

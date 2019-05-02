@@ -1,11 +1,9 @@
-package com.jpz.mynews.Controller;
+package com.jpz.mynews.Controllers.Utils;
 
-import com.jpz.mynews.Model.NYTArticleSearch;
-import com.jpz.mynews.Model.NYTMostPopular;
-import com.jpz.mynews.Model.NYTTopStories;
-
+import com.jpz.mynews.Models.NYTArticleSearch;
+import com.jpz.mynews.Models.NYTMostPopular;
+import com.jpz.mynews.Models.NYTTopStories;
 import java.util.concurrent.TimeUnit;
-
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -28,19 +26,19 @@ public class NYTStreams {
     public static Observable<NYTMostPopular> fetchMostPopular(int period, String apiKey) {
         // Get a Retrofit instance and the related Observable of the Interface
         NYTService nytService = NYTService.retrofit.create(NYTService.class);
-        // Create the call on NYTTopStories API
+        // Create the call on NYTMostPopular API
         return nytService.getMostPopular(period, apiKey)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    // Public method to start fetching the result for NYTMostPopular
+    // Public method to start fetching the result for NYTArticleSearch
     public static Observable<NYTArticleSearch>
     fetchArticleSearch(String fqSource, String fqNewsDesk, String sortOrder, String apiKey) {
         // Get a Retrofit instance and the related Observable of the Interface
         NYTService nytService = NYTService.retrofit.create(NYTService.class);
-        // Create the call on NYTTopStories API
+        // Create the call on NYTArticleSearch API
         return nytService.getArticleSearch(fqSource, fqNewsDesk, sortOrder, apiKey)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

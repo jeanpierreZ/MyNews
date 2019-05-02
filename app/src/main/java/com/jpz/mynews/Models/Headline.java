@@ -1,5 +1,4 @@
-package com.jpz.mynews.Model;
-
+package com.jpz.mynews.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

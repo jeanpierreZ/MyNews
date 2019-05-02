@@ -1,9 +1,8 @@
-package com.jpz.mynews.Controller;
+package com.jpz.mynews.Controllers.Utils;
 
-import com.jpz.mynews.Model.NYTArticleSearch;
-import com.jpz.mynews.Model.NYTMostPopular;
-import com.jpz.mynews.Model.NYTTopStories;
-
+import com.jpz.mynews.Models.NYTArticleSearch;
+import com.jpz.mynews.Models.NYTMostPopular;
+import com.jpz.mynews.Models.NYTTopStories;
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -13,8 +12,9 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface NYTService {
-    // Interface for calls (endpoints) on the New York Times APIs
+    // Interface for requests the New York Times APIs
 
+    // Fields to complete requests
     String API_BASE_URL = "https://api.nytimes.com/svc/";
     String API_KEY = "ZFLWOr4Llj4dNQEA4itSAoJJm2ggwLJx";
     String API_TOPSTORIES_SECTION = "home";
@@ -34,12 +34,7 @@ public interface NYTService {
             // RxJava Adapter
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build();
-/*
-    // GET type of REST request
-    @GET("svc/topstories/v2/{sectionValue}.json")
-        // sectionValue parameter return NYTTopStories Class
-    Call<NYTTopStories> getTopStories(@Path("sectionValue") String sectionValue, @Query("api-key") String apiKey);
-*/
+
     // GET type of REST request for Top Stories
     @GET("topstories/v2/{section}.json")
     Observable<NYTTopStories>

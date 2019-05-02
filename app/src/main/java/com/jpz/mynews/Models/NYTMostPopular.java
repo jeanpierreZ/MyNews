@@ -1,9 +1,10 @@
-package com.jpz.mynews.Model;
+package com.jpz.mynews.Models;
 
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class NYTArticleSearch {
+public class NYTMostPopular {
 
     @SerializedName("status")
     @Expose
@@ -11,9 +12,12 @@ public class NYTArticleSearch {
     @SerializedName("copyright")
     @Expose
     private String copyright;
-    @SerializedName("response")
+    @SerializedName("num_results")
     @Expose
-    private Response response;
+    private Integer numResults;
+    @SerializedName("results")
+    @Expose
+    private List<NYTResultMP> results = null;
 
     public String getStatus() {
         return status;
@@ -31,12 +35,19 @@ public class NYTArticleSearch {
         this.copyright = copyright;
     }
 
-    public Response getResponse() {
-        return response;
+    public Integer getNumResults() {
+        return numResults;
     }
 
-    public void setResponse(Response response) {
-        this.response = response;
+    public void setNumResults(Integer numResults) {
+        this.numResults = numResults;
     }
 
+    public List<NYTResultMP> getResults() {
+        return results;
+    }
+
+    public void setResults(List<NYTResultMP> results) {
+        this.results = results;
+    }
 }

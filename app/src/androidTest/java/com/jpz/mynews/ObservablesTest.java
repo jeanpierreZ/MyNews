@@ -1,9 +1,9 @@
 package com.jpz.mynews;
 
 import android.support.test.runner.AndroidJUnit4;
-import com.jpz.mynews.Controller.NYTStreams;
-import com.jpz.mynews.Controller.NYTService;
-import com.jpz.mynews.Model.NYTTopStories;
+import com.jpz.mynews.Controllers.Utils.NYTStreams;
+import com.jpz.mynews.Controllers.Utils.NYTService;
+import com.jpz.mynews.Models.NYTTopStories;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import io.reactivex.Observable;
@@ -18,7 +18,7 @@ public class ObservablesTest {
     public void fetchTopStoriesTest() throws Exception {
         // Get the stream
         Observable<NYTTopStories> topStoriesObservable = NYTStreams
-                .fetchTopStories(NYTService.API_SECTION_TOPSTORIES, NYTService.API_KEY);
+                .fetchTopStories(NYTService.API_TOPSTORIES_SECTION, NYTService.API_KEY);
         // Create a new TestObserver
         TestObserver<NYTTopStories> topStoriesTestObserver = new TestObserver<>();
         // Launch observable

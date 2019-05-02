@@ -1,4 +1,4 @@
-package com.jpz.mynews.Model;
+package com.jpz.mynews.Models;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

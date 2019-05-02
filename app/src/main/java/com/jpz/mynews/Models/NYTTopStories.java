@@ -1,10 +1,10 @@
-package com.jpz.mynews.Model;
+package com.jpz.mynews.Models;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class NYTMostPopular {
+public class NYTTopStories {
 
     @SerializedName("status")
     @Expose
@@ -12,12 +12,18 @@ public class NYTMostPopular {
     @SerializedName("copyright")
     @Expose
     private String copyright;
+    @SerializedName("section")
+    @Expose
+    private String section;
+    @SerializedName("last_updated")
+    @Expose
+    private String lastUpdated;
     @SerializedName("num_results")
     @Expose
     private Integer numResults;
     @SerializedName("results")
     @Expose
-    private List<NYTResultMP> results = null;
+    private List<NYTResult> results = null;
 
     public String getStatus() {
         return status;
@@ -35,6 +41,22 @@ public class NYTMostPopular {
         this.copyright = copyright;
     }
 
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
+    }
+
+    public String getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(String lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
     public Integer getNumResults() {
         return numResults;
     }
@@ -43,11 +65,11 @@ public class NYTMostPopular {
         this.numResults = numResults;
     }
 
-    public List<NYTResultMP> getResults() {
+    public List<NYTResult> getResults() {
         return results;
     }
 
-    public void setResults(List<NYTResultMP> results) {
+    public void setResults(List<NYTResult> results) {
         this.results = results;
     }
 }
