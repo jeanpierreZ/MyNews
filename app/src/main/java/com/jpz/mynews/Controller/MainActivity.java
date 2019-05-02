@@ -6,6 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.jpz.mynews.Model.Doc;
+import com.jpz.mynews.Model.NYTArticleSearch;
 import com.jpz.mynews.Model.NYTMostPopular;
 import com.jpz.mynews.Model.NYTResult;
 import com.jpz.mynews.Model.NYTResultMP;
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView textViewTopStories;
     private TextView textViewMostPopular;
+    private TextView textViewArticleSearch;
 
     // For data
     private Disposable disposable;
@@ -31,9 +35,18 @@ public class MainActivity extends AppCompatActivity {
 
         Button buttonTopStories = findViewById(R.id.activity_main_button_topstories);
         Button buttonMostPopular = findViewById(R.id.activity_main_button_mostpopular);
+        Button buttonArticleSearch = findViewById(R.id.activity_main_button_articlesearch);
 
         textViewTopStories = findViewById(R.id.activity_main_text_topstories);
         textViewMostPopular = findViewById(R.id.activity_main_text_mostpopular);
+        textViewArticleSearch = findViewById(R.id.activity_main_text_articlesearch);
+
+        /*
+        // Load articles of NY Times in the launching of the app
+        executeTopStoriesRequest();
+        executeMostPopularRequest();
+        executeArticleSearchRequest();
+        */
 
         buttonTopStories.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +61,15 @@ public class MainActivity extends AppCompatActivity {
                 executeMostPopularRequest();
             }
         });
+
+        buttonArticleSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                executeArticleSearchRequest();
+            }
+        });
+
+
     }
 
     @Override
@@ -66,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         // Update UI
         this.updateUIWhenStartingHTTPRequest(textViewTopStories);
         // Execute the stream subscribing to Observable defined inside NYTStream
-        this.disposable = NYTStreams.fetchTopStories(NYTService.API_SECTION_TOPSTORIES, NYTService.API_KEY)
+        this.disposable = NYTStreams.fetchTopStories(NYTService.API_TOPSTORIES_SECTION, NYTService.API_KEY)
                 .subscribeWith(new DisposableObserver<NYTTopStories>() {
             @Override
             public void onNext(NYTTopStories topStories) {
@@ -113,7 +135,32 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    // Execute our Stream
+    private void executeArticleSearchRequest(){
+        // Update UI
+        this.updateUIWhenStartingHTTPRequest(textViewArticleSearch);
+        // Execute the stream subscribing to Observable defined inside NYTStream
+        this.disposable = NYTStreams.fetchArticleSearch(NYTService.API_FILTER_QUERY_SOURCE,
+                NYTService.API_FILTER_QUERY_NEWS_DESK, NYTService.API_FILTER_SORT_ORDER, NYTService.API_KEY)
+                .subscribeWith(new DisposableObserver<NYTArticleSearch>() {
+                    @Override
+                    public void onNext(NYTArticleSearch articleSeach) {
+                        Log.e("TAG","On Next");
+                        // Update UI with result of topStories
+                        updateUIWithArticleSearch(articleSeach);
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("TAG","On Error" + Log.getStackTraceString(e));
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e("TAG","On Complete");
+                    }
+                });
+    }
 
 
     // Dispose subscription
@@ -121,26 +168,6 @@ public class MainActivity extends AppCompatActivity {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
-    /*
-    // Execute HTTP request and update UI
-    private void executeHttpRequestWithRetrofit(){
-        updateUIWhenStartingHTTPRequest();
-        NewYorkTimesCalls.fetchTopStories(this, NYTService.API_SECTION_TOPSTORIES, NYTService.API_KEY);
-    }
-
-    // Override Callbacks Interface methods
-    @Override
-    public void onResponse(@Nullable NYTTopStories topStories) {
-        // When getting a response, we update UI
-        if (topStories != null) updateUIWithTopStories(topStories);
-    }
-
-    @Override
-    public void onFailure() {
-        // When getting a fail, we update UI
-        updateUIWhenStoppingHTTPRequest("An error happened !");
-    }
-*/
     // ------------------
     //  UPDATE UI
     // ------------------
@@ -172,6 +199,28 @@ public class MainActivity extends AppCompatActivity {
         // Show them all with formatting above
         updateUIWhenStoppingHTTPRequest(textViewMostPopular, stringBuilder.toString());
     }
+
+    // Update UI showing MostPopular
+    private void updateUIWithArticleSearch(NYTArticleSearch articleSeach){
+        // Run through MostPopular to recover results
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Doc doc : articleSeach.getResponse().getDocs()) {
+            stringBuilder.append(doc.getSource() + " > ");
+            stringBuilder.append(doc.getHeadline().getMain() + "\n");
+            stringBuilder.append(doc.getByline().getPerson() + "\n");
+            stringBuilder.append(doc.getNewsDesk() + "\n");
+        }
+        // Show them all with formatting above
+        updateUIWhenStoppingHTTPRequest(textViewArticleSearch, stringBuilder.toString());
+
+/*
+        updateUIWhenStoppingHTTPRequest(textViewArticleSearch,
+                articleSeach.getResponse().getDocs().get(0).getSource());
+
+        stringBuilder.append(doc.getByline().getPerson().get(0).getLastname() + "\n"); => Crash
+*/
+    }
+
 
     private void updateUIWhenStartingHTTPRequest(TextView textView){
         textView.setText("Downloading...");
