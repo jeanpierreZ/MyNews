@@ -12,22 +12,22 @@ public class NYTStreams {
     // Class for streams the New York Times APIs with Observables of RxJava
 
     // Public method to start fetching the result for NYTTopStories
-    public static Observable<NYTTopStories> fetchTopStories(String section, String apiKey){
+    public static Observable<NYTTopStories> fetchTopStories(String section){
         // Get a Retrofit instance and the related Observable of the Interface
         NYTService nytService = NYTService.retrofit.create(NYTService.class);
         // Create the call on NYTTopStories API
-        return nytService.getTopStories(section, apiKey)
+        return nytService.getTopStories(section)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
 
     // Public method to start fetching the result for NYTMostPopular
-    public static Observable<NYTMostPopular> fetchMostPopular(int period, String apiKey) {
+    public static Observable<NYTMostPopular> fetchMostPopular(int period) {
         // Get a Retrofit instance and the related Observable of the Interface
         NYTService nytService = NYTService.retrofit.create(NYTService.class);
         // Create the call on NYTMostPopular API
-        return nytService.getMostPopular(period, apiKey)
+        return nytService.getMostPopular(period)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
@@ -35,11 +35,11 @@ public class NYTStreams {
 
     // Public method to start fetching the result for NYTArticleSearch
     public static Observable<NYTArticleSearch>
-    fetchArticleSearch(String fqSource, String fqNewsDesk, String sortOrder, String apiKey) {
+    fetchArticleSearch(String fqSource, String fqNewsDesk, String sortOrder) {
         // Get a Retrofit instance and the related Observable of the Interface
         NYTService nytService = NYTService.retrofit.create(NYTService.class);
         // Create the call on NYTArticleSearch API
-        return nytService.getArticleSearch(fqSource, fqNewsDesk, sortOrder, apiKey)
+        return nytService.getArticleSearch(fqSource, fqNewsDesk, sortOrder)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

@@ -36,18 +36,18 @@ public interface NYTService {
             .build();
 
     // GET type of REST request for Top Stories
-    @GET("topstories/v2/{section}.json")
+    @GET("topstories/v2/{section}.json?api-key=" + API_KEY)
     Observable<NYTTopStories>
-    getTopStories(@Path("section") String sectionValue, @Query("api-key") String apiKey);
+    getTopStories(@Path("section") String sectionValue);
 
     // GET type of REST request for Most Popular
-    @GET("mostpopular/v2/viewed/{period}.json")
+    @GET("mostpopular/v2/viewed/{period}.json?api-key=" + API_KEY)
     Observable<NYTMostPopular>
-    getMostPopular(@Path("period") int period, @Query("api-key") String apiKey);
+    getMostPopular(@Path("period") int period);
 
     // GET type of REST request for Article Search
-    @GET("search/v2/articlesearch.json")
+    @GET("search/v2/articlesearch.json?api-key=" + API_KEY)
     Observable<NYTArticleSearch>
     getArticleSearch(@Query("fq=source") String fqSource, @Query("fq=news_desk") String fqNewsDesk,
-                     @Query("sort") String sortOrder, @Query("api-key") String apiKey);
+                     @Query("sort") String sortOrder);
 }

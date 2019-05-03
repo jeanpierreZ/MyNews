@@ -18,7 +18,7 @@ public class ObservablesTest {
     public void fetchTopStoriesTest() throws Exception {
         // Get the stream
         Observable<NYTTopStories> topStoriesObservable = NYTStreams
-                .fetchTopStories(NYTService.API_TOPSTORIES_SECTION, NYTService.API_KEY);
+                .fetchTopStories(NYTService.API_TOPSTORIES_SECTION);
         // Create a new TestObserver
         TestObserver<NYTTopStories> topStoriesTestObserver = new TestObserver<>();
         // Launch observable

@@ -1,6 +1,7 @@
 package com.jpz.mynews.Controllers.Fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,7 +39,7 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
@@ -71,7 +72,7 @@ public class MainFragment extends Fragment {
         // Update UI
         this.updateUIWhenStartingHTTPRequest(textViewTopStories);
         // Execute the stream subscribing to Observable defined inside NYTStream
-        this.disposable = NYTStreams.fetchTopStories(NYTService.API_TOPSTORIES_SECTION, NYTService.API_KEY)
+        this.disposable = NYTStreams.fetchTopStories(NYTService.API_TOPSTORIES_SECTION)
                 .subscribeWith(new DisposableObserver<NYTTopStories>() {
                     @Override
                     public void onNext(NYTTopStories topStories) {
@@ -97,7 +98,7 @@ public class MainFragment extends Fragment {
         // Update UI
         this.updateUIWhenStartingHTTPRequest(textViewMostPopular);
         // Execute the stream subscribing to Observable defined inside NYTStream
-        this.disposable = NYTStreams.fetchMostPopular(NYTService.API_PERIOD, NYTService.API_KEY)
+        this.disposable = NYTStreams.fetchMostPopular(NYTService.API_PERIOD)
                 .subscribeWith(new DisposableObserver<NYTMostPopular>() {
                     @Override
                     public void onNext(NYTMostPopular mostPopular) {
@@ -124,13 +125,13 @@ public class MainFragment extends Fragment {
         this.updateUIWhenStartingHTTPRequest(textViewArticleSearch);
         // Execute the stream subscribing to Observable defined inside NYTStream
         this.disposable = NYTStreams.fetchArticleSearch(NYTService.API_FILTER_QUERY_SOURCE,
-                NYTService.API_FILTER_QUERY_NEWS_DESK, NYTService.API_FILTER_SORT_ORDER, NYTService.API_KEY)
+                NYTService.API_FILTER_QUERY_NEWS_DESK, NYTService.API_FILTER_SORT_ORDER)
                 .subscribeWith(new DisposableObserver<NYTArticleSearch>() {
                     @Override
-                    public void onNext(NYTArticleSearch articleSeach) {
+                    public void onNext(NYTArticleSearch articleSearch) {
                         Log.e("TAG","On Next");
                         // Update UI with result of topStories
-                        updateUIWithArticleSearch(articleSeach);
+                        updateUIWithArticleSearch(articleSearch);
                     }
 
                     @Override
@@ -183,10 +184,10 @@ public class MainFragment extends Fragment {
     }
 
     // Update UI showing ArticleSearch
-    private void updateUIWithArticleSearch(NYTArticleSearch articleSeach){
+    private void updateUIWithArticleSearch(NYTArticleSearch articleSearch){
         // Run through MostPopular to recover results
         StringBuilder stringBuilder = new StringBuilder();
-        for (Doc doc : articleSeach.getResponse().getDocs()) {
+        for (Doc doc : articleSearch.getResponse().getDocs()) {
             stringBuilder.append(doc.getSource() + " > ");
             stringBuilder.append(doc.getHeadline().getMain() + "\n");
             stringBuilder.append(doc.getByline().getPerson() + "\n");
@@ -194,13 +195,6 @@ public class MainFragment extends Fragment {
         }
         // Show them all with formatting above
         updateUIWhenStoppingHTTPRequest(textViewArticleSearch, stringBuilder.toString());
-
-/*
-        updateUIWhenStoppingHTTPRequest(textViewArticleSearch,
-                articleSeach.getResponse().getDocs().get(0).getSource());
-
-        stringBuilder.append(doc.getByline().getPerson().get(0).getLastname() + "\n"); => Crash
-*/
     }
 
     private void updateUIWhenStartingHTTPRequest(TextView textView){
