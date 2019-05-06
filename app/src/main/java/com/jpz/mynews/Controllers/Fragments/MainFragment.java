@@ -85,7 +85,7 @@ public class MainFragment extends Fragment {
         // Set layout manager to position the items
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
-    
+
     // Execute our Stream
     private void executeTopStoriesRequest(){
         // Execute the stream subscribing to Observable defined inside NYTStream
