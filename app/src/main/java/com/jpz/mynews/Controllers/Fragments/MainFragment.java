@@ -3,11 +3,12 @@ package com.jpz.mynews.Controllers.Fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.jpz.mynews.Controllers.Utils.NYTService;
 import com.jpz.mynews.Controllers.Utils.NYTStreams;
@@ -18,6 +19,11 @@ import com.jpz.mynews.Models.NYTResult;
 import com.jpz.mynews.Models.NYTResultMP;
 import com.jpz.mynews.Models.NYTTopStories;
 import com.jpz.mynews.R;
+import com.jpz.mynews.Views.TopStoriesAdapter;
+
+import java.util.ArrayList;
+
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
@@ -27,12 +33,14 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class MainFragment extends Fragment {
 
-    private TextView textViewTopStories;
-    private TextView textViewMostPopular;
-    private TextView textViewArticleSearch;
+    private RecyclerView recyclerView;
 
     // For data
     private Disposable disposable;
+
+    // Declare list of results (NYTResult) & Adapter
+    private List<NYTResult> results;
+    private TopStoriesAdapter topStoriesAdapter;
 
     public MainFragment() {
         // Required empty public constructor
@@ -44,14 +52,13 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        textViewTopStories = view.findViewById(R.id.fragment_main_text_topstories);
-        textViewMostPopular = view.findViewById(R.id.fragment_main_text_mostpopular);
-        textViewArticleSearch = view.findViewById(R.id.fragment_main_text_articlesearch);
+        recyclerView = view.findViewById(R.id.fragment_main_recycler_view);
 
         // Load articles of NY Times when launching the app
-        executeTopStoriesRequest();
-        executeMostPopularRequest();
-        executeArticleSearchRequest();
+        configureRecyclerView(); // Call during UI creation
+        executeTopStoriesRequest(); // Execute stream after UI creation
+        //executeMostPopularRequest();
+        //executeArticleSearchRequest();
 
         return view;
     }
@@ -67,18 +74,28 @@ public class MainFragment extends Fragment {
     // HTTP (RxJAVA)
     // -------------------
 
+    // Configure RecyclerView, Adapter, LayoutManager & glue it together
+    private void configureRecyclerView(){
+        // Reset list
+        results = new ArrayList<>();
+        // Create adapter passing the list of users
+        topStoriesAdapter = new TopStoriesAdapter(this.results);
+        // Attach the adapter to the recyclerview to populate items
+        recyclerView.setAdapter(this.topStoriesAdapter);
+        // Set layout manager to position the items
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+    
     // Execute our Stream
     private void executeTopStoriesRequest(){
-        // Update UI
-        this.updateUIWhenStartingHTTPRequest(textViewTopStories);
         // Execute the stream subscribing to Observable defined inside NYTStream
         this.disposable = NYTStreams.fetchTopStories(NYTService.API_TOPSTORIES_SECTION)
                 .subscribeWith(new DisposableObserver<NYTTopStories>() {
                     @Override
                     public void onNext(NYTTopStories topStories) {
                         Log.e("TAG","On Next");
-                        // Update UI with result of topStories
-                        updateUIWithTopStories(topStories);
+                        // Update RecyclerView after getting results from New York Times API
+                        updateUI(topStories);
                     }
 
                     @Override
@@ -93,6 +110,7 @@ public class MainFragment extends Fragment {
                 });
     }
 
+    /*
     // Execute our Stream
     private void executeMostPopularRequest(){
         // Update UI
@@ -145,64 +163,17 @@ public class MainFragment extends Fragment {
                     }
                 });
     }
+    */
 
     // Dispose subscription
     private void disposeWhenDestroy(){
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
-    // ------------------
-    //  UPDATE UI
-    // ------------------
-
-    // Update UI showing TopStories
-    private void updateUIWithTopStories(NYTTopStories topStories){
-        // Run through TopStories to recover results of section, subsection, updated date and title
-        StringBuilder stringBuilder = new StringBuilder();
-        for (NYTResult nytResult : topStories.getResults()) {
-            stringBuilder.append(nytResult.getSection() + " > ");
-            stringBuilder.append(nytResult.getSubsection() + "\n");
-            stringBuilder.append(nytResult.getUpdatedDate() + "\n");
-            stringBuilder.append(nytResult.getTitle() + "\n");
-        }
-        // Show them all with formatting above
-        updateUIWhenStoppingHTTPRequest(textViewTopStories, stringBuilder.toString());
-    }
-
-    // Update UI showing MostPopular
-    private void updateUIWithMostPopular(NYTMostPopular mostPopular){
-        // Run through MostPopular to recover results of section, views, title and source
-        StringBuilder stringBuilder = new StringBuilder();
-        for (NYTResultMP nytResultMP : mostPopular.getResults()) {
-            stringBuilder.append(nytResultMP.getSection() + " > ");
-            stringBuilder.append(nytResultMP.getViews() + "\n");
-            stringBuilder.append(nytResultMP.getTitle() + "\n");
-            stringBuilder.append(nytResultMP.getSource() + "\n");
-        }
-        // Show them all with formatting above
-        updateUIWhenStoppingHTTPRequest(textViewMostPopular, stringBuilder.toString());
-    }
-
-    // Update UI showing ArticleSearch
-    private void updateUIWithArticleSearch(NYTArticleSearch articleSearch){
-        // Run through MostPopular to recover results
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Doc doc : articleSearch.getResponse().getDocs()) {
-            stringBuilder.append(doc.getSource() + " > ");
-            stringBuilder.append(doc.getHeadline().getMain() + "\n");
-            stringBuilder.append(doc.getByline().getPerson() + "\n");
-            stringBuilder.append(doc.getNewsDesk() + "\n");
-        }
-        // Show them all with formatting above
-        updateUIWhenStoppingHTTPRequest(textViewArticleSearch, stringBuilder.toString());
-    }
-
-    private void updateUIWhenStartingHTTPRequest(TextView textView){
-        textView.setText("Downloading...");
-    }
-
-    private void updateUIWhenStoppingHTTPRequest(TextView textView, String response){
-        textView.setText(response);
+    //  Update UI
+    private void updateUI(NYTTopStories topStories){
+        results.addAll(topStories.getResults());
+        topStoriesAdapter.notifyDataSetChanged();
     }
 
 }

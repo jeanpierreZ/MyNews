@@ -1,34 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
     tools:context=".Controllers.Fragments.MainFragment">
 
-    <TextView
-        android:id="@+id/fragment_main_text_topstories"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_main_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="top stories !"
-        android:gravity="center_horizontal"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
-    <TextView
-        android:id="@+id/fragment_main_text_mostpopular"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="most popular !"
-        android:gravity="center_horizontal"
-        android:layout_weight="1"/>
-
-    <TextView
-        android:id="@+id/fragment_main_text_articlesearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="article search !"
-        android:gravity="center_horizontal"
-        android:layout_weight="1"/>
-
-</LinearLayout>
+</RelativeLayout>

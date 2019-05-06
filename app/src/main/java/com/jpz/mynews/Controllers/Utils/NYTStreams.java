@@ -3,7 +3,9 @@ package com.jpz.mynews.Controllers.Utils;
 import com.jpz.mynews.Models.NYTArticleSearch;
 import com.jpz.mynews.Models.NYTMostPopular;
 import com.jpz.mynews.Models.NYTTopStories;
+
 import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

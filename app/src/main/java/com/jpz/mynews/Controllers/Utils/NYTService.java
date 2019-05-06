@@ -3,7 +3,9 @@ package com.jpz.mynews.Controllers.Utils;
 import com.jpz.mynews.Models.NYTArticleSearch;
 import com.jpz.mynews.Models.NYTMostPopular;
 import com.jpz.mynews.Models.NYTTopStories;
+
 import io.reactivex.Observable;
+
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
