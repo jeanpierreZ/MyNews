@@ -17,8 +17,7 @@ import java.util.Locale;
 import static android.content.ContentValues.TAG;
 
 public class TopStoriesViewHolder extends RecyclerView.ViewHolder {
-    //Represent a line of TopStories in the RecyclerView
-
+    // Represent an item (line) of TopStories in the RecyclerView
     private TextView textViewTitle;
     private TextView textViewSection;
     private TextView textViewUpdatedDate;
@@ -42,21 +41,19 @@ public class TopStoriesViewHolder extends RecyclerView.ViewHolder {
         else
             sectionSubsection = section + " > " + subSection;
 
-        // Display title of TopStories in NYTResult
-        this.textViewTitle.setText(result.getTitle());
-        this.textViewSection.setText(sectionSubsection);
-        this.textViewUpdatedDate.setText(result.getUpdatedDate());
+        // Display settings of TopStories in NYTResult
+        textViewTitle.setText(result.getTitle());
+        textViewSection.setText(sectionSubsection);
+        textViewUpdatedDate.setText(convertDate(result.getUpdatedDate()));
     }
 
-/*
-    private String parseDate(String topStoriesDate) {
+    private String convertDate(String topStoriesDate) {
         // Build date in dd/MM/yyyy for updatedDate
-
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss-HH:mm", Locale.getDefault());
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
         Date date;
-        String newDate = null;
+        String newDate = "";
 
         try {
             date = inputFormat.parse(topStoriesDate);
@@ -66,6 +63,5 @@ public class TopStoriesViewHolder extends RecyclerView.ViewHolder {
         }
         return newDate;
     }
-*/
 
 }
