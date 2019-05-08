@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.RequestManager;
 import com.jpz.mynews.Models.NYTResult;
 import com.jpz.mynews.R;
 
@@ -18,9 +19,13 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder
     // For data
     private List<NYTResult> results;
 
+    // Declaring a Glide object
+    private RequestManager glide;
+
     // Constructor
-    public TopStoriesAdapter(List<NYTResult> results) {
+    public TopStoriesAdapter(List<NYTResult> results, RequestManager glide) {
         this.results = results;
+        this.glide = glide;
     }
 
     @NonNull
@@ -37,7 +42,7 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder
     // Update viewholder with a title of TopStories
     @Override
     public void onBindViewHolder(@NonNull TopStoriesViewHolder topStoriesViewHolder, int position) {
-        topStoriesViewHolder.updateWithTopStories(this.results.get(position));
+        topStoriesViewHolder.updateWithTopStories(this.results.get(position), this.glide);
     }
 
     // Return the total count of items in the list

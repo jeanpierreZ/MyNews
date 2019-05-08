@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.jpz.mynews.Controllers.Utils.NYTService;
 import com.jpz.mynews.Controllers.Utils.NYTStreams;
 import com.jpz.mynews.Models.Doc;
@@ -79,7 +80,7 @@ public class MainFragment extends Fragment {
         // Reset list
         results = new ArrayList<>();
         // Create adapter passing the list of users
-        topStoriesAdapter = new TopStoriesAdapter(this.results);
+        topStoriesAdapter = new TopStoriesAdapter(this.results, Glide.with(this));
         // Attach the adapter to the recyclerview to populate items
         recyclerView.setAdapter(this.topStoriesAdapter);
         // Set layout manager to position the items
