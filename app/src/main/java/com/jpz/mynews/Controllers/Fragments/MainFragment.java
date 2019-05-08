@@ -20,6 +20,7 @@ import com.jpz.mynews.Models.NYTResult;
 import com.jpz.mynews.Models.NYTResultMP;
 import com.jpz.mynews.Models.NYTTopStories;
 import com.jpz.mynews.R;
+import com.jpz.mynews.Views.MostPopularAdapter;
 import com.jpz.mynews.Views.TopStoriesAdapter;
 
 import java.util.ArrayList;
@@ -43,6 +44,10 @@ public class MainFragment extends Fragment {
     private List<NYTResult> results;
     private TopStoriesAdapter topStoriesAdapter;
 
+    // Declare list of results (NYTResultMP) & Adapter
+    private List<NYTResultMP> resultMPList;
+    private MostPopularAdapter mostPopularAdapter;
+
     public MainFragment() {
         // Required empty public constructor
     }
@@ -56,10 +61,14 @@ public class MainFragment extends Fragment {
         recyclerView = view.findViewById(R.id.fragment_main_recycler_view);
 
         // Load articles of NY Times when launching the app
-        configureRecyclerView(); // Call during UI creation
-        executeTopStoriesRequest(); // Execute stream after UI creation
-        //executeMostPopularRequest();
-        //executeArticleSearchRequest();
+
+        //configureRecyclerView(); // Call during UI creation
+        //executeTopStoriesRequest(); // Execute stream after UI creation
+
+        configureRecyclerViewMP();
+        executeMostPopularRequest();
+
+        // executeArticleSearchRequest();
 
         return view;
     }
@@ -79,10 +88,22 @@ public class MainFragment extends Fragment {
     private void configureRecyclerView(){
         // Reset list
         results = new ArrayList<>();
-        // Create adapter passing the list of users
+        // Create adapter passing the list of articles
         topStoriesAdapter = new TopStoriesAdapter(this.results, Glide.with(this));
         // Attach the adapter to the recyclerview to populate items
         recyclerView.setAdapter(this.topStoriesAdapter);
+        // Set layout manager to position the items
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    // Configure RecyclerView, Adapter, LayoutManager & glue it together
+    private void configureRecyclerViewMP(){
+        // Reset list
+        resultMPList = new ArrayList<>();
+        // Create adapter passing the list of articles
+        mostPopularAdapter = new MostPopularAdapter(this.resultMPList, Glide.with(this));
+        // Attach the adapter to the recyclerview to populate items
+        recyclerView.setAdapter(this.mostPopularAdapter);
         // Set layout manager to position the items
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -111,11 +132,9 @@ public class MainFragment extends Fragment {
                 });
     }
 
-    /*
+
     // Execute our Stream
     private void executeMostPopularRequest(){
-        // Update UI
-        this.updateUIWhenStartingHTTPRequest(textViewMostPopular);
         // Execute the stream subscribing to Observable defined inside NYTStream
         this.disposable = NYTStreams.fetchMostPopular(NYTService.API_PERIOD)
                 .subscribeWith(new DisposableObserver<NYTMostPopular>() {
@@ -123,7 +142,7 @@ public class MainFragment extends Fragment {
                     public void onNext(NYTMostPopular mostPopular) {
                         Log.e("TAG","On Next");
                         // Update UI with result of topStories
-                        updateUIWithMostPopular(mostPopular);
+                        updateUIMP(mostPopular);
                     }
 
                     @Override
@@ -138,6 +157,7 @@ public class MainFragment extends Fragment {
                 });
     }
 
+/*
     // Execute our Stream
     private void executeArticleSearchRequest(){
         // Update UI
@@ -164,7 +184,7 @@ public class MainFragment extends Fragment {
                     }
                 });
     }
-    */
+*/
 
     // Dispose subscription
     private void disposeWhenDestroy(){
@@ -176,5 +196,12 @@ public class MainFragment extends Fragment {
         results.addAll(topStories.getResults());
         topStoriesAdapter.notifyDataSetChanged();
     }
+
+    //  Update UI of MostPopular
+    private void updateUIMP(NYTMostPopular mostPopular){
+        resultMPList.addAll(mostPopular.getResults());
+        mostPopularAdapter.notifyDataSetChanged();
+    }
+
 
 }
