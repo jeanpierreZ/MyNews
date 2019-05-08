@@ -61,7 +61,7 @@ public class TopStoriesViewHolder extends RecyclerView.ViewHolder {
     private String convertDate(String topStoriesDate) {
         // Build date in dd/MM/yyyy for updatedDate
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
 
         Date date;
         String newDate = "";
