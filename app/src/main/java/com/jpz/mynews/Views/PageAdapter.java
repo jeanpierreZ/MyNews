@@ -25,4 +25,16 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         return(MainFragment.newInstance(position));
     }
 
+    @Override
+    public CharSequence getPageTitle(int position) {
+        // Return page title
+        switch (position) {
+            case 0:
+                return "TopStories";
+            case 1:
+                return "MostPopular";
+            default:
+                return null;
+        }
+    }
 }
