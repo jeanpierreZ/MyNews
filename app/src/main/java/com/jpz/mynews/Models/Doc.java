@@ -18,21 +18,24 @@ public class Doc {
     @SerializedName("abstract")
     @Expose
     private String _abstract;
+    @SerializedName("print_page")
+    @Expose
+    private String printPage;
     @SerializedName("blog")
     @Expose
-    private Blog blog;
+    private Blog blog = null;
     @SerializedName("source")
     @Expose
     private String source;
     @SerializedName("multimedia")
     @Expose
-    private List<Object> multimedia = null;
+    private List<Multimedium> multimedia = null;
     @SerializedName("headline")
     @Expose
     private Headline headline;
     @SerializedName("keywords")
     @Expose
-    private List<Object> keywords = null;
+    private List<Keyword> keywords = null;
     @SerializedName("pub_date")
     @Expose
     private String pubDate;
@@ -48,15 +51,15 @@ public class Doc {
     @SerializedName("byline")
     @Expose
     private Byline byline;
+    @SerializedName("word_count")
+    @Expose
+    private Integer wordCount;
     @SerializedName("type_of_material")
     @Expose
     private String typeOfMaterial;
     @SerializedName("_id")
     @Expose
     private String id;
-    @SerializedName("word_count")
-    @Expose
-    private Integer wordCount;
     @SerializedName("uri")
     @Expose
     private String uri;
@@ -93,6 +96,14 @@ public class Doc {
         this._abstract = _abstract;
     }
 
+    public String getPrintPage() {
+        return printPage;
+    }
+
+    public void setPrintPage(String printPage) {
+        this.printPage = printPage;
+    }
+
     public Blog getBlog() {
         return blog;
     }
@@ -109,11 +120,11 @@ public class Doc {
         this.source = source;
     }
 
-    public List<Object> getMultimedia() {
+    public List<Multimedium> getMultimedia() {
         return multimedia;
     }
 
-    public void setMultimedia(List<Object> multimedia) {
+    public void setMultimedia(List<Multimedium> multimedia) {
         this.multimedia = multimedia;
     }
 
@@ -125,11 +136,11 @@ public class Doc {
         this.headline = headline;
     }
 
-    public List<Object> getKeywords() {
+    public List<Keyword> getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(List<Object> keywords) {
+    public void setKeywords(List<Keyword> keywords) {
         this.keywords = keywords;
     }
 
@@ -173,6 +184,14 @@ public class Doc {
         this.byline = byline;
     }
 
+    public Integer getWordCount() {
+        return wordCount;
+    }
+
+    public void setWordCount(Integer wordCount) {
+        this.wordCount = wordCount;
+    }
+
     public String getTypeOfMaterial() {
         return typeOfMaterial;
     }
@@ -187,14 +206,6 @@ public class Doc {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Integer getWordCount() {
-        return wordCount;
-    }
-
-    public void setWordCount(Integer wordCount) {
-        this.wordCount = wordCount;
     }
 
     public String getUri() {

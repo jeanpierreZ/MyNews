@@ -16,7 +16,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         // Number of page to show
-        return(2);
+        return(3);
     }
 
     @Override
@@ -30,9 +30,11 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         // Return page title
         switch (position) {
             case 0:
-                return "TopStories";
+                return "Top Stories";
             case 1:
-                return "MostPopular";
+                return "Most Popular";
+            case 2:
+                return "Technology";
             default:
                 return null;
         }

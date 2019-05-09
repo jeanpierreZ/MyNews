@@ -8,47 +8,48 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.RequestManager;
-import com.jpz.mynews.Models.NYTResultMP;
+import com.jpz.mynews.Models.Doc;
 import com.jpz.mynews.R;
 
 import java.util.List;
 
-public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularViewHolder> {
+public class ArticleSearchAdapter extends RecyclerView.Adapter<ArticleSearchViewHolder> {
     // Link the RecyclerView view to the controller MainFragment
 
     // For data
-    private List<NYTResultMP> resultMPList;
+    private List<Doc> docs;
 
     // Declaring a Glide object
     private RequestManager glide;
 
     // Constructor
-    public MostPopularAdapter(List<NYTResultMP> resultMPList, RequestManager glide) {
-        this.resultMPList = resultMPList;
+    public ArticleSearchAdapter(List<Doc> docs, RequestManager glide) {
+        this.docs = docs;
         this.glide = glide;
     }
 
     @NonNull
     @Override
-    public MostPopularViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ArticleSearchViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         // Create ViewHolder and inflating its xml layout
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.fragment_main_item, viewGroup, false);
 
-        return new MostPopularViewHolder(view);
+        return new ArticleSearchViewHolder(view);
     }
 
-    // Update viewholder with a title of MostPopular
+    // Update viewholder with a title of TopStories
     @Override
-    public void onBindViewHolder(@NonNull MostPopularViewHolder mostPopularViewHolder, int position) {
-        mostPopularViewHolder.updateWithMostPopular(this.resultMPList.get(position), this.glide);
+    public void onBindViewHolder(@NonNull ArticleSearchViewHolder articleSearchViewHolder, int position) {
+        articleSearchViewHolder.updateWithTechnology(this.docs.get(position), this.glide);
     }
 
     // Return the total count of items in the list
     @Override
     public int getItemCount() {
-        return  this.resultMPList.size();
+        return  this.docs.size();
     }
+
 
 }

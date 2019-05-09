@@ -23,7 +23,7 @@ public interface NYTService {
     // Time period : 1, 7, or 30 days ; the following values are allowed: 1, 7, 30
     int API_PERIOD = 1;
     String API_FILTER_QUERY_NEWS_DESK = "Technology";
-    String API_FILTER_QUERY_SOURCE = "The New York Times";
+    String API_FACET_FIELDS = "news_desk";
     // Sort order ; the following values are allowed: newest, oldest, relevance
     String API_FILTER_SORT_ORDER = "newest";
 
@@ -50,6 +50,6 @@ public interface NYTService {
     // GET type of REST request for Article Search
     @GET("search/v2/articlesearch.json?api-key=" + API_KEY)
     Observable<NYTArticleSearch>
-    getArticleSearch(@Query("fq=source") String fqSource, @Query("fq=news_desk") String fqNewsDesk,
+    getArticleSearch(@Query("facet_fields") String facetFields, @Query("fq") String newsDesk,
                      @Query("sort") String sortOrder);
 }

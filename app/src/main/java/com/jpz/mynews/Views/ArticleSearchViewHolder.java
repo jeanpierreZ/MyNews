@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
-import com.jpz.mynews.Models.NYTResultMP;
+import com.jpz.mynews.Models.Doc;
 import com.jpz.mynews.R;
 
 import java.text.ParseException;
@@ -18,8 +18,8 @@ import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
-public class MostPopularViewHolder extends RecyclerView.ViewHolder {
-    // Represent an item (line) of MostPopular in the RecyclerView
+public class ArticleSearchViewHolder extends RecyclerView.ViewHolder {
+    // Represent an item (line) of Technology (Article Search) in the RecyclerView
 
     private TextView textViewTitle;
     private TextView textViewSection;
@@ -27,7 +27,7 @@ public class MostPopularViewHolder extends RecyclerView.ViewHolder {
     private ImageView imageView;
 
     // Constructor
-    public MostPopularViewHolder(@NonNull View itemView) {
+    public ArticleSearchViewHolder(@NonNull View itemView) {
         super(itemView);
         textViewTitle = itemView.findViewById(R.id.fragment_main_item_title);
         textViewSection = itemView.findViewById(R.id.fragment_main_item_section);
@@ -35,19 +35,19 @@ public class MostPopularViewHolder extends RecyclerView.ViewHolder {
         imageView = itemView.findViewById(R.id.fragment_main_item_image);
     }
 
-    public void updateWithMostPopular(NYTResultMP resultMP, RequestManager glide){
-        // Display settings of MostPopular in NYTResultMP
-        textViewTitle.setText(resultMP.getTitle());
-        textViewSection.setText(resultMP.getSection());
-        textViewUpdatedDate.setText(convertDate(resultMP.getPublishedDate()));
+    public void updateWithTechnology(Doc doc, RequestManager glide){
+        // Display settings of Technology ArticleSearch in Doc
+        textViewTitle.setText(doc.getHeadline().getMain());
+        textViewSection.setText(doc.getSectionName());
+        textViewUpdatedDate.setText(convertDate(doc.getPubDate()));
 
-        // If NYTMediaMetadatumMP is empty don't display the photo
-        if ( resultMP.getMedia().get(0).getMediaMetadata().size() != 0)
-            glide.load(resultMP.getMedia().get(0).getMediaMetadata().get(0).getUrl()).into(imageView);
+        // If Multimedia is empty don't display the photo
+        if ( doc.getMultimedia().size() != 0)
+            glide.load(doc.getMultimedia().get(0).getUrl()).into(imageView);
     }
 
     private String convertDate(String topStoriesDate) {
-        // Build date in dd/MM/yyyy for updatedDate
+        // Build date in dd/MM/yyyy for PubDate
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
 
@@ -62,4 +62,5 @@ public class MostPopularViewHolder extends RecyclerView.ViewHolder {
         }
         return newDate;
     }
+
 }

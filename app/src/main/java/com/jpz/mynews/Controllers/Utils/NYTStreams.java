@@ -37,11 +37,11 @@ public class NYTStreams {
 
     // Public method to start fetching the result for NYTArticleSearch
     public static Observable<NYTArticleSearch>
-    fetchArticleSearch(String fqSource, String fqNewsDesk, String sortOrder) {
+    fetchArticleSearch(String facetFields, String newsDesk, String sortOrder) {
         // Get a Retrofit instance and the related Observable of the Interface
         NYTService nytService = NYTService.retrofit.create(NYTService.class);
         // Create the call on NYTArticleSearch API
-        return nytService.getArticleSearch(fqSource, fqNewsDesk, sortOrder)
+        return nytService.getArticleSearch(facetFields, newsDesk, sortOrder)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

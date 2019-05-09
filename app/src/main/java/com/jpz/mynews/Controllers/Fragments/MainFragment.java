@@ -20,6 +20,7 @@ import com.jpz.mynews.Models.NYTResult;
 import com.jpz.mynews.Models.NYTResultMP;
 import com.jpz.mynews.Models.NYTTopStories;
 import com.jpz.mynews.R;
+import com.jpz.mynews.Views.ArticleSearchAdapter;
 import com.jpz.mynews.Views.MostPopularAdapter;
 import com.jpz.mynews.Views.TopStoriesAdapter;
 
@@ -47,6 +48,10 @@ public class MainFragment extends Fragment {
     // Declare list of results (NYTResultMP) & Adapter
     private List<NYTResultMP> resultMPList;
     private MostPopularAdapter mostPopularAdapter;
+
+    // Declare list of results (Doc) & Adapter
+    private List<Doc> docs;
+    private ArticleSearchAdapter articleSearchAdapter;
 
     // Create keys for our Bundle
     private static final String KEY_POSITION = "position";
@@ -99,10 +104,11 @@ public class MainFragment extends Fragment {
                 configureRecyclerViewMP();
                 executeMostPopularRequest();
                 break;
+            case 2 :
+                configureRecyclerViewTechnology();
+                executeTechnologyRequest();
+                break;
         }
-
-        // executeArticleSearchRequest();
-
         return view;
     }
 
@@ -137,6 +143,17 @@ public class MainFragment extends Fragment {
         mostPopularAdapter = new MostPopularAdapter(this.resultMPList, Glide.with(this));
         // Attach the adapter to the recyclerView to populate items
         recyclerView.setAdapter(this.mostPopularAdapter);
+        // Set layout manager to position the items
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    private void configureRecyclerViewTechnology(){
+        // Reset list
+        docs = new ArrayList<>();
+        // Create adapter passing the list of MostPopular articles
+        articleSearchAdapter = new ArticleSearchAdapter(this.docs, Glide.with(this));
+        // Attach the adapter to the recyclerView to populate items
+        recyclerView.setAdapter(this.articleSearchAdapter);
         // Set layout manager to position the items
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -189,20 +206,17 @@ public class MainFragment extends Fragment {
                 });
     }
 
-/*
     // Execute our Stream
-    private void executeArticleSearchRequest(){
-        // Update UI
-        this.updateUIWhenStartingHTTPRequest(textViewArticleSearch);
+    private void executeTechnologyRequest(){
         // Execute the stream subscribing to Observable defined inside NYTStream
-        this.disposable = NYTStreams.fetchArticleSearch(NYTService.API_FILTER_QUERY_SOURCE,
+        this.disposable = NYTStreams.fetchArticleSearch(NYTService.API_FACET_FIELDS,
                 NYTService.API_FILTER_QUERY_NEWS_DESK, NYTService.API_FILTER_SORT_ORDER)
                 .subscribeWith(new DisposableObserver<NYTArticleSearch>() {
                     @Override
                     public void onNext(NYTArticleSearch articleSearch) {
                         Log.e("TAG","On Next");
                         // Update UI with result of topStories
-                        updateUIWithArticleSearch(articleSearch);
+                        updateUITechnology(articleSearch);
                     }
 
                     @Override
@@ -216,24 +230,29 @@ public class MainFragment extends Fragment {
                     }
                 });
     }
-*/
+
 
     // Dispose subscription
     private void disposeWhenDestroy(){
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
-    //  Update UI
+    //  Update UI for TopStories
     private void updateUI(NYTTopStories topStories){
         results.addAll(topStories.getResults());
         topStoriesAdapter.notifyDataSetChanged();
     }
 
-    //  Update UI of MostPopular
+    //  Update UI for MostPopular
     private void updateUIMP(NYTMostPopular mostPopular){
         resultMPList.addAll(mostPopular.getResults());
         mostPopularAdapter.notifyDataSetChanged();
     }
 
+    //  Update UI for Technology ArticleSearch
+    private void updateUITechnology(NYTArticleSearch articleSearch){
+        docs.addAll(articleSearch.getResponse().getDocs());
+        articleSearchAdapter.notifyDataSetChanged();
+    }
 
 }

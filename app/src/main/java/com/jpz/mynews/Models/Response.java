@@ -6,12 +6,23 @@ import java.util.List;
 
 public class Response {
 
-    @SerializedName("docs")
-    @Expose
-    private List<Doc> docs = null;
     @SerializedName("meta")
     @Expose
     private Meta meta;
+    @SerializedName("docs")
+    @Expose
+    private List<Doc> docs = null;
+    @SerializedName("facets")
+    @Expose
+    private Facets facets;
+
+    public Meta getMeta() {
+        return meta;
+    }
+
+    public void setMeta(Meta meta) {
+        this.meta = meta;
+    }
 
     public List<Doc> getDocs() {
         return docs;
@@ -21,11 +32,12 @@ public class Response {
         this.docs = docs;
     }
 
-    public Meta getMeta() {
-        return meta;
+    public Facets getFacets() {
+        return facets;
     }
 
-    public void setMeta(Meta meta) {
-        this.meta = meta;
+    public void setFacets(Facets facets) {
+        this.facets = facets;
     }
+
 }
