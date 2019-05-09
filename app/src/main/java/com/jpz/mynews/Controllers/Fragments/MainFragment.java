@@ -48,25 +48,58 @@ public class MainFragment extends Fragment {
     private List<NYTResultMP> resultMPList;
     private MostPopularAdapter mostPopularAdapter;
 
+    // Create keys for our Bundle
+    private static final String KEY_POSITION = "position";
+
     public MainFragment() {
         // Required empty public constructor
     }
 
+    // Method that will create a new instance of MainFragment, and add data to its bundle.
+    public static MainFragment newInstance(int position) {
+
+        // Create new fragment
+        MainFragment fragment = new MainFragment();
+
+        // Create bundle and add it some data
+        Bundle args = new Bundle();
+        args.putInt(KEY_POSITION, position);
+        fragment.setArguments(args);
+
+        return(fragment);
+    }
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Get layout of this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        // Get RecyclerView from layout and serialise it
         recyclerView = view.findViewById(R.id.fragment_main_recycler_view);
 
-        // Load articles of NY Times when launching the app
+        // Get data from Bundle (created in method newInstance)
+        if (getArguments() == null) {
+            return view;
+        }
 
-        //configureRecyclerView(); // Call during UI creation
-        //executeTopStoriesRequest(); // Execute stream after UI creation
-
-        configureRecyclerViewMP();
-        executeMostPopularRequest();
+        // Get data from Bundle
+        int position = getArguments().getInt(KEY_POSITION, -1);
+        switch (position) {
+            // Update recyclerView with it
+            // Load articles of NY Times when launching the app
+            case 0 :
+                // Call during UI creation
+                configureRecyclerViewTP();
+                // Execute stream after UI creation
+                executeTopStoriesRequest();
+                break;
+            case 1 :
+                configureRecyclerViewMP();
+                executeMostPopularRequest();
+                break;
+        }
 
         // executeArticleSearchRequest();
 
@@ -84,25 +117,25 @@ public class MainFragment extends Fragment {
     // HTTP (RxJAVA)
     // -------------------
 
-    // Configure RecyclerView, Adapter, LayoutManager & glue it together
-    private void configureRecyclerView(){
+    // Configure RecyclerViews, Adapters, LayoutManager & glue it together
+
+    private void configureRecyclerViewTP(){
         // Reset list
         results = new ArrayList<>();
-        // Create adapter passing the list of articles
+        // Create adapter passing the list of TopStories articles
         topStoriesAdapter = new TopStoriesAdapter(this.results, Glide.with(this));
-        // Attach the adapter to the recyclerview to populate items
+        // Attach the adapter to the recyclerView to populate items
         recyclerView.setAdapter(this.topStoriesAdapter);
         // Set layout manager to position the items
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    // Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerViewMP(){
         // Reset list
         resultMPList = new ArrayList<>();
-        // Create adapter passing the list of articles
+        // Create adapter passing the list of MostPopular articles
         mostPopularAdapter = new MostPopularAdapter(this.resultMPList, Glide.with(this));
-        // Attach the adapter to the recyclerview to populate items
+        // Attach the adapter to the recyclerView to populate items
         recyclerView.setAdapter(this.mostPopularAdapter);
         // Set layout manager to position the items
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -131,7 +164,6 @@ public class MainFragment extends Fragment {
                     }
                 });
     }
-
 
     // Execute our Stream
     private void executeMostPopularRequest(){
