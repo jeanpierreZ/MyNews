@@ -32,9 +32,6 @@ public class Multimedium {
     @SerializedName("legacy")
     @Expose
     private Legacy legacy;
-    @SerializedName("subType")
-    @Expose
-    private String subType;
     @SerializedName("crop_name")
     @Expose
     private String cropName;
@@ -109,14 +106,6 @@ public class Multimedium {
 
     public void setLegacy(Legacy legacy) {
         this.legacy = legacy;
-    }
-
-    public String getSubType() {
-        return subType;
-    }
-
-    public void setSubType(String subType) {
-        this.subType = subType;
     }
 
     public String getCropName() {

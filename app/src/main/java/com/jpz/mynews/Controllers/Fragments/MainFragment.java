@@ -210,9 +210,9 @@ public class MainFragment extends Fragment {
     private void executeTechnologyRequest(){
         // Execute the stream subscribing to Observable defined inside NYTStream
 
-        // Loop to display 5 pages of result in ArticleSearch
+        // Loop to display 40 items of result in ArticleSearch
         int page;
-        for (page = 0; page < 5; page++)
+        for (page = 0; page < 4; page++)
 
         this.disposable = NYTStreams.fetchArticleSearch
                 (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_TECHNOLOGY,
