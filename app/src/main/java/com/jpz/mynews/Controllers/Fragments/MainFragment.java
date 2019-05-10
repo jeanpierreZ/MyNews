@@ -105,8 +105,16 @@ public class MainFragment extends Fragment {
                 executeMostPopularRequest();
                 break;
             case 2 :
-                configureRecyclerViewTechnology();
+                configureRecyclerArticleSearch();
                 executeTechnologyRequest();
+                break;
+            case 3 :
+                configureRecyclerArticleSearch();
+                executeForeignRequest();
+                break;
+            case 4 :
+                configureRecyclerArticleSearch();
+                executeFinancialRequest();
                 break;
         }
         return view;
@@ -147,7 +155,7 @@ public class MainFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    private void configureRecyclerViewTechnology(){
+    private void configureRecyclerArticleSearch(){
         // Reset list
         docs = new ArrayList<>();
         // Create adapter passing the list of MostPopular articles
@@ -207,7 +215,38 @@ public class MainFragment extends Fragment {
     }
 
     // Execute our Stream
-    private void executeTechnologyRequest(){
+    private void executeForeignRequest(){
+        // Execute the stream subscribing to Observable defined inside NYTStream
+
+        // Loop to display 40 items of result in ArticleSearch
+        int page;
+        for (page = 0; page < 4; page++)
+
+            this.disposable = NYTStreams.fetchArticleSearch
+                    (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_FINANCIAL,
+                            NYTService.API_FILTER_SORT_ORDER, page)
+                    .subscribeWith(new DisposableObserver<NYTArticleSearch>() {
+                        @Override
+                        public void onNext(NYTArticleSearch articleSearch) {
+                            Log.e("TAG","On Next");
+                            // Update UI with result of Technology
+                            updateUIArticleSearch(articleSearch);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e("TAG","On Error" + Log.getStackTraceString(e));
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            Log.e("TAG","On Complete");
+                        }
+                    });
+    }
+
+    // Execute our Stream
+    private void executeFinancialRequest(){
         // Execute the stream subscribing to Observable defined inside NYTStream
 
         // Loop to display 40 items of result in ArticleSearch
@@ -215,7 +254,7 @@ public class MainFragment extends Fragment {
         for (page = 0; page < 4; page++)
 
         this.disposable = NYTStreams.fetchArticleSearch
-                (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_TECHNOLOGY,
+                (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_FOREIGN,
                 NYTService.API_FILTER_SORT_ORDER, page)
                 .subscribeWith(new DisposableObserver<NYTArticleSearch>() {
                     @Override
@@ -237,6 +276,36 @@ public class MainFragment extends Fragment {
                 });
     }
 
+    // Execute our Stream
+    private void executeTechnologyRequest(){
+        // Execute the stream subscribing to Observable defined inside NYTStream
+
+        // Loop to display 40 items of result in ArticleSearch
+        int page;
+        for (page = 0; page < 4; page++)
+
+            this.disposable = NYTStreams.fetchArticleSearch
+                    (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_TECHNOLOGY,
+                            NYTService.API_FILTER_SORT_ORDER, page)
+                    .subscribeWith(new DisposableObserver<NYTArticleSearch>() {
+                        @Override
+                        public void onNext(NYTArticleSearch articleSearch) {
+                            Log.e("TAG","On Next");
+                            // Update UI with result of Technology
+                            updateUIArticleSearch(articleSearch);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e("TAG","On Error" + Log.getStackTraceString(e));
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            Log.e("TAG","On Complete");
+                        }
+                    });
+    }
 
     // Dispose subscription
     private void disposeWhenDestroy(){

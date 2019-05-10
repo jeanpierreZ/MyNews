@@ -16,7 +16,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         // Number of page to show
-        return(3);
+        return(5);
     }
 
     @Override
@@ -34,6 +34,10 @@ public class PageAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return "Most Popular";
             case 2:
+                return "Foreign";
+            case 3:
+                return "Financial";
+            case 4:
                 return "Technology";
             default:
                 return null;

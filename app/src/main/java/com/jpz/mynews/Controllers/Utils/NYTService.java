@@ -20,11 +20,21 @@ public interface NYTService {
 
     String API_BASE_URL = "https://api.nytimes.com/svc/";
     String API_KEY = "ZFLWOr4Llj4dNQEA4itSAoJJm2ggwLJx";
+
     String API_TOPSTORIES_SECTION = "home";
+
     // Time period : 1, 7, or 30 days ; the following values are allowed: 1, 7, 30
     int API_PERIOD = 7;
+
+    String API_FILTER_ENVIRONMENT = "Environment";
+    String API_FILTER_FINANCIAL = "Financial";
+    String API_FILTER_FOREIGN = "Foreign";
+    String API_FILTER_SCIENCE = "Science";
+    String API_FILTER_SPORTS = "Sports";
     String API_FILTER_TECHNOLOGY = "Technology";
+
     String API_FACET_FIELDS = "news_desk";
+
     // Sort order ; the following values are allowed: newest, oldest, relevance
     String API_FILTER_SORT_ORDER = "newest";
 

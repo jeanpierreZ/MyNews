@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         //  Glue TabLayout and ViewPager together
         tabs.setupWithViewPager(pager);
         // Design purpose. Tabs have the same width
-        tabs.setTabMode(TabLayout.MODE_FIXED);
+        tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
     private void configureAndShowMainFragment(){
