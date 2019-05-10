@@ -137,21 +137,9 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     // Override the method to load url
     @Override
     public void onClickTitle(int position) {
-        String url = topStoriesAdapter.getPosition(position).getUrl();
-
-        webView.getSettings().setJavaScriptEnabled(true);
-
-        /*
-        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
-        webView.getSettings().setLoadsImagesAutomatically(true);
-        webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        webView.getSettings().setJavaScriptEnabled(true);
-
-        //webView.getSettings().setDomStorageEnabled(true);
-        */
-
+        // Get the position of the item in the RecyclerView and load it
+        String url = topStoriesAdapter.getPosition(position).getShortUrl();
         webView.loadUrl(url);
-        //Toast.makeText(getContext(),url,Toast.LENGTH_SHORT).show();
     }
 
     // -------------------
