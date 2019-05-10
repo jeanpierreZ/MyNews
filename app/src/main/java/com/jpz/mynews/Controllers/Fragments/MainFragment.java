@@ -9,6 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.jpz.mynews.Controllers.Utils.NYTService;
@@ -34,9 +37,10 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements TopStoriesAdapter.Listener {
 
     private RecyclerView recyclerView;
+    private WebView webView;
 
     // For data
     private Disposable disposable;
@@ -84,6 +88,9 @@ public class MainFragment extends Fragment {
         // Get RecyclerView from layout and serialise it
         recyclerView = view.findViewById(R.id.fragment_main_recycler_view);
 
+        // Get WebView
+        webView = view.findViewById(R.id.webview);
+
         // Get data from Bundle (created in method newInstance)
         if (getArguments() == null) {
             return view;
@@ -127,6 +134,26 @@ public class MainFragment extends Fragment {
         this.disposeWhenDestroy();
     }
 
+    // Override the method to load url
+    @Override
+    public void onClickTitle(int position) {
+        String url = topStoriesAdapter.getPosition(position).getUrl();
+
+        webView.getSettings().setJavaScriptEnabled(true);
+
+        /*
+        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        webView.getSettings().setLoadsImagesAutomatically(true);
+        webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        webView.getSettings().setJavaScriptEnabled(true);
+
+        //webView.getSettings().setDomStorageEnabled(true);
+        */
+
+        webView.loadUrl(url);
+        //Toast.makeText(getContext(),url,Toast.LENGTH_SHORT).show();
+    }
+
     // -------------------
     // HTTP (RxJAVA)
     // -------------------
@@ -136,8 +163,8 @@ public class MainFragment extends Fragment {
     private void configureRecyclerViewTP(){
         // Reset list
         results = new ArrayList<>();
-        // Create adapter passing the list of TopStories articles
-        topStoriesAdapter = new TopStoriesAdapter(this.results, Glide.with(this));
+        // Create adapter passing the list of TopStories articles and a reference of callback
+        topStoriesAdapter = new TopStoriesAdapter(this.results, Glide.with(this), this);
         // Attach the adapter to the recyclerView to populate items
         recyclerView.setAdapter(this.topStoriesAdapter);
         // Set layout manager to position the items

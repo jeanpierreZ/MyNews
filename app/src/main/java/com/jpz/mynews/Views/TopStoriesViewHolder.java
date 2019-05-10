@@ -8,11 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.request.RequestOptions;
-import com.jpz.mynews.Models.NYTMultimedium;
 import com.jpz.mynews.Models.NYTResult;
 import com.jpz.mynews.R;
 
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,13 +19,16 @@ import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
-public class TopStoriesViewHolder extends RecyclerView.ViewHolder {
+public class TopStoriesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     // Represent an item (line) of TopStories in the RecyclerView
 
     private TextView textViewTitle;
     private TextView textViewSection;
     private TextView textViewUpdatedDate;
     private ImageView imageView;
+
+    // Declare a Weak Reference to our Callback
+    private WeakReference<TopStoriesAdapter.Listener> callbackWeakRef;
 
     // Constructor
     public TopStoriesViewHolder(@NonNull View itemView) {
@@ -37,7 +39,7 @@ public class TopStoriesViewHolder extends RecyclerView.ViewHolder {
         imageView = itemView.findViewById(R.id.fragment_main_item_image);
     }
 
-    public void updateWithTopStories(NYTResult result, RequestManager glide){
+    public void updateWithTopStories(NYTResult result, RequestManager glide, TopStoriesAdapter.Listener callback){
         // Build string for section and subsection
         String sectionSubsection;
         String section = result.getSection();
@@ -56,6 +58,11 @@ public class TopStoriesViewHolder extends RecyclerView.ViewHolder {
         // If NYTMultimedium is empty don't display the photo
         if ( result.getMultimedia().size() != 0)
         glide.load(result.getMultimedia().get(0).getUrl()).into(imageView);
+
+        // Create a new weak Reference to our Listener
+        this.callbackWeakRef = new WeakReference<>(callback);
+        // Implement Listener
+        textViewTitle.setOnClickListener(this);
     }
 
     private String convertDate(String topStoriesDate) {
@@ -75,4 +82,10 @@ public class TopStoriesViewHolder extends RecyclerView.ViewHolder {
         return newDate;
     }
 
+    @Override
+    public void onClick(View v) {
+        // When a click happens, we fire our listener.
+        TopStoriesAdapter.Listener callback = callbackWeakRef.get();
+        if (callback != null) callback.onClickTitle(getAdapterPosition());
+    }
 }

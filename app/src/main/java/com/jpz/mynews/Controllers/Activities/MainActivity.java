@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabs= findViewById(R.id.activity_main_tabs);
         //  Glue TabLayout and ViewPager together
         tabs.setupWithViewPager(pager);
-        // Design purpose. Tabs have the same width
+        // Design purpose. Tabs are displayed with scrolling
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 

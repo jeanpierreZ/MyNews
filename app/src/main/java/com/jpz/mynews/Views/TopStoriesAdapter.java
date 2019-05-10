@@ -16,6 +16,14 @@ import java.util.List;
 public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder> {
     // Link the RecyclerView view to the controller MainFragment
 
+    // Create interface for callback
+    public interface Listener {
+        void onClickTitle(int position);
+    }
+
+    // Declaring callback
+    private final Listener callback;
+
     // For data
     private List<NYTResult> results;
 
@@ -23,9 +31,10 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder
     private RequestManager glide;
 
     // Constructor
-    public TopStoriesAdapter(List<NYTResult> results, RequestManager glide) {
+    public TopStoriesAdapter(List<NYTResult> results, RequestManager glide, Listener callback) {
         this.results = results;
         this.glide = glide;
+        this.callback = callback;
     }
 
     @NonNull
@@ -42,12 +51,16 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder
     // Update viewholder with a title of TopStories
     @Override
     public void onBindViewHolder(@NonNull TopStoriesViewHolder topStoriesViewHolder, int position) {
-        topStoriesViewHolder.updateWithTopStories(this.results.get(position), this.glide);
+        topStoriesViewHolder.updateWithTopStories(this.results.get(position), this.glide, this.callback);
     }
 
     // Return the total count of items in the list
     @Override
     public int getItemCount() {
         return  this.results.size();
+    }
+
+    public NYTResult getPosition(int position){
+        return this.results.get(position);
     }
 }
