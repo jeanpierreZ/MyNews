@@ -166,8 +166,8 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onNext(NYTTopStories topStories) {
                         Log.e("TAG","On Next");
-                        // Update RecyclerView after getting results from New York Times API
-                        updateUI(topStories);
+                        // Update UI with result of Top Stories
+                        updateUITopStories(topStories);
                     }
 
                     @Override
@@ -190,8 +190,8 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onNext(NYTMostPopular mostPopular) {
                         Log.e("TAG","On Next");
-                        // Update UI with result of topStories
-                        updateUIMP(mostPopular);
+                        // Update UI with result of Most Popular
+                        updateUIMostPopular(mostPopular);
                     }
 
                     @Override
@@ -209,14 +209,20 @@ public class MainFragment extends Fragment {
     // Execute our Stream
     private void executeTechnologyRequest(){
         // Execute the stream subscribing to Observable defined inside NYTStream
-        this.disposable = NYTStreams.fetchArticleSearch(NYTService.API_FACET_FIELDS,
-                NYTService.API_FILTER_QUERY_NEWS_DESK, NYTService.API_FILTER_SORT_ORDER)
+
+        // Loop to display 5 pages of result in ArticleSearch
+        int page;
+        for (page = 0; page < 5; page++)
+
+        this.disposable = NYTStreams.fetchArticleSearch
+                (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_TECHNOLOGY,
+                NYTService.API_FILTER_SORT_ORDER, page)
                 .subscribeWith(new DisposableObserver<NYTArticleSearch>() {
                     @Override
                     public void onNext(NYTArticleSearch articleSearch) {
                         Log.e("TAG","On Next");
-                        // Update UI with result of topStories
-                        updateUITechnology(articleSearch);
+                        // Update UI with result of Technology
+                        updateUIArticleSearch(articleSearch);
                     }
 
                     @Override
@@ -238,21 +244,20 @@ public class MainFragment extends Fragment {
     }
 
     //  Update UI for TopStories
-    private void updateUI(NYTTopStories topStories){
+    private void updateUITopStories(NYTTopStories topStories){
         results.addAll(topStories.getResults());
         topStoriesAdapter.notifyDataSetChanged();
     }
 
     //  Update UI for MostPopular
-    private void updateUIMP(NYTMostPopular mostPopular){
+    private void updateUIMostPopular(NYTMostPopular mostPopular){
         resultMPList.addAll(mostPopular.getResults());
         mostPopularAdapter.notifyDataSetChanged();
     }
 
     //  Update UI for Technology ArticleSearch
-    private void updateUITechnology(NYTArticleSearch articleSearch){
+    private void updateUIArticleSearch(NYTArticleSearch articleSearch){
         docs.addAll(articleSearch.getResponse().getDocs());
         articleSearchAdapter.notifyDataSetChanged();
     }
-
 }

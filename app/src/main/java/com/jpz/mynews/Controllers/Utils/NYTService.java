@@ -17,12 +17,13 @@ public interface NYTService {
     // Interface for requests the New York Times APIs
 
     // Fields to complete requests
+
     String API_BASE_URL = "https://api.nytimes.com/svc/";
     String API_KEY = "ZFLWOr4Llj4dNQEA4itSAoJJm2ggwLJx";
     String API_TOPSTORIES_SECTION = "home";
     // Time period : 1, 7, or 30 days ; the following values are allowed: 1, 7, 30
-    int API_PERIOD = 1;
-    String API_FILTER_QUERY_NEWS_DESK = "Technology";
+    int API_PERIOD = 7;
+    String API_FILTER_TECHNOLOGY = "Technology";
     String API_FACET_FIELDS = "news_desk";
     // Sort order ; the following values are allowed: newest, oldest, relevance
     String API_FILTER_SORT_ORDER = "newest";
@@ -51,5 +52,5 @@ public interface NYTService {
     @GET("search/v2/articlesearch.json?api-key=" + API_KEY)
     Observable<NYTArticleSearch>
     getArticleSearch(@Query("facet_fields") String facetFields, @Query("fq") String newsDesk,
-                     @Query("sort") String sortOrder);
+                     @Query("sort") String sortOrder, @Query("page") int page);
 }
