@@ -43,7 +43,7 @@ public class ArticleSearchViewHolder extends RecyclerView.ViewHolder {
 
         // If Multimedia is empty don't display the photo
         if ( doc.getMultimedia().size() != 0)
-            glide.load(doc.getMultimedia().get(0).getUrl()).into(imageView);
+            glide.load("https://www.nytimes.com/" + doc.getMultimedia().get(0).getUrl()).into(imageView);
     }
 
     private String convertDate(String topStoriesDate) {
