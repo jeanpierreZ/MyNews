@@ -113,15 +113,15 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
                 break;
             case 2 :
                 configureRecyclerArticleSearch();
-                executeTechnologyRequest();
+                executeForeignRequest();
                 break;
             case 3 :
                 configureRecyclerArticleSearch();
-                executeForeignRequest();
+                executeFinancialRequest();
                 break;
             case 4 :
                 configureRecyclerArticleSearch();
-                executeFinancialRequest();
+                executeTechnologyRequest();
                 break;
         }
         return view;

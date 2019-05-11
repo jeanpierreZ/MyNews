@@ -39,7 +39,7 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularViewHold
         return new MostPopularViewHolder(view);
     }
 
-    // Update viewholder with a title of MostPopular
+    // Update viewHolder with a title of MostPopular
     @Override
     public void onBindViewHolder(@NonNull MostPopularViewHolder mostPopularViewHolder, int position) {
         mostPopularViewHolder.updateWithMostPopular(this.resultMPList.get(position), this.glide);

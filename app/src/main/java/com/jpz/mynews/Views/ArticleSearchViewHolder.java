@@ -35,8 +35,8 @@ public class ArticleSearchViewHolder extends RecyclerView.ViewHolder {
         imageView = itemView.findViewById(R.id.fragment_main_item_image);
     }
 
-    public void updateWithTechnology(Doc doc, RequestManager glide){
-        // Display settings of Technology ArticleSearch in Doc
+    public void updateWithArticleSearch(Doc doc, RequestManager glide){
+        // Display settings of ArticleSearch in Doc
         textViewTitle.setText(doc.getHeadline().getMain());
         textViewSection.setText(doc.getSectionName());
         textViewUpdatedDate.setText(convertDate(doc.getPubDate()));

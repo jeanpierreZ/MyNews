@@ -48,7 +48,7 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder
         return new TopStoriesViewHolder(view);
     }
 
-    // Update viewholder with a title of TopStories
+    // Update viewHolder with a title of TopStories
     @Override
     public void onBindViewHolder(@NonNull TopStoriesViewHolder topStoriesViewHolder, int position) {
         topStoriesViewHolder.updateWithTopStories(this.results.get(position), this.glide, this.callback);
