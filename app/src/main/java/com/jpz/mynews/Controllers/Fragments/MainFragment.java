@@ -9,9 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.jpz.mynews.Controllers.Utils.NYTService;
@@ -188,19 +186,19 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
                 .subscribeWith(new DisposableObserver<NYTTopStories>() {
                     @Override
                     public void onNext(NYTTopStories topStories) {
-                        Log.e("TAG","On Next");
+                        Log.i("TAG","On Next TopStories");
                         // Update UI with result of Top Stories
                         updateUITopStories(topStories);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("TAG","On Error" + Log.getStackTraceString(e));
+                        Log.e("TAG","On Error TopStories" + Log.getStackTraceString(e));
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.e("TAG","On Complete");
+                        Log.i("TAG","On Complete TopStories");
                     }
                 });
     }
@@ -212,19 +210,19 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
                 .subscribeWith(new DisposableObserver<NYTMostPopular>() {
                     @Override
                     public void onNext(NYTMostPopular mostPopular) {
-                        Log.e("TAG","On Next");
+                        Log.i("TAG","On Next MostPopular");
                         // Update UI with result of Most Popular
                         updateUIMostPopular(mostPopular);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("TAG","On Error" + Log.getStackTraceString(e));
+                        Log.e("TAG","On Error MostPopular" + Log.getStackTraceString(e));
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.e("TAG","On Complete");
+                        Log.i("TAG","On Complete MostPopular");
                     }
                 });
     }
@@ -243,19 +241,19 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
                     .subscribeWith(new DisposableObserver<NYTArticleSearch>() {
                         @Override
                         public void onNext(NYTArticleSearch articleSearch) {
-                            Log.e("TAG","On Next");
+                            Log.i("TAG","On Next Foreign");
                             // Update UI with result of Technology
                             updateUIArticleSearch(articleSearch);
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            Log.e("TAG","On Error" + Log.getStackTraceString(e));
+                            Log.e("TAG","On Error Foreign" + Log.getStackTraceString(e));
                         }
 
                         @Override
                         public void onComplete() {
-                            Log.e("TAG","On Complete");
+                            Log.i("TAG","On Complete Foreign");
                         }
                     });
     }
@@ -274,19 +272,19 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
                 .subscribeWith(new DisposableObserver<NYTArticleSearch>() {
                     @Override
                     public void onNext(NYTArticleSearch articleSearch) {
-                        Log.e("TAG","On Next");
+                        Log.i("TAG","On Next Financial");
                         // Update UI with result of Technology
                         updateUIArticleSearch(articleSearch);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("TAG","On Error" + Log.getStackTraceString(e));
+                        Log.e("TAG","On Error Financial" + Log.getStackTraceString(e));
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.e("TAG","On Complete");
+                        Log.i("TAG","On Complete Financial");
                     }
                 });
     }
@@ -305,19 +303,19 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
                     .subscribeWith(new DisposableObserver<NYTArticleSearch>() {
                         @Override
                         public void onNext(NYTArticleSearch articleSearch) {
-                            Log.e("TAG","On Next");
+                            Log.i("TAG","On Next Technology");
                             // Update UI with result of Technology
                             updateUIArticleSearch(articleSearch);
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            Log.e("TAG","On Error" + Log.getStackTraceString(e));
+                            Log.e("TAG","On Error Technology" + Log.getStackTraceString(e));
                         }
 
                         @Override
                         public void onComplete() {
-                            Log.e("TAG","On Complete");
+                            Log.i("TAG","On Complete Technology");
                         }
                     });
     }
