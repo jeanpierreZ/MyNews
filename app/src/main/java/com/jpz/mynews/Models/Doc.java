@@ -12,7 +12,7 @@ public class Doc {
 
     @SerializedName("multimedia")
     @Expose
-    private List<Multimedium> multimedia = null;
+    private List<MultimediumAS> multimedia = null;
     @SerializedName("headline")
     @Expose
     private Headline headline;
@@ -41,11 +41,11 @@ public class Doc {
     }
 
 
-    public List<Multimedium> getMultimedia() {
+    public List<MultimediumAS> getMultimedia() {
         return multimedia;
     }
 
-    public void setMultimedia(List<Multimedium> multimedia) {
+    public void setMultimedia(List<MultimediumAS> multimedia) {
         this.multimedia = multimedia;
     }
 

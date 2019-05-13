@@ -1,6 +1,7 @@
 package com.jpz.mynews.Controllers.Utils;
 
 import com.jpz.mynews.Models.ArticleSearch;
+import com.jpz.mynews.Models.ModelAPI;
 import com.jpz.mynews.Models.MostPopular;
 import com.jpz.mynews.Models.TopStories;
 
@@ -50,7 +51,7 @@ public interface NYTService {
 
     // GET type of REST request for Top Stories
     @GET("topstories/v2/{section}.json?api-key=" + API_KEY)
-    Observable<TopStories>
+    Observable<ModelAPI>
     getTopStories(@Path("section") String sectionValue);
 
     // GET type of REST request for Most Popular

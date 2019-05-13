@@ -23,6 +23,7 @@ public class ResultTP {
     @SerializedName("multimedia")
     @Expose
     private List<MultimediumTP> multimedia = null;
+
     @SerializedName("short_url")
     @Expose
     private String shortUrl;

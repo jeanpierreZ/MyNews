@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.RequestManager;
+import com.jpz.mynews.Models.ModelAPI;
+import com.jpz.mynews.Models.ResultAPI;
 import com.jpz.mynews.Models.ResultTP;
 import com.jpz.mynews.R;
 
@@ -27,12 +29,14 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder
     // For data
     private List<ResultTP> results;
 
+    private List<ResultAPI> resultAPIList;
+
     // Declaring a Glide object
     private RequestManager glide;
 
     // Constructor
-    public TopStoriesAdapter(List<ResultTP> results, RequestManager glide, Listener callback) {
-        this.results = results;
+    public TopStoriesAdapter(List<ResultAPI> resultAPIList, RequestManager glide, Listener callback) {
+        this.resultAPIList = resultAPIList;
         this.glide = glide;
         this.callback = callback;
     }
@@ -51,16 +55,16 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder
     // Update viewHolder with a title of TopStories
     @Override
     public void onBindViewHolder(@NonNull TopStoriesViewHolder topStoriesViewHolder, int position) {
-        topStoriesViewHolder.updateWithTopStories(this.results.get(position), this.glide, this.callback);
+        topStoriesViewHolder.updateWithTopStories(this.resultAPIList.get(position), this.glide, this.callback);
     }
 
     // Return the total count of items in the list
     @Override
     public int getItemCount() {
-        return  this.results.size();
+        return  this.resultAPIList.size();
     }
 
-    public ResultTP getPosition(int position){
-        return this.results.get(position);
+    public ResultAPI getPosition(int position){
+        return this.resultAPIList.get(position);
     }
 }

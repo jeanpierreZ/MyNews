@@ -16,7 +16,9 @@ import com.jpz.mynews.Controllers.Utils.NYTService;
 import com.jpz.mynews.Controllers.Utils.NYTStreams;
 import com.jpz.mynews.Models.ArticleSearch;
 import com.jpz.mynews.Models.Doc;
+import com.jpz.mynews.Models.ModelAPI;
 import com.jpz.mynews.Models.MostPopular;
+import com.jpz.mynews.Models.ResultAPI;
 import com.jpz.mynews.Models.ResultTP;
 import com.jpz.mynews.Models.ResultMP;
 import com.jpz.mynews.Models.TopStories;
@@ -54,6 +56,8 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     // Declare list of results (Doc) & Adapter
     private List<Doc> docs;
     private ArticleSearchAdapter articleSearchAdapter;
+
+    private List<ResultAPI> resultAPIList;
 
     // Create keys for our Bundle
     private static final String KEY_POSITION = "position";
@@ -148,9 +152,9 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
 
     private void configureRecyclerViewTP(){
         // Reset list
-        results = new ArrayList<>();
+        resultAPIList = new ArrayList<>();
         // Create adapter passing the list of TopStories articles and a reference of callback
-        topStoriesAdapter = new TopStoriesAdapter(this.results, Glide.with(this), this);
+        topStoriesAdapter = new TopStoriesAdapter(this.resultAPIList, Glide.with(this), this);
         // Attach the adapter to the recyclerView to populate items
         recyclerView.setAdapter(this.topStoriesAdapter);
         // Set layout manager to position the items
@@ -183,12 +187,12 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     private void executeTopStoriesRequest(){
         // Execute the stream subscribing to Observable defined inside NYTStream
         this.disposable = NYTStreams.fetchTopStories(NYTService.API_TOPSTORIES_SECTION)
-                .subscribeWith(new DisposableObserver<TopStories>() {
+                .subscribeWith(new DisposableObserver<ModelAPI>() {
                     @Override
-                    public void onNext(TopStories topStories) {
+                    public void onNext(ModelAPI modelAPI) {
                         Log.i("TAG","On Next TopStories");
                         // Update UI with result of Top Stories
-                        updateUITopStories(topStories);
+                        updateUITopStories(modelAPI);
                     }
 
                     @Override
@@ -326,8 +330,8 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     }
 
     //  Update UI for TopStories
-    private void updateUITopStories(TopStories topStories){
-        results.addAll(topStories.getResults());
+    private void updateUITopStories(ModelAPI modelAPI){
+        resultAPIList.addAll(modelAPI.getResultAPIList());
         topStoriesAdapter.notifyDataSetChanged();
     }
 

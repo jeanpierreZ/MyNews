@@ -1,6 +1,7 @@
 package com.jpz.mynews.Controllers.Utils;
 
 import com.jpz.mynews.Models.ArticleSearch;
+import com.jpz.mynews.Models.ModelAPI;
 import com.jpz.mynews.Models.MostPopular;
 import com.jpz.mynews.Models.TopStories;
 
@@ -14,7 +15,7 @@ public class NYTStreams {
     // Class for streams the New York Times APIs with Observables of RxJava
 
     // Public method to start fetching the result for TopStories
-    public static Observable<TopStories> fetchTopStories(String section){
+    public static Observable<ModelAPI> fetchTopStories(String section){
         // Get a Retrofit instance and the related Observable of the Interface
         NYTService nytService = NYTService.retrofit.create(NYTService.class);
         // Create the call on TopStories API
