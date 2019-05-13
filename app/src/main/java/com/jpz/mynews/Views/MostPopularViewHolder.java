@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
-import com.jpz.mynews.Models.NYTResultMP;
+import com.jpz.mynews.Models.ResultMP;
 import com.jpz.mynews.R;
 
 import java.text.ParseException;
@@ -35,13 +35,13 @@ public class MostPopularViewHolder extends RecyclerView.ViewHolder {
         imageView = itemView.findViewById(R.id.fragment_main_item_image);
     }
 
-    public void updateWithMostPopular(NYTResultMP resultMP, RequestManager glide){
-        // Display settings of MostPopular in NYTResultMP
+    public void updateWithMostPopular(ResultMP resultMP, RequestManager glide){
+        // Display settings of MostPopular in ResultMP
         textViewTitle.setText(resultMP.getTitle());
         textViewSection.setText(resultMP.getSection());
         textViewUpdatedDate.setText(convertDate(resultMP.getPublishedDate()));
 
-        // If NYTMediaMetadatumMP is empty don't display the photo
+        // If MediaMetadatumMP is empty don't display the photo
         if ( resultMP.getMedia().get(0).getMediaMetadata().size() != 0)
             glide.load(resultMP.getMedia().get(0).getMediaMetadata().get(0).getUrl()).into(imageView);
     }

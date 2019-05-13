@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
-import com.jpz.mynews.Models.NYTResult;
+import com.jpz.mynews.Models.ResultTP;
 import com.jpz.mynews.R;
 
 import java.lang.ref.WeakReference;
@@ -39,7 +39,7 @@ public class TopStoriesViewHolder extends RecyclerView.ViewHolder implements Vie
         imageView = itemView.findViewById(R.id.fragment_main_item_image);
     }
 
-    public void updateWithTopStories(NYTResult result, RequestManager glide, TopStoriesAdapter.Listener callback){
+    public void updateWithTopStories(ResultTP result, RequestManager glide, TopStoriesAdapter.Listener callback){
         // Build string for section and subsection
         String sectionSubsection;
         String section = result.getSection();
@@ -50,12 +50,12 @@ public class TopStoriesViewHolder extends RecyclerView.ViewHolder implements Vie
         else
             sectionSubsection = section + " > " + subSection;
 
-        // Display settings of TopStories in NYTResult
+        // Display settings of TopStories in ResultTP
         textViewTitle.setText(result.getTitle());
         textViewSection.setText(sectionSubsection);
-        textViewUpdatedDate.setText(convertDate(result.getUpdatedDate()));
+        textViewUpdatedDate.setText(convertDate(result.getPublishedDate()));
 
-        // If NYTMultimedium is empty don't display the photo
+        // If MultimediumTP is empty don't display the photo
         if ( result.getMultimedia().size() != 0)
         glide.load(result.getMultimedia().get(0).getUrl()).into(imageView);
 

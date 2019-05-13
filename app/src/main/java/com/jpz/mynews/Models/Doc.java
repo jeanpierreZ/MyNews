@@ -9,57 +9,25 @@ public class Doc {
     @SerializedName("web_url")
     @Expose
     private String webUrl;
-    @SerializedName("snippet")
-    @Expose
-    private String snippet;
-    @SerializedName("lead_paragraph")
-    @Expose
-    private String leadParagraph;
-    @SerializedName("abstract")
-    @Expose
-    private String _abstract;
-    @SerializedName("print_page")
-    @Expose
-    private String printPage;
-    @SerializedName("blog")
-    @Expose
-    private Blog blog = null;
-    @SerializedName("source")
-    @Expose
-    private String source;
+
     @SerializedName("multimedia")
     @Expose
     private List<Multimedium> multimedia = null;
     @SerializedName("headline")
     @Expose
     private Headline headline;
-    @SerializedName("keywords")
-    @Expose
-    private List<Keyword> keywords = null;
+
     @SerializedName("pub_date")
     @Expose
     private String pubDate;
-    @SerializedName("document_type")
-    @Expose
-    private String documentType;
+
     @SerializedName("news_desk")
     @Expose
     private String newsDesk;
     @SerializedName("section_name")
     @Expose
     private String sectionName;
-    @SerializedName("byline")
-    @Expose
-    private Byline byline;
-    @SerializedName("word_count")
-    @Expose
-    private Integer wordCount;
-    @SerializedName("type_of_material")
-    @Expose
-    private String typeOfMaterial;
-    @SerializedName("_id")
-    @Expose
-    private String id;
+
     @SerializedName("uri")
     @Expose
     private String uri;
@@ -72,53 +40,6 @@ public class Doc {
         this.webUrl = webUrl;
     }
 
-    public String getSnippet() {
-        return snippet;
-    }
-
-    public void setSnippet(String snippet) {
-        this.snippet = snippet;
-    }
-
-    public String getLeadParagraph() {
-        return leadParagraph;
-    }
-
-    public void setLeadParagraph(String leadParagraph) {
-        this.leadParagraph = leadParagraph;
-    }
-
-    public String getAbstract() {
-        return _abstract;
-    }
-
-    public void setAbstract(String _abstract) {
-        this._abstract = _abstract;
-    }
-
-    public String getPrintPage() {
-        return printPage;
-    }
-
-    public void setPrintPage(String printPage) {
-        this.printPage = printPage;
-    }
-
-    public Blog getBlog() {
-        return blog;
-    }
-
-    public void setBlog(Blog blog) {
-        this.blog = blog;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
 
     public List<Multimedium> getMultimedia() {
         return multimedia;
@@ -136,28 +57,12 @@ public class Doc {
         this.headline = headline;
     }
 
-    public List<Keyword> getKeywords() {
-        return keywords;
-    }
-
-    public void setKeywords(List<Keyword> keywords) {
-        this.keywords = keywords;
-    }
-
     public String getPubDate() {
         return pubDate;
     }
 
     public void setPubDate(String pubDate) {
         this.pubDate = pubDate;
-    }
-
-    public String getDocumentType() {
-        return documentType;
-    }
-
-    public void setDocumentType(String documentType) {
-        this.documentType = documentType;
     }
 
     public String getNewsDesk() {
@@ -174,38 +79,6 @@ public class Doc {
 
     public void setSectionName(String sectionName) {
         this.sectionName = sectionName;
-    }
-
-    public Byline getByline() {
-        return byline;
-    }
-
-    public void setByline(Byline byline) {
-        this.byline = byline;
-    }
-
-    public Integer getWordCount() {
-        return wordCount;
-    }
-
-    public void setWordCount(Integer wordCount) {
-        this.wordCount = wordCount;
-    }
-
-    public String getTypeOfMaterial() {
-        return typeOfMaterial;
-    }
-
-    public void setTypeOfMaterial(String typeOfMaterial) {
-        this.typeOfMaterial = typeOfMaterial;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getUri() {

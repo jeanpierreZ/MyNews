@@ -3,7 +3,7 @@ package com.jpz.mynews.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Multimedium {
+public class MultimediumTP {
 
     @SerializedName("url")
     @Expose

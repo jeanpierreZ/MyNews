@@ -3,14 +3,12 @@ package com.jpz.mynews.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class NYTArticleSearch {
+public class ArticleSearch {
 
     @SerializedName("status")
     @Expose
     private String status;
-    @SerializedName("copyright")
-    @Expose
-    private String copyright;
+
     @SerializedName("response")
     @Expose
     private Response response;
@@ -23,15 +21,7 @@ public class NYTArticleSearch {
         this.status = status;
     }
 
-    public String getCopyright() {
-        return copyright;
-    }
-
-    public void setCopyright(String copyright) {
-        this.copyright = copyright;
-    }
-
-    public Response getResponse() {
+       public Response getResponse() {
         return response;
     }
 

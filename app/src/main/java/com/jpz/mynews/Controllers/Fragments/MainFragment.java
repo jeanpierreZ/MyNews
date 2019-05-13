@@ -14,12 +14,12 @@ import android.webkit.WebView;
 import com.bumptech.glide.Glide;
 import com.jpz.mynews.Controllers.Utils.NYTService;
 import com.jpz.mynews.Controllers.Utils.NYTStreams;
+import com.jpz.mynews.Models.ArticleSearch;
 import com.jpz.mynews.Models.Doc;
-import com.jpz.mynews.Models.NYTArticleSearch;
-import com.jpz.mynews.Models.NYTMostPopular;
-import com.jpz.mynews.Models.NYTResult;
-import com.jpz.mynews.Models.NYTResultMP;
-import com.jpz.mynews.Models.NYTTopStories;
+import com.jpz.mynews.Models.MostPopular;
+import com.jpz.mynews.Models.ResultTP;
+import com.jpz.mynews.Models.ResultMP;
+import com.jpz.mynews.Models.TopStories;
 import com.jpz.mynews.R;
 import com.jpz.mynews.Views.ArticleSearchAdapter;
 import com.jpz.mynews.Views.MostPopularAdapter;
@@ -43,12 +43,12 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     // For data
     private Disposable disposable;
 
-    // Declare list of results (NYTResult) & Adapter
-    private List<NYTResult> results;
+    // Declare list of results (ResultTP) & Adapter
+    private List<ResultTP> results;
     private TopStoriesAdapter topStoriesAdapter;
 
-    // Declare list of results (NYTResultMP) & Adapter
-    private List<NYTResultMP> resultMPList;
+    // Declare list of results (ResultMP) & Adapter
+    private List<ResultMP> resultMPList;
     private MostPopularAdapter mostPopularAdapter;
 
     // Declare list of results (Doc) & Adapter
@@ -183,9 +183,9 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     private void executeTopStoriesRequest(){
         // Execute the stream subscribing to Observable defined inside NYTStream
         this.disposable = NYTStreams.fetchTopStories(NYTService.API_TOPSTORIES_SECTION)
-                .subscribeWith(new DisposableObserver<NYTTopStories>() {
+                .subscribeWith(new DisposableObserver<TopStories>() {
                     @Override
-                    public void onNext(NYTTopStories topStories) {
+                    public void onNext(TopStories topStories) {
                         Log.i("TAG","On Next TopStories");
                         // Update UI with result of Top Stories
                         updateUITopStories(topStories);
@@ -207,9 +207,9 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     private void executeMostPopularRequest(){
         // Execute the stream subscribing to Observable defined inside NYTStream
         this.disposable = NYTStreams.fetchMostPopular(NYTService.API_PERIOD)
-                .subscribeWith(new DisposableObserver<NYTMostPopular>() {
+                .subscribeWith(new DisposableObserver<MostPopular>() {
                     @Override
-                    public void onNext(NYTMostPopular mostPopular) {
+                    public void onNext(MostPopular mostPopular) {
                         Log.i("TAG","On Next MostPopular");
                         // Update UI with result of Most Popular
                         updateUIMostPopular(mostPopular);
@@ -232,15 +232,15 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
         // Execute the stream subscribing to Observable defined inside NYTStream
 
         // Loop to display 40 items of result in ArticleSearch
-        int page;
-        for (page = 0; page < 4; page++)
+        int page = 0;
+        //for (page = 0; page < 4; page++)
 
             this.disposable = NYTStreams.fetchArticleSearch
                     (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_FINANCIAL,
                             NYTService.API_FILTER_SORT_ORDER, page)
-                    .subscribeWith(new DisposableObserver<NYTArticleSearch>() {
+                    .subscribeWith(new DisposableObserver<ArticleSearch>() {
                         @Override
-                        public void onNext(NYTArticleSearch articleSearch) {
+                        public void onNext(ArticleSearch articleSearch) {
                             Log.i("TAG","On Next Foreign");
                             // Update UI with result of Technology
                             updateUIArticleSearch(articleSearch);
@@ -263,15 +263,15 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
         // Execute the stream subscribing to Observable defined inside NYTStream
 
         // Loop to display 40 items of result in ArticleSearch
-        int page;
-        for (page = 0; page < 4; page++)
+        int page = 0;
+        //for (page = 0; page < 4; page++)
 
         this.disposable = NYTStreams.fetchArticleSearch
                 (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_FOREIGN,
                 NYTService.API_FILTER_SORT_ORDER, page)
-                .subscribeWith(new DisposableObserver<NYTArticleSearch>() {
+                .subscribeWith(new DisposableObserver<ArticleSearch>() {
                     @Override
-                    public void onNext(NYTArticleSearch articleSearch) {
+                    public void onNext(ArticleSearch articleSearch) {
                         Log.i("TAG","On Next Financial");
                         // Update UI with result of Technology
                         updateUIArticleSearch(articleSearch);
@@ -294,15 +294,15 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
         // Execute the stream subscribing to Observable defined inside NYTStream
 
         // Loop to display 40 items of result in ArticleSearch
-        int page;
-        for (page = 0; page < 4; page++)
+        int page= 0;
+        //for (page = 0; page < 4; page++)
 
             this.disposable = NYTStreams.fetchArticleSearch
                     (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_TECHNOLOGY,
                             NYTService.API_FILTER_SORT_ORDER, page)
-                    .subscribeWith(new DisposableObserver<NYTArticleSearch>() {
+                    .subscribeWith(new DisposableObserver<ArticleSearch>() {
                         @Override
-                        public void onNext(NYTArticleSearch articleSearch) {
+                        public void onNext(ArticleSearch articleSearch) {
                             Log.i("TAG","On Next Technology");
                             // Update UI with result of Technology
                             updateUIArticleSearch(articleSearch);
@@ -326,19 +326,19 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     }
 
     //  Update UI for TopStories
-    private void updateUITopStories(NYTTopStories topStories){
+    private void updateUITopStories(TopStories topStories){
         results.addAll(topStories.getResults());
         topStoriesAdapter.notifyDataSetChanged();
     }
 
     //  Update UI for MostPopular
-    private void updateUIMostPopular(NYTMostPopular mostPopular){
+    private void updateUIMostPopular(MostPopular mostPopular){
         resultMPList.addAll(mostPopular.getResults());
         mostPopularAdapter.notifyDataSetChanged();
     }
 
     //  Update UI for Technology ArticleSearch
-    private void updateUIArticleSearch(NYTArticleSearch articleSearch){
+    private void updateUIArticleSearch(ArticleSearch articleSearch){
         docs.addAll(articleSearch.getResponse().getDocs());
         articleSearchAdapter.notifyDataSetChanged();
     }

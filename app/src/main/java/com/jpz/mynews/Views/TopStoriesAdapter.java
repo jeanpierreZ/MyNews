@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.RequestManager;
-import com.jpz.mynews.Models.NYTResult;
+import com.jpz.mynews.Models.ResultTP;
 import com.jpz.mynews.R;
 
 import java.util.List;
@@ -25,13 +25,13 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder
     private final Listener callback;
 
     // For data
-    private List<NYTResult> results;
+    private List<ResultTP> results;
 
     // Declaring a Glide object
     private RequestManager glide;
 
     // Constructor
-    public TopStoriesAdapter(List<NYTResult> results, RequestManager glide, Listener callback) {
+    public TopStoriesAdapter(List<ResultTP> results, RequestManager glide, Listener callback) {
         this.results = results;
         this.glide = glide;
         this.callback = callback;
@@ -60,7 +60,7 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder
         return  this.results.size();
     }
 
-    public NYTResult getPosition(int position){
+    public ResultTP getPosition(int position){
         return this.results.get(position);
     }
 }
