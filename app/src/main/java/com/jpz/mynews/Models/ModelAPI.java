@@ -23,6 +23,12 @@ public class ModelAPI {
         return resultAPIList;
     }
 
+    @SerializedName("response")
+    @Expose
+    private Response response;
 
+    public Response getResponse() {
+        return response;
+    }
 
 }

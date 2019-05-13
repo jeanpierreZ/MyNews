@@ -61,7 +61,7 @@ public interface NYTService {
 
     // GET type of REST request for Article Search
     @GET("search/v2/articlesearch.json?api-key=" + API_KEY)
-    Observable<ArticleSearch>
+    Observable<ModelAPI>
     getArticleSearch(@Query("facet_fields") String facetFields, @Query("fq") String newsDesk,
                      @Query("sort") String sortOrder, @Query("page") int page);
 }

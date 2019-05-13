@@ -37,7 +37,7 @@ public class NYTStreams {
     }
 
     // Public method to start fetching the result for ArticleSearch
-    public static Observable<ArticleSearch>
+    public static Observable<ModelAPI>
     fetchArticleSearch(String facetFields, String newsDesk, String sortOrder, int page) {
         // Get a Retrofit instance and the related Observable of the Interface
         NYTService nytService = NYTService.retrofit.create(NYTService.class);

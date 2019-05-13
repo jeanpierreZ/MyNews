@@ -12,7 +12,7 @@ public class Doc {
 
     @SerializedName("multimedia")
     @Expose
-    private List<MultimediumAS> multimedia = null;
+    private List<Multimedium> multimedia = null;
 
     @SerializedName("headline")
     @Expose
@@ -37,20 +37,12 @@ public class Doc {
         return webUrl;
     }
 
-    public List<MultimediumAS> getMultimedia() {
+    public List<Multimedium> getMultimedia() {
         return multimedia;
-    }
-
-    public void setMultimedia(List<MultimediumAS> multimedia) {
-        this.multimedia = multimedia;
     }
 
     public Headline getHeadline() {
         return headline;
-    }
-
-    public void setHeadline(Headline headline) {
-        this.headline = headline;
     }
 
     public String getPubDate() {

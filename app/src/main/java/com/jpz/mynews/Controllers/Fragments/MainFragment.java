@@ -242,12 +242,12 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
             this.disposable = NYTStreams.fetchArticleSearch
                     (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_FINANCIAL,
                             NYTService.API_FILTER_SORT_ORDER, page)
-                    .subscribeWith(new DisposableObserver<ArticleSearch>() {
+                    .subscribeWith(new DisposableObserver<ModelAPI>() {
                         @Override
-                        public void onNext(ArticleSearch articleSearch) {
+                        public void onNext(ModelAPI modelAPI) {
                             Log.i("TAG","On Next Foreign");
                             // Update UI with result of Technology
-                            updateUIArticleSearch(articleSearch);
+                            updateUIArticleSearch(modelAPI);
                         }
 
                         @Override
@@ -273,12 +273,12 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
         this.disposable = NYTStreams.fetchArticleSearch
                 (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_FOREIGN,
                 NYTService.API_FILTER_SORT_ORDER, page)
-                .subscribeWith(new DisposableObserver<ArticleSearch>() {
+                .subscribeWith(new DisposableObserver<ModelAPI>() {
                     @Override
-                    public void onNext(ArticleSearch articleSearch) {
+                    public void onNext(ModelAPI modelAPI) {
                         Log.i("TAG","On Next Financial");
                         // Update UI with result of Technology
-                        updateUIArticleSearch(articleSearch);
+                        updateUIArticleSearch(modelAPI);
                     }
 
                     @Override
@@ -304,12 +304,12 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
             this.disposable = NYTStreams.fetchArticleSearch
                     (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_TECHNOLOGY,
                             NYTService.API_FILTER_SORT_ORDER, page)
-                    .subscribeWith(new DisposableObserver<ArticleSearch>() {
+                    .subscribeWith(new DisposableObserver<ModelAPI>() {
                         @Override
-                        public void onNext(ArticleSearch articleSearch) {
+                        public void onNext(ModelAPI modelAPI) {
                             Log.i("TAG","On Next Technology");
                             // Update UI with result of Technology
-                            updateUIArticleSearch(articleSearch);
+                            updateUIArticleSearch(modelAPI);
                         }
 
                         @Override
@@ -342,8 +342,8 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     }
 
     //  Update UI for Technology ArticleSearch
-    private void updateUIArticleSearch(ArticleSearch articleSearch){
-        docs.addAll(articleSearch.getResponse().getDocs());
+    private void updateUIArticleSearch(ModelAPI modelAPI){
+        docs.addAll(modelAPI.getResponse().getDocs());
         articleSearchAdapter.notifyDataSetChanged();
     }
 }

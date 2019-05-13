@@ -50,6 +50,5 @@ public class ArticleSearchAdapter extends RecyclerView.Adapter<ArticleSearchView
     public int getItemCount() {
         return  this.docs.size();
     }
-
-
+    
 }
