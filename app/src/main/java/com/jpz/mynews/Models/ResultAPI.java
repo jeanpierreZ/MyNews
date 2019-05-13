@@ -65,6 +65,13 @@ public class ResultAPI {
         return multimedia;
     }
 
+    @SerializedName("media")
+    @Expose
+    private List<Medium> media = null;
+
+    public List<Medium> getMedia() {
+        return media;
+    }
 
     public String getSubsection() {
         return subsection;

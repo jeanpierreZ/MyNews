@@ -163,9 +163,9 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
 
     private void configureRecyclerViewMP(){
         // Reset list
-        resultMPList = new ArrayList<>();
+        resultAPIList = new ArrayList<>();
         // Create adapter passing the list of MostPopular articles
-        mostPopularAdapter = new MostPopularAdapter(this.resultMPList, Glide.with(this));
+        mostPopularAdapter = new MostPopularAdapter(this.resultAPIList, Glide.with(this));
         // Attach the adapter to the recyclerView to populate items
         recyclerView.setAdapter(this.mostPopularAdapter);
         // Set layout manager to position the items
@@ -211,12 +211,12 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     private void executeMostPopularRequest(){
         // Execute the stream subscribing to Observable defined inside NYTStream
         this.disposable = NYTStreams.fetchMostPopular(NYTService.API_PERIOD)
-                .subscribeWith(new DisposableObserver<MostPopular>() {
+                .subscribeWith(new DisposableObserver<ModelAPI>() {
                     @Override
-                    public void onNext(MostPopular mostPopular) {
+                    public void onNext(ModelAPI modelAPI) {
                         Log.i("TAG","On Next MostPopular");
                         // Update UI with result of Most Popular
-                        updateUIMostPopular(mostPopular);
+                        updateUIMostPopular(modelAPI);
                     }
 
                     @Override
@@ -336,8 +336,8 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     }
 
     //  Update UI for MostPopular
-    private void updateUIMostPopular(MostPopular mostPopular){
-        resultMPList.addAll(mostPopular.getResults());
+    private void updateUIMostPopular(ModelAPI modelAPI){
+        resultAPIList.addAll(modelAPI.getResultAPIList());
         mostPopularAdapter.notifyDataSetChanged();
     }
 

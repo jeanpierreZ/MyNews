@@ -26,7 +26,7 @@ public class NYTStreams {
     }
 
     // Public method to start fetching the result for MostPopular
-    public static Observable<MostPopular> fetchMostPopular(int period) {
+    public static Observable<ModelAPI> fetchMostPopular(int period) {
         // Get a Retrofit instance and the related Observable of the Interface
         NYTService nytService = NYTService.retrofit.create(NYTService.class);
         // Create the call on MostPopular API

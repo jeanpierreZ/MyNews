@@ -26,6 +26,7 @@ public class ResultMP {
     @SerializedName("media")
     @Expose
     private List<MediumMP> media = null;
+
     @SerializedName("uri")
     @Expose
     private String uri;
@@ -70,9 +71,6 @@ public class ResultMP {
         return media;
     }
 
-    public void setMedia(List<MediumMP> media) {
-        this.media = media;
-    }
 
     public String getUri() {
         return uri;

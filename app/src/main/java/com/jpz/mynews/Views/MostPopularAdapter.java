@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.RequestManager;
+import com.jpz.mynews.Models.ResultAPI;
 import com.jpz.mynews.Models.ResultMP;
 import com.jpz.mynews.R;
 
@@ -17,14 +18,14 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularViewHold
     // Link the RecyclerView view to the controller MainFragment
 
     // For data
-    private List<ResultMP> resultMPList;
+    private List<ResultAPI> resultAPIList;
 
     // Declaring a Glide object
     private RequestManager glide;
 
     // Constructor
-    public MostPopularAdapter(List<ResultMP> resultMPList, RequestManager glide) {
-        this.resultMPList = resultMPList;
+    public MostPopularAdapter(List<ResultAPI> resultAPIList, RequestManager glide) {
+        this.resultAPIList = resultAPIList;
         this.glide = glide;
     }
 
@@ -42,13 +43,13 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularViewHold
     // Update viewHolder with a title of MostPopular
     @Override
     public void onBindViewHolder(@NonNull MostPopularViewHolder mostPopularViewHolder, int position) {
-        mostPopularViewHolder.updateWithMostPopular(this.resultMPList.get(position), this.glide);
+        mostPopularViewHolder.updateWithMostPopular(this.resultAPIList.get(position), this.glide);
     }
 
     // Return the total count of items in the list
     @Override
     public int getItemCount() {
-        return  this.resultMPList.size();
+        return  this.resultAPIList.size();
     }
 
 }

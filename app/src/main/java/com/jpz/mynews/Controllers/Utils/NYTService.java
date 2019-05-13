@@ -56,7 +56,7 @@ public interface NYTService {
 
     // GET type of REST request for Most Popular
     @GET("mostpopular/v2/viewed/{period}.json?api-key=" + API_KEY)
-    Observable<MostPopular>
+    Observable<ModelAPI>
     getMostPopular(@Path("period") int period);
 
     // GET type of REST request for Article Search

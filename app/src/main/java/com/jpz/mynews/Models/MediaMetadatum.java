@@ -3,7 +3,7 @@ package com.jpz.mynews.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MediaMetadatumMP {
+public class MediaMetadatum {
 
     @SerializedName("url")
     @Expose
@@ -13,6 +13,5 @@ public class MediaMetadatumMP {
     public String getUrl() {
         return url;
     }
-
 
 }

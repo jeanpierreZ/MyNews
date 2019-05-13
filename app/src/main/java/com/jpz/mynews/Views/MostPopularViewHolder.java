@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
+import com.jpz.mynews.Models.ResultAPI;
 import com.jpz.mynews.Models.ResultMP;
 import com.jpz.mynews.R;
 
@@ -35,15 +36,15 @@ public class MostPopularViewHolder extends RecyclerView.ViewHolder {
         imageView = itemView.findViewById(R.id.fragment_main_item_image);
     }
 
-    public void updateWithMostPopular(ResultMP resultMP, RequestManager glide){
+    public void updateWithMostPopular(ResultAPI resultAPI, RequestManager glide){
         // Display settings of MostPopular in ResultMP
-        textViewTitle.setText(resultMP.getTitle());
-        textViewSection.setText(resultMP.getSection());
-        textViewUpdatedDate.setText(convertDate(resultMP.getPublishedDate()));
+        textViewTitle.setText(resultAPI.getTitle());
+        textViewSection.setText(resultAPI.getSection());
+        textViewUpdatedDate.setText(convertDate(resultAPI.getPublishedDate()));
 
-        // If MediaMetadatumMP is empty don't display the photo
-        if ( resultMP.getMedia().get(0).getMediaMetadata().size() != 0)
-            glide.load(resultMP.getMedia().get(0).getMediaMetadata().get(0).getUrl()).into(imageView);
+        // If MediaMetadatum is empty don't display the photo
+        if ( resultAPI.getMedia().get(0).getMediaMetadata().size() != 0)
+            glide.load(resultAPI.getMedia().get(0).getMediaMetadata().get(0).getUrl()).into(imageView);
     }
 
     private String convertDate(String topStoriesDate) {
