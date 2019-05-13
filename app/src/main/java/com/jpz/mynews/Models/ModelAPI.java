@@ -7,6 +7,14 @@ import java.util.List;
 
 public class ModelAPI {
 
+    @SerializedName("status")
+    @Expose
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
     @SerializedName("results")
     @Expose
     private List<ResultAPI> resultAPIList = null;

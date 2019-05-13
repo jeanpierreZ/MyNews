@@ -7,10 +7,6 @@ import java.util.List;
 
 public class ResultAPI {
 
-    @SerializedName("status")
-    @Expose
-    private String status;
-
     @SerializedName("section")
     @Expose
     private String section;
@@ -77,9 +73,6 @@ public class ResultAPI {
         return subsection;
     }
 
-    public String getStatus() {
-        return status;
-    }
 
     public String getMain() {
         return main;

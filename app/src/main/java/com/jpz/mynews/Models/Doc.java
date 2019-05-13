@@ -13,6 +13,7 @@ public class Doc {
     @SerializedName("multimedia")
     @Expose
     private List<MultimediumAS> multimedia = null;
+
     @SerializedName("headline")
     @Expose
     private Headline headline;
@@ -36,11 +37,6 @@ public class Doc {
         return webUrl;
     }
 
-    public void setWebUrl(String webUrl) {
-        this.webUrl = webUrl;
-    }
-
-
     public List<MultimediumAS> getMultimedia() {
         return multimedia;
     }
@@ -61,32 +57,16 @@ public class Doc {
         return pubDate;
     }
 
-    public void setPubDate(String pubDate) {
-        this.pubDate = pubDate;
-    }
-
     public String getNewsDesk() {
         return newsDesk;
-    }
-
-    public void setNewsDesk(String newsDesk) {
-        this.newsDesk = newsDesk;
     }
 
     public String getSectionName() {
         return sectionName;
     }
 
-    public void setSectionName(String sectionName) {
-        this.sectionName = sectionName;
-    }
-
     public String getUri() {
         return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
     }
 
 }
