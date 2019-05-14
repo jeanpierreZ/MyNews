@@ -11,7 +11,6 @@ import com.bumptech.glide.RequestManager;
 import com.jpz.mynews.Controllers.Utils.GetData;
 import com.jpz.mynews.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterAPI extends RecyclerView.Adapter<ViewHolderAPI> {
@@ -20,14 +19,13 @@ public class AdapterAPI extends RecyclerView.Adapter<ViewHolderAPI> {
     private final Listener callback;
 
     // For data
-    private List<GetData> getDataList;
+    private List<GetData> _getDataList;
 
     // Declaring a Glide object
     private RequestManager glide;
 
-
     public AdapterAPI(List<GetData> getDataList, RequestManager glide, Listener callback) {
-        this.getDataList = getDataList;
+        this._getDataList = getDataList;
         this.glide = glide;
         this.callback = callback;
     }
@@ -50,17 +48,17 @@ public class AdapterAPI extends RecyclerView.Adapter<ViewHolderAPI> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderAPI viewHolderAPI, int position) {
-        viewHolderAPI.updateViewHolder(this.getDataList.get(position), this.glide, this.callback);
+        viewHolderAPI.updateViewHolder(this._getDataList.get(position), this.glide, this.callback);
     }
 
     @Override
     public int getItemCount() {
-        return this.getDataList.size();
+        return this._getDataList.size();
     }
 
     // Return the position of an item in the list
     public GetData getPosition(int position){
-        return this.getDataList.get(position);
+        return this._getDataList.get(position);
     }
 
 }

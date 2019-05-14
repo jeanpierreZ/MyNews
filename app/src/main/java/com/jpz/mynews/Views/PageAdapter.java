@@ -22,7 +22,20 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         // Page to return
-        return(MainFragment.newInstance(position));
+        switch (position) {
+            case 0 :
+                return MainFragment.newInstance(position);
+            case 1 :
+                return MainFragment.newInstance(position);
+            case 2 :
+                return MainFragment.newInstance(position);
+            case 3 :
+                return MainFragment.newInstance(position);
+            case 4 :
+                return MainFragment.newInstance(position);
+            default:
+                return MainFragment.newInstance(position);
+        }
     }
 
     @Override

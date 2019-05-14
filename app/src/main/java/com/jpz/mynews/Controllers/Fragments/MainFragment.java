@@ -15,14 +15,9 @@ import com.bumptech.glide.Glide;
 import com.jpz.mynews.Controllers.Utils.GetData;
 import com.jpz.mynews.Controllers.Utils.Service;
 import com.jpz.mynews.Controllers.Utils.Streams;
-import com.jpz.mynews.Models.Doc;
 import com.jpz.mynews.Models.ModelAPI;
-import com.jpz.mynews.Models.Result;
 import com.jpz.mynews.R;
-import com.jpz.mynews.Views.ArticleSearchAdapter;
-import com.jpz.mynews.Views.MostPopularAdapter;
 import com.jpz.mynews.Views.AdapterAPI;
-import com.jpz.mynews.Views.TopStoriesAdapter;
 
 import java.util.ArrayList;
 
@@ -42,18 +37,11 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     // For data
     private Disposable disposable;
 
-    // Declare list of results (Result & Doc) & Adapter
-    private List<Result> resultList;
-    private TopStoriesAdapter topStoriesAdapter;
-    private MostPopularAdapter mostPopularAdapter;
-
-    private List<Doc> docList;
-    private ArticleSearchAdapter articleSearchAdapter;
+    // Declare list of results & Adapter
+    private List<ModelAPI> modelAPIList;
 
     private List<GetData> getDataList;
     private AdapterAPI adapterAPI;
-
-    private ModelAPI modelAPI;
 
     // Create keys for our Bundle
     private static final String KEY_POSITION = "position";
@@ -75,7 +63,6 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
 
         return(fragment);
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -106,19 +93,19 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
                 executeTopStoriesRequest();
                 break;
             case 1 :
-                configureRecyclerViewMP();
+                configureRecyclerView();
                 executeMostPopularRequest();
                 break;
             case 2 :
-                configureRecyclerArticleSearch();
+                configureRecyclerView();
                 executeForeignRequest();
                 break;
             case 3 :
-                configureRecyclerArticleSearch();
+                configureRecyclerView();
                 executeFinancialRequest();
                 break;
             case 4 :
-                configureRecyclerArticleSearch();
+                configureRecyclerView();
                 executeTechnologyRequest();
                 break;
         }
@@ -136,14 +123,8 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     @Override
     public void onClickTitle(int position) {
         // Get the position of the item in the RecyclerView and load it
-
-        String url = adapterAPI.getPosition(position).getDataList.get(0).shorturl();
+        String url = adapterAPI.getPosition(position).url();
         webView.loadUrl(url);
-
-        /*
-        String url = topStoriesAdapter.getPosition(position).getShortUrl();
-        webView.loadUrl(url);
-        */
     }
 
     // -------------------
@@ -151,53 +132,17 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     // -------------------
 
     // Configure RecyclerViews, Adapters, LayoutManager & glue it together
-/*
-    private void configureRecyclerViewTP(){
-        // Reset list
-        resultList = new ArrayList<>();
-        // Create adapter passing the list of Top Stories articles and a reference of callback
-        topStoriesAdapter = new TopStoriesAdapter(this.resultList, Glide.with(this), this);
-        // Attach the adapter to the recyclerView to populate items
-        recyclerView.setAdapter(this.topStoriesAdapter);
-        // Set layout manager to position the items
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }
-*/
 
     private void configureRecyclerView(){
         // Reset list
         getDataList = new ArrayList<>();
-        // Create adapter passing the list of Top Stories articles
+        // Create adapter passing the list of articles
         adapterAPI = new AdapterAPI(this.getDataList, Glide.with(this), this);
         // Attach the adapter to the recyclerView to populate items
         recyclerView.setAdapter(this.adapterAPI);
         // Set layout manager to position the items
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
-
-
-    private void configureRecyclerViewMP(){
-        // Reset list
-        resultList = new ArrayList<>();
-        // Create adapter passing the list of Most Popular articles
-        mostPopularAdapter = new MostPopularAdapter(this.resultList, Glide.with(this));
-        // Attach the adapter to the recyclerView to populate items
-        recyclerView.setAdapter(this.mostPopularAdapter);
-        // Set layout manager to position the items
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }
-
-    private void configureRecyclerArticleSearch(){
-        // Reset list
-        docList = new ArrayList<>();
-        // Create adapter passing the list of Article Search articles
-        articleSearchAdapter = new ArticleSearchAdapter(this.docList, Glide.with(this));
-        // Attach the adapter to the recyclerView to populate items
-        recyclerView.setAdapter(this.articleSearchAdapter);
-        // Set layout manager to position the items
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }
-
 
     // Execute our Stream
     private void executeTopStoriesRequest(){
@@ -208,7 +153,7 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
                     public void onNext(ModelAPI modelAPI) {
                         Log.i("TAG","On Next TopStories");
                         // Update UI with result of Top Stories
-                        updateUITopStories(modelAPI);
+                        updateUI(modelAPI);
                     }
 
                     @Override
@@ -232,7 +177,7 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
                     public void onNext(ModelAPI modelAPI) {
                         Log.i("TAG","On Next MostPopular");
                         // Update UI with result of Most Popular
-                        updateUIMostPopular(modelAPI);
+                        //updateUIMostPopular(modelAPI);
                     }
 
                     @Override
@@ -294,7 +239,7 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
                     public void onNext(ModelAPI modelAPI) {
                         Log.i("TAG","On Next Financial");
                         // Update UI with result of Technology
-                        updateUIArticleSearch(modelAPI);
+                        //updateUIArticleSearch(modelAPI);
                     }
 
                     @Override
@@ -325,7 +270,7 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
                         public void onNext(ModelAPI modelAPI) {
                             Log.i("TAG","On Next Technology");
                             // Update UI with result of Technology
-                            updateUIArticleSearch(modelAPI);
+                            //updateUIArticleSearch(modelAPI);
                         }
 
                         @Override
@@ -346,20 +291,9 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     }
 
     //  Update UI for Top Stories
-    private void updateUITopStories(ModelAPI modelAPI){
+    private void updateUI(ModelAPI modelAPI){
         getDataList.addAll(modelAPI.getDataList());
         adapterAPI.notifyDataSetChanged();
     }
 
-    //  Update UI for Most Popular
-    private void updateUIMostPopular(ModelAPI modelAPI){
-        resultList.addAll(modelAPI.getResultList());
-        mostPopularAdapter.notifyDataSetChanged();
-    }
-
-    //  Update UI for Article Search
-    private void updateUIArticleSearch(ModelAPI modelAPI){
-        docList.addAll(modelAPI.getResponse().getDocs());
-        articleSearchAdapter.notifyDataSetChanged();
-    }
 }

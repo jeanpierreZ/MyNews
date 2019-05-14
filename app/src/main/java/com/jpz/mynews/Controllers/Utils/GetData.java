@@ -2,67 +2,79 @@ package com.jpz.mynews.Controllers.Utils;
 
 import android.util.Log;
 
-import com.jpz.mynews.Models.Doc;
-import com.jpz.mynews.Models.Result;
+import com.jpz.mynews.Models.API;
+import com.jpz.mynews.Models.ModelAPI;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
 public class GetData {
 
-    private Result result = new Result();
-    private Doc doc = new Doc();
+    private ModelAPI modelAPI = new ModelAPI();
 
-
-    public List<GetData> getDataList = new ArrayList<>();
-
+    private API api;
 
     public String title() {
         // Display title of an article
-        String title = result.getTitle();
-        String titleArticleSearch = doc.getHeadline().getMain();
-
-        if (!title.equals(""))
-            return title;
-        else
-            return titleArticleSearch;
+        String title = "";
+        switch (api) {
+            case TopStories:
+                title = modelAPI.getResultList().get(0).getTitle();
+                break;
+            case MostPopular:
+                title = modelAPI.getResultList().get(0).getTitle();
+                break;
+            case ArticleSearch:
+                title = modelAPI.getResponse().getDocs().get(0).getHeadline().getMain();
+                break;
+        }
+        return title;
     }
 
     public String sectionSubsection() {
-        // Build string for section and subsection and display it
-        String sectionSubsection;
-        String section = result.getSection();
-        String subSection = result.getSubsection();
-        String sectionName = doc.getSectionName();
-
-        // If sectionName of Article Search is available
-        if (!sectionName.equals(""))
-            return sectionName;
-
-        // If subsection is empty, don't call it
-        else if (subSection.equals(""))
-            sectionSubsection = section;
-        else
-            sectionSubsection = section + " > " + subSection;
+        // Display section & subsection of an article
+        String sectionSubsection = "";
+        String section;
+        String subsection;
+        switch (api) {
+            case TopStories:
+                section = modelAPI.getResultList().get(0).getSection();
+                subsection = modelAPI.getResultList().get(0).getSubsection();
+                // If subsection is empty, don't call it
+                if (subsection.equals(""))
+                    sectionSubsection = section;
+                else
+                    sectionSubsection = section + " > " + subsection;
+                break;
+            case MostPopular:
+                sectionSubsection = modelAPI.getResultList().get(0).getSection();
+                break;
+            case ArticleSearch:
+                sectionSubsection = modelAPI.getResponse().getDocs().get(0).getHeadline().getMain();
+                break;
+        }
         return sectionSubsection;
     }
 
-
     public String date() {
         // Display date of an article
-        String date = result.getPublishedDate();
-        String dateArticleSearch = doc.getPubDate();
-
-        if (!date.equals(""))
-            return date;
-        else
-            return dateArticleSearch;
+        String date = "";
+        switch (api) {
+            case TopStories:
+                date = modelAPI.getResultList().get(0).getPublishedDate();
+                break;
+            case MostPopular:
+                date = modelAPI.getResultList().get(0).getPublishedDate();
+                break;
+            case ArticleSearch:
+                date = modelAPI.getResponse().getDocs().get(0).getPubDate();
+                break;
+        }
+        return date;
     }
 
     public String convertDate(String topStoriesDate) {
@@ -83,30 +95,24 @@ public class GetData {
     }
 
     public String image() {
-        // Display image of an article
+        // Display date of an article
         String image = "";
-        String imageMostPop = result.getMedia().get(0).getMediaMetadata().get(0).getUrl();
-        String imageTopStories = result.getMultimedia().get(0).getUrl();
-        String imageArticleSearch = "https://www.nytimes.com/" + doc.getMultimedia().get(0).getUrl();
-
-        // If MediaMetadatum is empty don't display the photo
-        if (result.getMedia().get(0).getMediaMetadata().size() != 0)
-            image = imageMostPop;
-
-        // If Multimedium is empty don't display the photo and imageSearch has not https address
-        else if (result.getMultimedia().size() != 0 && !imageArticleSearch.substring(0,4).equals("https"))
-            image = imageTopStories;
-
-        // If Multimedium is empty don't display the photo
-        else if (result.getMultimedia().size() != 0)
-            image = imageArticleSearch;
-
+        switch (api) {
+            case TopStories:
+                image = modelAPI.getResultList().get(0).getMedia().get(0).getMediaMetadata().get(0).getUrl();
+                break;
+            case MostPopular:
+                image = modelAPI.getResultList().get(0).getMultimedia().get(0).getUrl();
+                break;
+            case ArticleSearch:
+                image = "https://www.nytimes.com/" + modelAPI.getResponse().getDocs().get(0).getMultimedia().get(0).getUrl();
+                break;
+        }
         return image;
     }
 
-    public String shorturl() {
-
-        return result.getShortUrl();
+    public String url() {
+        return modelAPI.getResultList().get(0).getShortUrl();
     }
 
 }
