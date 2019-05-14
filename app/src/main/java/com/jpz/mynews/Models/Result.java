@@ -10,6 +10,7 @@ public class Result {
     @SerializedName("section")
     @Expose
     private String section;
+
     @SerializedName("subsection")
     @Expose
     private String subsection;
@@ -66,6 +67,7 @@ public class Result {
     public List<Medium> getMedia() {
         return media;
     }
+
 
     public String getSubsection() {
         return subsection;

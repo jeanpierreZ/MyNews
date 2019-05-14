@@ -2,6 +2,7 @@ package com.jpz.mynews.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.jpz.mynews.Controllers.Utils.GetData;
 
 import java.util.List;
 
@@ -29,6 +30,13 @@ public class ModelAPI {
 
     public Response getResponse() {
         return response;
+    }
+
+
+    private List<GetData> getDataList = null;
+
+    public List<GetData> getDataList() {
+        return getDataList;
     }
 
 }

@@ -31,7 +31,7 @@ public class ArticleSearchAdapter extends RecyclerView.Adapter<ArticleSearchView
     @NonNull
     @Override
     public ArticleSearchViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        // Create ViewHolder and inflating its xml layout
+        // Create ViewHolderAPI and inflating its xml layout
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.fragment_main_item, viewGroup, false);

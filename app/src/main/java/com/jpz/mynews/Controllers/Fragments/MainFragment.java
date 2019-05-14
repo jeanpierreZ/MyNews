@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import com.bumptech.glide.Glide;
+import com.jpz.mynews.Controllers.Utils.GetData;
 import com.jpz.mynews.Controllers.Utils.Service;
 import com.jpz.mynews.Controllers.Utils.Streams;
 import com.jpz.mynews.Models.Doc;
@@ -20,6 +21,7 @@ import com.jpz.mynews.Models.Result;
 import com.jpz.mynews.R;
 import com.jpz.mynews.Views.ArticleSearchAdapter;
 import com.jpz.mynews.Views.MostPopularAdapter;
+import com.jpz.mynews.Views.AdapterAPI;
 import com.jpz.mynews.Views.TopStoriesAdapter;
 
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainFragment extends Fragment implements TopStoriesAdapter.Listener {
+public class MainFragment extends Fragment implements AdapterAPI.Listener {
 
     private RecyclerView recyclerView;
     private WebView webView;
@@ -45,8 +47,13 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     private TopStoriesAdapter topStoriesAdapter;
     private MostPopularAdapter mostPopularAdapter;
 
-    private List<Doc> docs;
+    private List<Doc> docList;
     private ArticleSearchAdapter articleSearchAdapter;
+
+    private List<GetData> getDataList;
+    private AdapterAPI adapterAPI;
+
+    private ModelAPI modelAPI;
 
     // Create keys for our Bundle
     private static final String KEY_POSITION = "position";
@@ -94,7 +101,7 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
             // Load articles of NY Times when launching the app
             case 0 :
                 // Call during UI creation
-                configureRecyclerViewTP();
+                configureRecyclerView();
                 // Execute stream after UI creation
                 executeTopStoriesRequest();
                 break;
@@ -129,8 +136,14 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     @Override
     public void onClickTitle(int position) {
         // Get the position of the item in the RecyclerView and load it
+
+        String url = adapterAPI.getPosition(position).getDataList.get(0).shorturl();
+        webView.loadUrl(url);
+
+        /*
         String url = topStoriesAdapter.getPosition(position).getShortUrl();
         webView.loadUrl(url);
+        */
     }
 
     // -------------------
@@ -138,7 +151,7 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     // -------------------
 
     // Configure RecyclerViews, Adapters, LayoutManager & glue it together
-
+/*
     private void configureRecyclerViewTP(){
         // Reset list
         resultList = new ArrayList<>();
@@ -149,6 +162,19 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
         // Set layout manager to position the items
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
+*/
+
+    private void configureRecyclerView(){
+        // Reset list
+        getDataList = new ArrayList<>();
+        // Create adapter passing the list of Top Stories articles
+        adapterAPI = new AdapterAPI(this.getDataList, Glide.with(this), this);
+        // Attach the adapter to the recyclerView to populate items
+        recyclerView.setAdapter(this.adapterAPI);
+        // Set layout manager to position the items
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
 
     private void configureRecyclerViewMP(){
         // Reset list
@@ -163,14 +189,15 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
 
     private void configureRecyclerArticleSearch(){
         // Reset list
-        docs = new ArrayList<>();
-        // Create adapter passing the list of Most Popular articles
-        articleSearchAdapter = new ArticleSearchAdapter(this.docs, Glide.with(this));
+        docList = new ArrayList<>();
+        // Create adapter passing the list of Article Search articles
+        articleSearchAdapter = new ArticleSearchAdapter(this.docList, Glide.with(this));
         // Attach the adapter to the recyclerView to populate items
         recyclerView.setAdapter(this.articleSearchAdapter);
         // Set layout manager to position the items
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
+
 
     // Execute our Stream
     private void executeTopStoriesRequest(){
@@ -236,7 +263,7 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
                         public void onNext(ModelAPI modelAPI) {
                             Log.i("TAG","On Next Foreign");
                             // Update UI with result of Technology
-                            updateUIArticleSearch(modelAPI);
+
                         }
 
                         @Override
@@ -320,8 +347,8 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
 
     //  Update UI for Top Stories
     private void updateUITopStories(ModelAPI modelAPI){
-        resultList.addAll(modelAPI.getResultList());
-        topStoriesAdapter.notifyDataSetChanged();
+        getDataList.addAll(modelAPI.getDataList());
+        adapterAPI.notifyDataSetChanged();
     }
 
     //  Update UI for Most Popular
@@ -332,7 +359,7 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
 
     //  Update UI for Article Search
     private void updateUIArticleSearch(ModelAPI modelAPI){
-        docs.addAll(modelAPI.getResponse().getDocs());
+        docList.addAll(modelAPI.getResponse().getDocs());
         articleSearchAdapter.notifyDataSetChanged();
     }
 }
