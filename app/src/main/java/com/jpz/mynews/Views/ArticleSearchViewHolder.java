@@ -19,7 +19,7 @@ import java.util.Locale;
 import static android.content.ContentValues.TAG;
 
 public class ArticleSearchViewHolder extends RecyclerView.ViewHolder {
-    // Represent an item (line) of Technology (Article Search) in the RecyclerView
+    // Represent an item (line) of Article Search in the RecyclerView
 
     private TextView textViewTitle;
     private TextView textViewSection;

@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.RequestManager;
-import com.jpz.mynews.Models.ModelAPI;
-import com.jpz.mynews.Models.ResultAPI;
-import com.jpz.mynews.Models.ResultTP;
+import com.jpz.mynews.Models.Result;
 import com.jpz.mynews.R;
 
 import java.util.List;
@@ -27,16 +25,14 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder
     private final Listener callback;
 
     // For data
-    private List<ResultTP> results;
-
-    private List<ResultAPI> resultAPIList;
+    private List<Result> resultList;
 
     // Declaring a Glide object
     private RequestManager glide;
 
     // Constructor
-    public TopStoriesAdapter(List<ResultAPI> resultAPIList, RequestManager glide, Listener callback) {
-        this.resultAPIList = resultAPIList;
+    public TopStoriesAdapter(List<Result> resultList, RequestManager glide, Listener callback) {
+        this.resultList = resultList;
         this.glide = glide;
         this.callback = callback;
     }
@@ -52,19 +48,20 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder
         return new TopStoriesViewHolder(view);
     }
 
-    // Update viewHolder with a title of TopStories
+    // Update viewHolder with a return of Top Stories
     @Override
     public void onBindViewHolder(@NonNull TopStoriesViewHolder topStoriesViewHolder, int position) {
-        topStoriesViewHolder.updateWithTopStories(this.resultAPIList.get(position), this.glide, this.callback);
+        topStoriesViewHolder.updateWithTopStories(this.resultList.get(position), this.glide, this.callback);
     }
 
     // Return the total count of items in the list
     @Override
     public int getItemCount() {
-        return  this.resultAPIList.size();
+        return  this.resultList.size();
     }
 
-    public ResultAPI getPosition(int position){
-        return this.resultAPIList.get(position);
+    // Return the position of an item in the list
+    public Result getPosition(int position){
+        return this.resultList.get(position);
     }
 }

@@ -1,9 +1,6 @@
 package com.jpz.mynews.Controllers.Utils;
 
-import com.jpz.mynews.Models.ArticleSearch;
 import com.jpz.mynews.Models.ModelAPI;
-import com.jpz.mynews.Models.MostPopular;
-import com.jpz.mynews.Models.TopStories;
 
 import io.reactivex.Observable;
 
@@ -14,7 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface NYTService {
+public interface Service {
     // Interface for requests the New York Times APIs
 
     // Fields to complete requests

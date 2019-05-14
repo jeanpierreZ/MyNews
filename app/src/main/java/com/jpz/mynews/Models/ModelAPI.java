@@ -17,10 +17,10 @@ public class ModelAPI {
 
     @SerializedName("results")
     @Expose
-    private List<ResultAPI> resultAPIList = null;
+    private List<Result> resultList = null;
 
-    public List<ResultAPI> getResultAPIList() {
-        return resultAPIList;
+    public List<Result> getResultList() {
+        return resultList;
     }
 
     @SerializedName("response")

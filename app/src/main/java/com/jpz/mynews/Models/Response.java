@@ -14,8 +14,4 @@ public class Response {
         return docs;
     }
 
-    public void setDocs(List<Doc> docs) {
-        this.docs = docs;
-    }
-
 }

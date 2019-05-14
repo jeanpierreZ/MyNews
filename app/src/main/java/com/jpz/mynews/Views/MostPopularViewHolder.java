@@ -8,8 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
-import com.jpz.mynews.Models.ResultAPI;
-import com.jpz.mynews.Models.ResultMP;
+import com.jpz.mynews.Models.Result;
 import com.jpz.mynews.R;
 
 import java.text.ParseException;
@@ -36,19 +35,19 @@ public class MostPopularViewHolder extends RecyclerView.ViewHolder {
         imageView = itemView.findViewById(R.id.fragment_main_item_image);
     }
 
-    public void updateWithMostPopular(ResultAPI resultAPI, RequestManager glide){
-        // Display settings of MostPopular in ResultMP
-        textViewTitle.setText(resultAPI.getTitle());
-        textViewSection.setText(resultAPI.getSection());
-        textViewUpdatedDate.setText(convertDate(resultAPI.getPublishedDate()));
+    public void updateWithMostPopular(Result result, RequestManager glide){
+        // Display settings of MostPopular in Result
+        textViewTitle.setText(result.getTitle());
+        textViewSection.setText(result.getSection());
+        textViewUpdatedDate.setText(convertDate(result.getPublishedDate()));
 
         // If MediaMetadatum is empty don't display the photo
-        if ( resultAPI.getMedia().get(0).getMediaMetadata().size() != 0)
-            glide.load(resultAPI.getMedia().get(0).getMediaMetadata().get(0).getUrl()).into(imageView);
+        if ( result.getMedia().get(0).getMediaMetadata().size() != 0)
+            glide.load(result.getMedia().get(0).getMediaMetadata().get(0).getUrl()).into(imageView);
     }
 
     private String convertDate(String topStoriesDate) {
-        // Build date in dd/MM/yyyy for updatedDate
+        // Build date in dd/MM/yyyy for publishedDate
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
 

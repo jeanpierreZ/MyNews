@@ -39,7 +39,7 @@ public class ArticleSearchAdapter extends RecyclerView.Adapter<ArticleSearchView
         return new ArticleSearchViewHolder(view);
     }
 
-    // Update viewHolder with a title of TopStories
+    // Update viewHolder with a return of Article Search
     @Override
     public void onBindViewHolder(@NonNull ArticleSearchViewHolder articleSearchViewHolder, int position) {
         articleSearchViewHolder.updateWithArticleSearch(this.docs.get(position), this.glide);

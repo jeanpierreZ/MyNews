@@ -8,9 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
-import com.jpz.mynews.Models.ModelAPI;
-import com.jpz.mynews.Models.ResultAPI;
-import com.jpz.mynews.Models.ResultTP;
+import com.jpz.mynews.Models.Result;
 import com.jpz.mynews.R;
 
 import java.lang.ref.WeakReference;
@@ -41,25 +39,25 @@ public class TopStoriesViewHolder extends RecyclerView.ViewHolder implements Vie
         imageView = itemView.findViewById(R.id.fragment_main_item_image);
     }
 
-    public void updateWithTopStories(ResultAPI resultAPI, RequestManager glide, TopStoriesAdapter.Listener callback){
+    public void updateWithTopStories(Result result, RequestManager glide, TopStoriesAdapter.Listener callback){
         // Build string for section and subsection
         String sectionSubsection;
-        String section = resultAPI.getSection();
-        String subSection = resultAPI.getSubsection();
+        String section = result.getSection();
+        String subSection = result.getSubsection();
         // If subsection is empty, don't call it
         if (subSection.equals(""))
             sectionSubsection = section;
         else
             sectionSubsection = section + " > " + subSection;
 
-        // Display settings of TopStories in ResultTP
-        textViewTitle.setText(resultAPI.getTitle());
+        // Display settings of TopStories in Result
+        textViewTitle.setText(result.getTitle());
         textViewSection.setText(sectionSubsection);
-        textViewUpdatedDate.setText(convertDate(resultAPI.getPublishedDate()));
+        textViewUpdatedDate.setText(convertDate(result.getPublishedDate()));
 
         // If Multimedium is empty don't display the photo
-        if ( resultAPI.getMultimedia().size() != 0)
-        glide.load(resultAPI.getMultimedia().get(0).getUrl()).into(imageView);
+        if ( result.getMultimedia().size() != 0)
+        glide.load(result.getMultimedia().get(0).getUrl()).into(imageView);
 
         // Create a new weak Reference to our Listener
         this.callbackWeakRef = new WeakReference<>(callback);

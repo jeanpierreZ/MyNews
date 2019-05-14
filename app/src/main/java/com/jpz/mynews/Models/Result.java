@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ResultAPI {
+public class Result {
 
     @SerializedName("section")
     @Expose
@@ -45,13 +45,11 @@ public class ResultAPI {
     @SerializedName("news_desk")
     @Expose
     private String newsDesk;
+
     @SerializedName("section_name")
     @Expose
     private String sectionName;
 
-    @SerializedName("main")
-    @Expose
-    private String main;
 
     @SerializedName("multimedia")
     @Expose
@@ -71,11 +69,6 @@ public class ResultAPI {
 
     public String getSubsection() {
         return subsection;
-    }
-
-
-    public String getMain() {
-        return main;
     }
 
     public String getWebUrl() {

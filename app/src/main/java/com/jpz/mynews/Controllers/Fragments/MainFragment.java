@@ -12,16 +12,11 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import com.bumptech.glide.Glide;
-import com.jpz.mynews.Controllers.Utils.NYTService;
-import com.jpz.mynews.Controllers.Utils.NYTStreams;
-import com.jpz.mynews.Models.ArticleSearch;
+import com.jpz.mynews.Controllers.Utils.Service;
+import com.jpz.mynews.Controllers.Utils.Streams;
 import com.jpz.mynews.Models.Doc;
 import com.jpz.mynews.Models.ModelAPI;
-import com.jpz.mynews.Models.MostPopular;
-import com.jpz.mynews.Models.ResultAPI;
-import com.jpz.mynews.Models.ResultTP;
-import com.jpz.mynews.Models.ResultMP;
-import com.jpz.mynews.Models.TopStories;
+import com.jpz.mynews.Models.Result;
 import com.jpz.mynews.R;
 import com.jpz.mynews.Views.ArticleSearchAdapter;
 import com.jpz.mynews.Views.MostPopularAdapter;
@@ -45,19 +40,13 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     // For data
     private Disposable disposable;
 
-    // Declare list of results (ResultTP) & Adapter
-    private List<ResultTP> results;
+    // Declare list of results (Result & Doc) & Adapter
+    private List<Result> resultList;
     private TopStoriesAdapter topStoriesAdapter;
-
-    // Declare list of results (ResultMP) & Adapter
-    private List<ResultMP> resultMPList;
     private MostPopularAdapter mostPopularAdapter;
 
-    // Declare list of results (Doc) & Adapter
     private List<Doc> docs;
     private ArticleSearchAdapter articleSearchAdapter;
-
-    private List<ResultAPI> resultAPIList;
 
     // Create keys for our Bundle
     private static final String KEY_POSITION = "position";
@@ -152,9 +141,9 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
 
     private void configureRecyclerViewTP(){
         // Reset list
-        resultAPIList = new ArrayList<>();
-        // Create adapter passing the list of TopStories articles and a reference of callback
-        topStoriesAdapter = new TopStoriesAdapter(this.resultAPIList, Glide.with(this), this);
+        resultList = new ArrayList<>();
+        // Create adapter passing the list of Top Stories articles and a reference of callback
+        topStoriesAdapter = new TopStoriesAdapter(this.resultList, Glide.with(this), this);
         // Attach the adapter to the recyclerView to populate items
         recyclerView.setAdapter(this.topStoriesAdapter);
         // Set layout manager to position the items
@@ -163,9 +152,9 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
 
     private void configureRecyclerViewMP(){
         // Reset list
-        resultAPIList = new ArrayList<>();
-        // Create adapter passing the list of MostPopular articles
-        mostPopularAdapter = new MostPopularAdapter(this.resultAPIList, Glide.with(this));
+        resultList = new ArrayList<>();
+        // Create adapter passing the list of Most Popular articles
+        mostPopularAdapter = new MostPopularAdapter(this.resultList, Glide.with(this));
         // Attach the adapter to the recyclerView to populate items
         recyclerView.setAdapter(this.mostPopularAdapter);
         // Set layout manager to position the items
@@ -175,7 +164,7 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
     private void configureRecyclerArticleSearch(){
         // Reset list
         docs = new ArrayList<>();
-        // Create adapter passing the list of MostPopular articles
+        // Create adapter passing the list of Most Popular articles
         articleSearchAdapter = new ArticleSearchAdapter(this.docs, Glide.with(this));
         // Attach the adapter to the recyclerView to populate items
         recyclerView.setAdapter(this.articleSearchAdapter);
@@ -185,8 +174,8 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
 
     // Execute our Stream
     private void executeTopStoriesRequest(){
-        // Execute the stream subscribing to Observable defined inside NYTStream
-        this.disposable = NYTStreams.fetchTopStories(NYTService.API_TOPSTORIES_SECTION)
+        // Execute the stream subscribing to Observable defined inside Stream
+        this.disposable = Streams.fetchTopStories(Service.API_TOPSTORIES_SECTION)
                 .subscribeWith(new DisposableObserver<ModelAPI>() {
                     @Override
                     public void onNext(ModelAPI modelAPI) {
@@ -209,8 +198,8 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
 
     // Execute our Stream
     private void executeMostPopularRequest(){
-        // Execute the stream subscribing to Observable defined inside NYTStream
-        this.disposable = NYTStreams.fetchMostPopular(NYTService.API_PERIOD)
+        // Execute the stream subscribing to Observable defined inside Stream
+        this.disposable = Streams.fetchMostPopular(Service.API_PERIOD)
                 .subscribeWith(new DisposableObserver<ModelAPI>() {
                     @Override
                     public void onNext(ModelAPI modelAPI) {
@@ -233,15 +222,15 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
 
     // Execute our Stream
     private void executeForeignRequest(){
-        // Execute the stream subscribing to Observable defined inside NYTStream
+        // Execute the stream subscribing to Observable defined inside Stream
 
         // Loop to display 40 items of result in ArticleSearch
         int page = 0;
         //for (page = 0; page < 4; page++)
 
-            this.disposable = NYTStreams.fetchArticleSearch
-                    (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_FINANCIAL,
-                            NYTService.API_FILTER_SORT_ORDER, page)
+            this.disposable = Streams.fetchArticleSearch
+                    (Service.API_FACET_FIELDS, Service.API_FILTER_FINANCIAL,
+                            Service.API_FILTER_SORT_ORDER, page)
                     .subscribeWith(new DisposableObserver<ModelAPI>() {
                         @Override
                         public void onNext(ModelAPI modelAPI) {
@@ -264,15 +253,15 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
 
     // Execute our Stream
     private void executeFinancialRequest(){
-        // Execute the stream subscribing to Observable defined inside NYTStream
+        // Execute the stream subscribing to Observable defined inside Stream
 
         // Loop to display 40 items of result in ArticleSearch
         int page = 0;
         //for (page = 0; page < 4; page++)
 
-        this.disposable = NYTStreams.fetchArticleSearch
-                (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_FOREIGN,
-                NYTService.API_FILTER_SORT_ORDER, page)
+        this.disposable = Streams.fetchArticleSearch
+                (Service.API_FACET_FIELDS, Service.API_FILTER_FOREIGN,
+                Service.API_FILTER_SORT_ORDER, page)
                 .subscribeWith(new DisposableObserver<ModelAPI>() {
                     @Override
                     public void onNext(ModelAPI modelAPI) {
@@ -295,15 +284,15 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
 
     // Execute our Stream
     private void executeTechnologyRequest(){
-        // Execute the stream subscribing to Observable defined inside NYTStream
+        // Execute the stream subscribing to Observable defined inside Stream
 
         // Loop to display 40 items of result in ArticleSearch
         int page= 0;
         //for (page = 0; page < 4; page++)
 
-            this.disposable = NYTStreams.fetchArticleSearch
-                    (NYTService.API_FACET_FIELDS, NYTService.API_FILTER_TECHNOLOGY,
-                            NYTService.API_FILTER_SORT_ORDER, page)
+            this.disposable = Streams.fetchArticleSearch
+                    (Service.API_FACET_FIELDS, Service.API_FILTER_TECHNOLOGY,
+                            Service.API_FILTER_SORT_ORDER, page)
                     .subscribeWith(new DisposableObserver<ModelAPI>() {
                         @Override
                         public void onNext(ModelAPI modelAPI) {
@@ -329,19 +318,19 @@ public class MainFragment extends Fragment implements TopStoriesAdapter.Listener
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
-    //  Update UI for TopStories
+    //  Update UI for Top Stories
     private void updateUITopStories(ModelAPI modelAPI){
-        resultAPIList.addAll(modelAPI.getResultAPIList());
+        resultList.addAll(modelAPI.getResultList());
         topStoriesAdapter.notifyDataSetChanged();
     }
 
-    //  Update UI for MostPopular
+    //  Update UI for Most Popular
     private void updateUIMostPopular(ModelAPI modelAPI){
-        resultAPIList.addAll(modelAPI.getResultAPIList());
+        resultList.addAll(modelAPI.getResultList());
         mostPopularAdapter.notifyDataSetChanged();
     }
 
-    //  Update UI for Technology ArticleSearch
+    //  Update UI for Article Search
     private void updateUIArticleSearch(ModelAPI modelAPI){
         docs.addAll(modelAPI.getResponse().getDocs());
         articleSearchAdapter.notifyDataSetChanged();
