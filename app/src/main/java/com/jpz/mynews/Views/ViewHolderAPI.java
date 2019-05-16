@@ -3,47 +3,72 @@ package com.jpz.mynews.Views;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 
-import com.jpz.mynews.Controllers.Utils.GetData;
+import com.jpz.mynews.Models.Result;
 import com.jpz.mynews.R;
 
 import java.lang.ref.WeakReference;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import static android.content.ContentValues.TAG;
 
 public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnClickListener {
     // Represent an item (line) in the RecyclerView
 
     private TextView textViewTitle;
     private TextView textViewSection;
-    private TextView textViewUpdatedDate;
+    private TextView textViewDate;
     private ImageView imageView;
 
     // Declare a Weak Reference to our Callback
     private WeakReference<AdapterAPI.Listener> callbackWeakRef;
 
+
     public ViewHolderAPI(@NonNull View itemView) {
         super(itemView);
         textViewTitle = itemView.findViewById(R.id.fragment_main_item_title);
         textViewSection = itemView.findViewById(R.id.fragment_main_item_section);
-        textViewUpdatedDate = itemView.findViewById(R.id.fragment_main_item_date);
+        textViewDate = itemView.findViewById(R.id.fragment_main_item_date);
         imageView = itemView.findViewById(R.id.fragment_main_item_image);
     }
 
-    public void updateViewHolder(GetData getData, RequestManager glide, AdapterAPI.Listener callback){
+    public void updateViewHolder(Result result, RequestManager glide, AdapterAPI.Listener callback){
         // Update widgets
-        textViewTitle.setText(getData.title());
-        textViewSection.setText(getData.sectionSubsection());
-        textViewUpdatedDate.setText(getData.convertDate(getData.date()));
-        glide.load(getData.image()).into(imageView);
+        textViewTitle.setText(result.getTitle());
+        textViewSection.setText(result.getSection());
+        textViewDate.setText(convertDate(result.getPublishedDate()));
+        glide.load("").into(imageView);
 
         // Create a new weak Reference to our Listener
         this.callbackWeakRef = new WeakReference<>(callback);
         // Implement Listener
-        textViewTitle.setOnClickListener(this);
+        itemView.setOnClickListener(this);
+    }
+
+    public String convertDate(String DateAPI) {
+        // Build date in dd/MM/yyyy for PubDate
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+
+        Date date;
+        String newDate = "";
+
+        try {
+            date = inputFormat.parse(DateAPI);
+            newDate = outputFormat.format(date);
+        } catch (ParseException e) {
+            Log.e(TAG, "ParseException - dateFormat");
+        }
+        return newDate;
     }
 
     @Override

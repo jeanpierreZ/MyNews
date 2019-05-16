@@ -16,7 +16,7 @@ public class GetData {
 
     private ModelAPI modelAPI = new ModelAPI();
 
-    private API api;
+    protected API api;
 
     public String title() {
         // Display title of an article
@@ -28,7 +28,7 @@ public class GetData {
             case MostPopular:
                 title = modelAPI.getResultList().get(0).getTitle();
                 break;
-            case ArticleSearch:
+            case Foreign:
                 title = modelAPI.getResponse().getDocs().get(0).getHeadline().getMain();
                 break;
         }
@@ -53,7 +53,7 @@ public class GetData {
             case MostPopular:
                 sectionSubsection = modelAPI.getResultList().get(0).getSection();
                 break;
-            case ArticleSearch:
+            case Foreign:
                 sectionSubsection = modelAPI.getResponse().getDocs().get(0).getHeadline().getMain();
                 break;
         }
@@ -70,14 +70,14 @@ public class GetData {
             case MostPopular:
                 date = modelAPI.getResultList().get(0).getPublishedDate();
                 break;
-            case ArticleSearch:
+            case Foreign:
                 date = modelAPI.getResponse().getDocs().get(0).getPubDate();
                 break;
         }
         return date;
     }
 
-    public String convertDate(String topStoriesDate) {
+    public String convertDate(String DateAPI) {
         // Build date in dd/MM/yyyy for PubDate
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
@@ -86,7 +86,7 @@ public class GetData {
         String newDate = "";
 
         try {
-            date = inputFormat.parse(topStoriesDate);
+            date = inputFormat.parse(DateAPI);
             newDate = outputFormat.format(date);
         } catch (ParseException e) {
             Log.e(TAG, "ParseException - dateFormat");
@@ -99,20 +99,31 @@ public class GetData {
         String image = "";
         switch (api) {
             case TopStories:
-                image = modelAPI.getResultList().get(0).getMedia().get(0).getMediaMetadata().get(0).getUrl();
-                break;
-            case MostPopular:
                 image = modelAPI.getResultList().get(0).getMultimedia().get(0).getUrl();
                 break;
-            case ArticleSearch:
-                image = "https://www.nytimes.com/" + modelAPI.getResponse().getDocs().get(0).getMultimedia().get(0).getUrl();
+            case MostPopular:
+                image = modelAPI.getResultList().get(0).getMedia().get(0).getMediaMetadata().get(0).getUrl();
+                break;
+            case Foreign:
+                image = "https://www.nytimes.com/"
+                        + modelAPI.getResponse().getDocs().get(0).getMultimedia().get(0).getUrl();
                 break;
         }
         return image;
     }
 
     public String url() {
-        return modelAPI.getResultList().get(0).getShortUrl();
+        // Display an article in a WebView
+        String url ="";
+        switch (api) {
+            case TopStories:
+                url = modelAPI.getResultList().get(0).getShortUrl();
+            break;
+            case MostPopular:
+                url = modelAPI.getResultList().get(0).getUrl();
+            break;
+        }
+        return url();
     }
 
 }

@@ -1,9 +1,10 @@
 package com.jpz.mynews.Models;
 
 public enum API {
-    // The three API's
+    // The requests of API
     TopStories,
     MostPopular,
-    ArticleSearch,
-
+    Foreign,
+    Financial,
+    Technology,
 }
