@@ -34,7 +34,7 @@ public class AdapterAPI extends RecyclerView.Adapter<ViewHolderAPI> {
 
     // Create interface for callback
     public interface Listener {
-        void onClickTitle(int position);
+        void onClickItem(int position);
     }
 
     @NonNull

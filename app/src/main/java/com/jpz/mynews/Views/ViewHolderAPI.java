@@ -75,7 +75,7 @@ public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnCli
     public void onClick(View v) {
         // When a click happens, we fire our listener.
         AdapterAPI.Listener callback = callbackWeakRef.get();
-        if (callback != null) callback.onClickTitle(getAdapterPosition());
+        if (callback != null) callback.onClickItem(getAdapterPosition());
     }
 
 }

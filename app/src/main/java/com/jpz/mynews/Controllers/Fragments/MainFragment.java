@@ -1,5 +1,6 @@
 package com.jpz.mynews.Controllers.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -9,9 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 
 import com.bumptech.glide.Glide;
+import com.jpz.mynews.Controllers.Activities.WebViewActivity;
 import com.jpz.mynews.Controllers.Utils.Service;
 import com.jpz.mynews.Controllers.Utils.Streams;
 import com.jpz.mynews.Models.API;
@@ -32,7 +33,6 @@ import io.reactivex.observers.DisposableObserver;
 public class MainFragment extends Fragment implements AdapterAPI.Listener {
 
     private RecyclerView recyclerView;
-    private WebView webView;
 
     // For data
     private Disposable disposable;
@@ -41,8 +41,9 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     private List<Result> resultList;
     private AdapterAPI adapterAPI;
 
-    // Create keys for our Bundle
+    // Create keys for Bundle & Intent
     private static final String KEY_POSITION = "position";
+    public static final String KEY_URL = "item";
 
     public MainFragment() {
         // Required empty public constructor
@@ -71,9 +72,6 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
         // Get RecyclerView from layout and serialise it
         recyclerView = view.findViewById(R.id.fragment_main_recycler_view);
 
-        // Get WebView
-        webView = view.findViewById(R.id.webview);
-
         // Call during UI creation
         configureRecyclerView();
 
@@ -86,10 +84,9 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
         API api = (API) getArguments().getSerializable(KEY_POSITION);
         if (api != null)
         switch (api) {
-            // Update recyclerView with it
             // Load articles of NY Times when launching the app
+            // Execute streams after UI creation
             case TopStories:
-                // Execute stream after UI creation
                 executeTopStoriesRequest();
                 break;
             case MostPopular:
@@ -117,10 +114,14 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
 
     // Override the method to load url
     @Override
-    public void onClickTitle(int position) {
-        // Get the position of the item in the RecyclerView and load it
+    public void onClickItem(int position) {
+        // Save the url of the item in the RecyclerView
         String url = adapterAPI.getPosition(position).getShortUrl();
-        webView.loadUrl(url);
+
+        // Spread the click with the url to WebViewActivity
+        Intent intent = new Intent(getActivity(), WebViewActivity.class);
+        intent.putExtra(KEY_URL, url);
+        startActivity(intent);
     }
 
     // -------------------
