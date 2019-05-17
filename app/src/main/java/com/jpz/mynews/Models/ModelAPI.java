@@ -32,4 +32,11 @@ public class ModelAPI {
     }
 
 
+    private List<ListAPI> listAPIList = null;
+
+    public List<ListAPI> getListAPIList() {
+        return listAPIList;
+    }
+
+
 }

@@ -13,9 +13,11 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.jpz.mynews.Controllers.Activities.WebViewActivity;
+import com.jpz.mynews.Controllers.Utils.GetData;
 import com.jpz.mynews.Controllers.Utils.Service;
 import com.jpz.mynews.Controllers.Utils.Streams;
 import com.jpz.mynews.Models.API;
+import com.jpz.mynews.Models.ListAPI;
 import com.jpz.mynews.Models.ModelAPI;
 import com.jpz.mynews.Models.Result;
 import com.jpz.mynews.R;
@@ -30,7 +32,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainFragment extends Fragment implements AdapterAPI.Listener {
+public class MainFragment extends Fragment implements AdapterAPI.Listener, ListAPI {
 
     private RecyclerView recyclerView;
 
@@ -40,6 +42,12 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     // Declare list of results & Adapter
     private List<Result> resultList;
     private AdapterAPI adapterAPI;
+    private List<ListAPI> listAPIList;
+
+    protected GetData getData;
+
+
+    protected API api;
 
     // Create keys for Bundle & Intent
     private static final String KEY_POSITION = "position";
@@ -116,7 +124,7 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     @Override
     public void onClickItem(int position) {
         // Save the url of the item in the RecyclerView
-        String url = adapterAPI.getPosition(position).getShortUrl();
+        String url = adapterAPI.getPosition(position).url();
 
         // Spread the click with the url to WebViewActivity
         Intent intent = new Intent(getActivity(), WebViewActivity.class);
@@ -132,9 +140,9 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
 
     private void configureRecyclerView(){
         // Reset list
-        resultList = new ArrayList<>();
+        listAPIList = new ArrayList<>();
         // Create adapter passing the list of articles
-        adapterAPI = new AdapterAPI(resultList, Glide.with(this), this);
+        adapterAPI = new AdapterAPI(listAPIList, Glide.with(this), this);
         // Attach the adapter to the recyclerView to populate items
         recyclerView.setAdapter(adapterAPI);
         // Set layout manager to position the items
@@ -202,6 +210,8 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
                     public void onNext(ModelAPI modelAPI) {
                         Log.i("TAG","On Next ArticleSearch");
                         // Update UI with a filter of ArticleSearch
+                        updateUI(modelAPI);
+
                     }
 
                     @Override
@@ -223,8 +233,32 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
 
     //  Update UI for Top Stories
     private void updateUI(ModelAPI modelAPI){
-        resultList.addAll(modelAPI.getResultList());
+        listAPIList.addAll(modelAPI.getListAPIList());
         adapterAPI.notifyDataSetChanged();
     }
 
+    @Override
+    public String title() {
+        return getData.title(api);
+    }
+
+    @Override
+    public String sectionSubsection() {
+        return getData.sectionSubsection(api);
+    }
+
+    @Override
+    public String date() {
+        return getData.date(api);
+    }
+
+    @Override
+    public String image() {
+        return getData.image(api);
+    }
+
+    @Override
+    public String url() {
+        return getData.url(api);
+    }
 }

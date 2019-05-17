@@ -16,9 +16,7 @@ public class GetData {
 
     private ModelAPI modelAPI = new ModelAPI();
 
-    protected API api;
-
-    public String title() {
+    public String title(API api) {
         // Display title of an article
         String title = "";
         switch (api) {
@@ -35,7 +33,7 @@ public class GetData {
         return title;
     }
 
-    public String sectionSubsection() {
+    public String sectionSubsection(API api) {
         // Display section & subsection of an article
         String sectionSubsection = "";
         String section;
@@ -60,7 +58,7 @@ public class GetData {
         return sectionSubsection;
     }
 
-    public String date() {
+    public String date(API api) {
         // Display date of an article
         String date = "";
         switch (api) {
@@ -94,7 +92,7 @@ public class GetData {
         return newDate;
     }
 
-    public String image() {
+    public String image(API api) {
         // Display date of an article
         String image = "";
         switch (api) {
@@ -112,7 +110,7 @@ public class GetData {
         return image;
     }
 
-    public String url() {
+    public String url(API api) {
         // Display an article in a WebView
         String url ="";
         switch (api) {
@@ -123,7 +121,7 @@ public class GetData {
                 url = modelAPI.getResultList().get(0).getUrl();
             break;
         }
-        return url();
+        return url;
     }
 
 }
