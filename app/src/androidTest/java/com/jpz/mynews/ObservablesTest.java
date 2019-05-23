@@ -3,7 +3,7 @@ package com.jpz.mynews;
 import android.support.test.runner.AndroidJUnit4;
 import com.jpz.mynews.Controllers.Utils.Streams;
 import com.jpz.mynews.Controllers.Utils.Service;
-import com.jpz.mynews.Models.ModelAPI;
+import com.jpz.mynews.Models.APIClient;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,10 +18,10 @@ public class ObservablesTest {
     @Test
     public void fetchTopStoriesTest() throws Exception {
         // Get the stream
-        Observable<ModelAPI> topStoriesObservable = Streams
+        Observable<APIClient> topStoriesObservable = Streams
                 .fetchTopStories(Service.API_TOPSTORIES_SECTION);
         // Create a new TestObserver
-        TestObserver<ModelAPI> topStoriesTestObserver = new TestObserver<>();
+        TestObserver<APIClient> topStoriesTestObserver = new TestObserver<>();
         // Launch observable
         topStoriesObservable.subscribeWith(topStoriesTestObserver)
                 .assertNoErrors() // Check if no errors
@@ -29,7 +29,7 @@ public class ObservablesTest {
                 .awaitTerminalEvent(); // Await the stream terminated before continue
 
         // Get result of topStories fetched
-        ModelAPI topStoriesFetched = topStoriesTestObserver.values().get(0);
+        APIClient topStoriesFetched = topStoriesTestObserver.values().get(0);
 
         /*
         Verify if the GET request connection is OK ( = 200) with getStatus.

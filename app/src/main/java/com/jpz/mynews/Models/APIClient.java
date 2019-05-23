@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ModelAPI {
+public class APIClient {
 
     @SerializedName("status")
     @Expose
@@ -32,11 +32,23 @@ public class ModelAPI {
     }
 
 
-    private List<ListAPI> listAPIList = null;
+    /*
+    private List<TopStories> topStoriesList;
 
-    public List<ListAPI> getListAPIList() {
-        return listAPIList;
+    public List<TopStories> getTopStoriesList() {
+        return topStoriesList;
     }
 
+    private List<MostPopular> mostPopularList;
+
+    public List<MostPopular> getMostPopularList() {
+        return mostPopularList;
+
+    } private List<ArticleSearch> articleSearchList;
+
+    public List<ArticleSearch> getArticleSearchList() {
+        return articleSearchList;
+    }
+*/
 
 }

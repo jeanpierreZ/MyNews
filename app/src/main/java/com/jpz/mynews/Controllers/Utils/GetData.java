@@ -3,7 +3,7 @@ package com.jpz.mynews.Controllers.Utils;
 import android.util.Log;
 
 import com.jpz.mynews.Models.API;
-import com.jpz.mynews.Models.ModelAPI;
+import com.jpz.mynews.Models.APIClient;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,20 +14,20 @@ import static android.content.ContentValues.TAG;
 
 public class GetData {
 
-    private ModelAPI modelAPI = new ModelAPI();
+    private APIClient apiClient = new APIClient();
 
     public String title(API api) {
         // Display title of an article
         String title = "";
         switch (api) {
             case TopStories:
-                title = modelAPI.getResultList().get(0).getTitle();
+                title = apiClient.getResultList().get(0).getTitle();
                 break;
             case MostPopular:
-                title = modelAPI.getResultList().get(0).getTitle();
+                title = apiClient.getResultList().get(0).getTitle();
                 break;
             case Foreign:
-                title = modelAPI.getResponse().getDocs().get(0).getHeadline().getMain();
+                title = apiClient.getResponse().getDocs().get(0).getHeadline().getMain();
                 break;
         }
         return title;
@@ -40,8 +40,8 @@ public class GetData {
         String subsection;
         switch (api) {
             case TopStories:
-                section = modelAPI.getResultList().get(0).getSection();
-                subsection = modelAPI.getResultList().get(0).getSubsection();
+                section = apiClient.getResultList().get(0).getSection();
+                subsection = apiClient.getResultList().get(0).getSubsection();
                 // If subsection is empty, don't call it
                 if (subsection.equals(""))
                     sectionSubsection = section;
@@ -49,10 +49,10 @@ public class GetData {
                     sectionSubsection = section + " > " + subsection;
                 break;
             case MostPopular:
-                sectionSubsection = modelAPI.getResultList().get(0).getSection();
+                sectionSubsection = apiClient.getResultList().get(0).getSection();
                 break;
             case Foreign:
-                sectionSubsection = modelAPI.getResponse().getDocs().get(0).getHeadline().getMain();
+                sectionSubsection = apiClient.getResponse().getDocs().get(0).getSectionName();
                 break;
         }
         return sectionSubsection;
@@ -63,13 +63,13 @@ public class GetData {
         String date = "";
         switch (api) {
             case TopStories:
-                date = modelAPI.getResultList().get(0).getPublishedDate();
+                date = apiClient.getResultList().get(0).getPublishedDate();
                 break;
             case MostPopular:
-                date = modelAPI.getResultList().get(0).getPublishedDate();
+                date = apiClient.getResultList().get(0).getPublishedDate();
                 break;
             case Foreign:
-                date = modelAPI.getResponse().getDocs().get(0).getPubDate();
+                date = apiClient.getResponse().getDocs().get(0).getPubDate();
                 break;
         }
         return date;
@@ -97,14 +97,14 @@ public class GetData {
         String image = "";
         switch (api) {
             case TopStories:
-                image = modelAPI.getResultList().get(0).getMultimedia().get(0).getUrl();
+                image = apiClient.getResultList().get(0).getMultimedia().get(0).getUrl();
                 break;
             case MostPopular:
-                image = modelAPI.getResultList().get(0).getMedia().get(0).getMediaMetadata().get(0).getUrl();
+                image = apiClient.getResultList().get(0).getMedia().get(0).getMediaMetadata().get(0).getUrl();
                 break;
             case Foreign:
                 image = "https://www.nytimes.com/"
-                        + modelAPI.getResponse().getDocs().get(0).getMultimedia().get(0).getUrl();
+                        + apiClient.getResponse().getDocs().get(0).getMultimedia().get(0).getUrl();
                 break;
         }
         return image;
@@ -115,17 +115,17 @@ public class GetData {
         String url ="";
         switch (api) {
             case TopStories:
-                url = modelAPI.getResultList().get(0).getShortUrl();
+                url = apiClient.getResultList().get(0).getShortUrl();
             break;
             case MostPopular:
-                url = modelAPI.getResultList().get(0).getUrl();
+                url = apiClient.getResultList().get(0).getUrl();
             break;
+            case Foreign:
+                url = apiClient.getResponse().getDocs().get(0).getWebUrl();
+                break;
         }
         return url;
     }
 
 }
-
-
-
 

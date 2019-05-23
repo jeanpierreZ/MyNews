@@ -1,6 +1,6 @@
 package com.jpz.mynews.Controllers.Utils;
 
-import com.jpz.mynews.Models.ModelAPI;
+import com.jpz.mynews.Models.APIClient;
 
 import io.reactivex.Observable;
 
@@ -48,17 +48,17 @@ public interface Service {
 
     // GET type of REST request for Top Stories
     @GET("topstories/v2/{section}.json?api-key=" + API_KEY)
-    Observable<ModelAPI>
+    Observable<APIClient>
     getTopStories(@Path("section") String sectionValue);
 
     // GET type of REST request for Most Popular
     @GET("mostpopular/v2/viewed/{period}.json?api-key=" + API_KEY)
-    Observable<ModelAPI>
+    Observable<APIClient>
     getMostPopular(@Path("period") int period);
 
     // GET type of REST request for Article Search
     @GET("search/v2/articlesearch.json?api-key=" + API_KEY)
-    Observable<ModelAPI>
+    Observable<APIClient>
     getArticleSearch(@Query("facet_fields") String facetFields, @Query("fq") String newsDesk,
                      @Query("sort") String sortOrder, @Query("page") int page);
 }
