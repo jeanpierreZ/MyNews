@@ -1,6 +1,6 @@
 package com.jpz.mynews.Controllers.Utils;
 
-import com.jpz.mynews.Models.ModelAPI;
+import com.jpz.mynews.Models.APIClient;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,7 +12,7 @@ public class Streams {
     // Class for streams the New York Times APIs with Observables of RxJava
 
     // Public method to start fetching the result for Top Stories
-    public static Observable<ModelAPI> fetchTopStories(String section){
+    public static Observable<APIClient> fetchTopStories(String section){
         // Get a Retrofit instance and the related Observable of the Interface
         Service service = Service.retrofit.create(Service.class);
         // Create the call on Top Stories API
@@ -23,7 +23,7 @@ public class Streams {
     }
 
     // Public method to start fetching the result for Most Popular
-    public static Observable<ModelAPI> fetchMostPopular(int period) {
+    public static Observable<APIClient> fetchMostPopular(int period) {
         // Get a Retrofit instance and the related Observable of the Interface
         Service service = Service.retrofit.create(Service.class);
         // Create the call on Most Popular API
@@ -34,7 +34,7 @@ public class Streams {
     }
 
     // Public method to start fetching the result for Article Search
-    public static Observable<ModelAPI>
+    public static Observable<APIClient>
     fetchArticleSearch(String facetFields, String newsDesk, String sortOrder, int page) {
         // Get a Retrofit instance and the related Observable of the Interface
         Service service = Service.retrofit.create(Service.class);

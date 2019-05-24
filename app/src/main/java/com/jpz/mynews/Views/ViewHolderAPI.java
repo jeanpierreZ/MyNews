@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 
+import com.jpz.mynews.Models.GenericNews;
 import com.jpz.mynews.Models.Result;
 import com.jpz.mynews.R;
 
@@ -41,12 +42,12 @@ public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnCli
         imageView = itemView.findViewById(R.id.fragment_main_item_image);
     }
 
-    public void updateViewHolder(Result result, RequestManager glide, AdapterAPI.Listener callback){
+    public void updateViewHolder(GenericNews genericNews, RequestManager glide, AdapterAPI.Listener callback){
         // Update widgets
-        textViewTitle.setText(result.getTitle());
-        textViewSection.setText(result.getSection());
-        textViewDate.setText(convertDate(result.getPublishedDate()));
-        glide.load("").into(imageView);
+        textViewTitle.setText(genericNews.getTitle());
+        textViewSection.setText(genericNews.getSection());
+        textViewDate.setText(convertDate(genericNews.getDate()));
+        glide.load(genericNews.getImage()).into(imageView);
 
         // Create a new weak Reference to our Listener
         this.callbackWeakRef = new WeakReference<>(callback);

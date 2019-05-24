@@ -8,8 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.RequestManager;
-import com.jpz.mynews.Models.Doc;
-import com.jpz.mynews.Models.Result;
+import com.jpz.mynews.Models.GenericNews;
 import com.jpz.mynews.R;
 
 import java.util.List;
@@ -20,14 +19,13 @@ public class AdapterAPI extends RecyclerView.Adapter<ViewHolderAPI> {
     private final Listener callback;
 
     // For data
-    private List<Result> resultList;
-    private List<Doc> docList;
+    private List<GenericNews> genericNewsList;
 
     // Declaring a Glide object
     private RequestManager glide;
 
-    public AdapterAPI(List<Result> resultList, RequestManager glide, Listener callback) {
-        this.resultList = resultList;
+    public AdapterAPI(List<GenericNews> genericNewsList, RequestManager glide, Listener callback) {
+        this.genericNewsList = genericNewsList;
         this.glide = glide;
         this.callback = callback;
     }
@@ -50,17 +48,17 @@ public class AdapterAPI extends RecyclerView.Adapter<ViewHolderAPI> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderAPI viewHolderAPI, int position) {
-        viewHolderAPI.updateViewHolder(this.resultList.get(position), this.glide, this.callback);
+        viewHolderAPI.updateViewHolder(this.genericNewsList.get(position), this.glide, this.callback);
     }
 
     @Override
     public int getItemCount() {
-        return this.resultList.size();
+        return this.genericNewsList.size();
     }
 
     // Return the position of an item in the list
-    public Result getPosition(int position){
-        return this.resultList.get(position);
+    public GenericNews getPosition(int position){
+        return this.genericNewsList.get(position);
     }
 
 }

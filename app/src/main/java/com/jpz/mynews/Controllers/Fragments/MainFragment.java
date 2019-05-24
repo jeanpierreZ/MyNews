@@ -11,12 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.jpz.mynews.Controllers.Activities.WebViewActivity;
 import com.jpz.mynews.Controllers.Utils.Service;
 import com.jpz.mynews.Controllers.Utils.Streams;
 import com.jpz.mynews.Models.API;
-import com.jpz.mynews.Models.ModelAPI;
+import com.jpz.mynews.Models.APIClient;
 import com.jpz.mynews.Models.Result;
 import com.jpz.mynews.R;
 import com.jpz.mynews.Views.AdapterAPI;
@@ -116,11 +115,11 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     @Override
     public void onClickItem(int position) {
         // Save the url of the item in the RecyclerView
-        String url = adapterAPI.getPosition(position).getShortUrl();
+        //String url = adapterAPI.getPosition(position).getShortUrl();
 
         // Spread the click with the url to WebViewActivity
         Intent intent = new Intent(getActivity(), WebViewActivity.class);
-        intent.putExtra(KEY_URL, url);
+        //intent.putExtra(KEY_URL, url);
         startActivity(intent);
     }
 
@@ -134,7 +133,7 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
         // Reset list
         resultList = new ArrayList<>();
         // Create adapter passing the list of articles
-        adapterAPI = new AdapterAPI(resultList, Glide.with(this), this);
+        //adapterAPI = new AdapterAPI(resultList, Glide.with(this), this);
         // Attach the adapter to the recyclerView to populate items
         recyclerView.setAdapter(adapterAPI);
         // Set layout manager to position the items
@@ -145,12 +144,12 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     private void executeTopStoriesRequest(){
         // Execute the stream subscribing to Observable defined inside Stream
         this.disposable = Streams.fetchTopStories(Service.API_TOPSTORIES_SECTION)
-                .subscribeWith(new DisposableObserver<ModelAPI>() {
+                .subscribeWith(new DisposableObserver<APIClient>() {
                     @Override
-                    public void onNext(ModelAPI modelAPI) {
+                    public void onNext(APIClient apiClient) {
                         Log.i("TAG","On Next TopStories");
                         // Update UI with result of Top Stories
-                        updateUI(modelAPI);
+                        updateUI(apiClient);
                     }
 
                     @Override
@@ -169,12 +168,12 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     private void executeMostPopularRequest(){
         // Execute the stream subscribing to Observable defined inside Stream
         this.disposable = Streams.fetchMostPopular(Service.API_PERIOD)
-                .subscribeWith(new DisposableObserver<ModelAPI>() {
+                .subscribeWith(new DisposableObserver<APIClient>() {
                     @Override
-                    public void onNext(ModelAPI modelAPI) {
+                    public void onNext(APIClient apiClient) {
                         Log.i("TAG","On Next MostPopular");
                         // Update UI with result of Most Popular
-                        updateUI(modelAPI);
+                        updateUI(apiClient);
                     }
 
                     @Override
@@ -197,9 +196,9 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
         this.disposable = Streams.fetchArticleSearch
                 (Service.API_FACET_FIELDS, filter,
                         Service.API_FILTER_SORT_ORDER, page)
-                .subscribeWith(new DisposableObserver<ModelAPI>() {
+                .subscribeWith(new DisposableObserver<APIClient>() {
                     @Override
-                    public void onNext(ModelAPI modelAPI) {
+                    public void onNext(APIClient apiClient) {
                         Log.i("TAG","On Next ArticleSearch");
                         // Update UI with a filter of ArticleSearch
                     }
@@ -222,8 +221,8 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     }
 
     //  Update UI for Top Stories
-    private void updateUI(ModelAPI modelAPI){
-        resultList.addAll(modelAPI.getResultList());
+    private void updateUI(APIClient apiClient){
+        resultList.addAll(apiClient.getResultList());
         adapterAPI.notifyDataSetChanged();
     }
 
