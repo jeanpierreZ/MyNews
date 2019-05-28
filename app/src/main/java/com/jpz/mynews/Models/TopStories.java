@@ -1,37 +1,57 @@
 package com.jpz.mynews.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class TopStories {
 
-    public String title(APIClient apiClient) {
-    return apiClient.getResultList().get(0).getTitle();
+    @SerializedName("title")
+    @Expose
+    private String title;
+
+    @SerializedName("section")
+    @Expose
+    private String section;
+
+    @SerializedName("subsection")
+    @Expose
+    private String subsection;
+
+    @SerializedName("published_date")
+    @Expose
+    private String publishedDate;
+
+    @SerializedName("short_url")
+    @Expose
+    private String shortUrl;
+
+    @SerializedName("multimedia")
+    @Expose
+    private List<TopStoriesMultimedia> topStoriesMultimediaList = null;
+
+    public String getTitle() {
+        return title;
     }
 
-    public String sectionSubsection(APIClient apiClient) {
-        String sectionSubsection;
-        String section;
-        String subsection;
-
-            section = apiClient.getResultList().get(0).getSection();
-            subsection = apiClient.getResultList().get(0).getSubsection();
-            // If subsection is empty, don't call it
-            if (subsection.equals(""))
-                sectionSubsection = section;
-            else
-                sectionSubsection = section + " > " + subsection;
-            return sectionSubsection;
+    public String getSection() {
+        return section;
     }
 
-    public String date(APIClient apiClient) {
-        return apiClient.getResultList().get(0).getPublishedDate();
+    public String getSubsection() {
+        return subsection;
     }
 
-    public String image(APIClient apiClient) {
-        return apiClient.getResultList().get(0).getMultimedia().get(0).getUrl();
-
+    public String getPublishedDate() {
+        return publishedDate;
     }
 
-    public String url(APIClient apiClient) {
-        return apiClient.getResultList().get(0).getShortUrl();
+    public String getShortUrl() {
+        return shortUrl;
     }
 
+    public List<TopStoriesMultimedia> getTopStoriesMultimediaList() {
+        return topStoriesMultimediaList;
+    }
 }

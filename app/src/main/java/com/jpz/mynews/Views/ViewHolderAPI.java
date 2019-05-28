@@ -44,7 +44,7 @@ public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnCli
     public void updateViewHolder(GenericNews genericNews, RequestManager glide, AdapterAPI.Listener callback){
         // Update widgets
         textViewTitle.setText(genericNews.title);
-        textViewSection.setText(genericNews.section);
+        textViewSection.setText(convertSectionSubsection(genericNews.section, genericNews.subSection));
         textViewDate.setText(convertDate(genericNews.date));
         glide.load(genericNews.image).into(imageView);
 
@@ -54,7 +54,18 @@ public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnCli
         itemView.setOnClickListener(this);
     }
 
-    public String convertDate(String DateAPI) {
+    private String convertSectionSubsection(String section, String subSection) {
+        // Display section & subsection of an article
+        String sectionSubsection;
+        // If subsection is empty, don't call it
+        if (subSection.equals(""))
+            sectionSubsection = section;
+        else
+            sectionSubsection = section + " > " + subSection;
+        return sectionSubsection;
+    }
+
+    private String convertDate(String DateAPI) {
         // Build date in dd/MM/yyyy for PubDate
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());

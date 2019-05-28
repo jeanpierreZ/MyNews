@@ -1,27 +1,59 @@
 package com.jpz.mynews.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class MostPopular {
 
-    public String title(APIClient apiClient) {
-        return apiClient.getResultList().get(0).getTitle();
+    @SerializedName("title")
+    @Expose
+    private String title;
+
+    @SerializedName("section")
+    @Expose
+    private String section;
+
+    @SerializedName("subsection")
+    @Expose
+    private String subsection;
+
+    @SerializedName("published_date")
+    @Expose
+    private String publishedDate;
+
+    @SerializedName("url")
+    @Expose
+    private String url;
+
+    @SerializedName("media")
+    @Expose
+    private List<MostPopularMedia> mostPopularMediaList = null;
+
+
+    public String getTitle() {
+        return title;
     }
 
-    public String sectionSubsection(APIClient apiClient) {
-
-        return apiClient.getResultList().get(0).getSection();
+    public String getSection() {
+        return section;
     }
 
-    public String date(APIClient apiClient) {
-        return apiClient.getResultList().get(0).getPublishedDate();
+    public String getSubsection() {
+        return subsection;
     }
 
-    public String image(APIClient apiClient) {
-        return apiClient.getResultList().get(0).getMedia().get(0).getMediaMetadata().get(0).getUrl();
-
+    public String getPublishedDate() {
+        return publishedDate;
     }
 
-    public String url(APIClient apiClient) {
-        return apiClient.getResultList().get(0).getUrl();
+    public String getUrl() {
+        return url;
+    }
+
+    public List<MostPopularMedia> getMostPopularMediaList() {
+        return mostPopularMediaList;
     }
 
 }

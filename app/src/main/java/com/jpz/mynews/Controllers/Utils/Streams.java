@@ -4,7 +4,10 @@ import android.util.Log;
 
 import com.jpz.mynews.Models.APIClient;
 import com.jpz.mynews.Models.GenericNews;
+import com.jpz.mynews.Models.Result;
 import com.jpz.mynews.Models.TopStories;
+import com.jpz.mynews.Models.TopStoriesMultimedia;
+import com.jpz.mynews.Models.TopStoriesResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,21 +30,7 @@ public class Streams {
     private static int page;
 
 
-    //private static List<GenericNews> genericNewsList;
-
-
-
-    // Public method to start fetching the result for Top Stories
-    public static Observable<APIClient> fetchTopStories(String section){
-        // Get a Retrofit instance and the related Observable of the Interface
-        Service service = Service.retrofit.create(Service.class);
-        // Create the call on Top Stories API
-        return service.getTopStories(section)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
-    }
-
+/*
     // Public method to start fetching the result for Most Popular
     public static Observable<APIClient> fetchMostPopular(int period) {
         // Get a Retrofit instance and the related Observable of the Interface
@@ -52,6 +41,7 @@ public class Streams {
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
+*/
 
     // Public method to start fetching the result for Article Search
     public static Observable<APIClient>
@@ -68,182 +58,59 @@ public class Streams {
     // --------------------------------------------------------------------------------------
 
 
-    public static Observable<List<String>> topStoriesToString() {
-        return fetchTopStories(Service.API_TOPSTORIES_SECTION)
-                .map(new Function<APIClient, List<String>>() {
-                    @Override
-                    public List<String> apply(APIClient apiClient) throws Exception {
-                        String title;
-                        String date;
-                        String sectionSubsection;
-                        String image;
-                        String url;
-
-                        title = apiClient.getResultList().get(0).getTitle();
-                        date = apiClient.getResultList().get(0).getPublishedDate();
-                        sectionSubsection = apiClient.getResultList().get(0).getSection();
-                        image = apiClient.getResultList().get(0).getMultimedia().get(0).getUrl();
-                        url = apiClient.getResultList().get(0).getShortUrl();
-
-                        List<String> list = new ArrayList<>();
-                        list.add(title);
-                        list.add(date);
-                        list.add(sectionSubsection);
-                        list.add(image);
-                        list.add(url);
-
-                        Log.i("TAG", "je contiens" + list );
-
-                        return list;
-                    }
-                });
+    // Public method to start fetching the result for Top Stories
+    public static Observable<TopStoriesResponse> fetchTopStories(String section){
+        // Get a Retrofit instance and the related Observable of the Interface
+        Service service = Service.retrofit.create(Service.class);
+        // Create the call on Top Stories API
+        return service.getTopStories(section)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
     }
 
-/*
-
-    public static Observable<List<GenericNews>> generifyTopStories() {
+    // Public method to start fetching the result for Top Stories
+    public static Observable<List<GenericNews>> fetchStoriesToGeneric(){
         return fetchTopStories(Service.API_TOPSTORIES_SECTION)
-                .map(new Function<APIClient, List<GenericNews>>() {
+                .map(new Function<TopStoriesResponse, List<TopStories>>() {
                     @Override
-                    public List<GenericNews> apply(APIClient apiClient) throws Exception {
+                    public List<TopStories> apply(TopStoriesResponse response) throws Exception {
+
+                        return response.getTopStoriesList();
+                    }
+                }).map(new Function<List<TopStories>, List<GenericNews>>() {
+                    @Override
+                    public List<GenericNews> apply(List<TopStories> topStoriesList) throws Exception {
 
                         List<GenericNews> genericNewsList = new ArrayList<>();
 
-                        GenericNews genericNews = new GenericNews();
+                        for(TopStories topStories : topStoriesList){
 
-                        genericNews.title = apiClient.getResultList().get(0).getTitle();
-                        genericNews.date = apiClient.getResultList().get(0).getPublishedDate();
-                        genericNews.sectionSubsection = apiClient.getResultList().get(0).getSection();
+                            GenericNews genericNews = new GenericNews();
 
+                            genericNews.title = topStories.getTitle();
+                            genericNews.date = topStories.getPublishedDate();
+                            genericNews.section = topStories.getSection();
+                            genericNews.subSection = topStories.getSubsection();
+                            genericNews.image = topStories.getTopStoriesMultimediaList().get(0).getUrl();
+                            genericNews.url = topStories.getShortUrl();
 
-                        genericNews.news.add(genericNews.title);
-                        genericNews.news.add(genericNews.date);
-                        genericNews.news.add(genericNews.sectionSubsection);
-
-
-                        Log.i("TAG", "je contiens" +  genericNewsList);
-
+                            genericNewsList.add(genericNews);
+                        }
                         return genericNewsList;
                     }
                 });
     }
 
-
-
-    public static Observable<List<GenericNews>> convertTopStoriesToGeneric() {
-        return fetchTopStories(Service.API_TOPSTORIES_SECTION)
-                .map(new Function<APIClient, List<String>>() {
-                    @Override
-                    public List<String> apply(APIClient apiClient) throws Exception {
-                        String title;
-                        String date;
-                        String sectionSubsection;
-                        String image;
-                        String url;
-
-                        title = apiClient.getResultList().get(0).getTitle();
-                        date = apiClient.getResultList().get(0).getPublishedDate();
-                        sectionSubsection = apiClient.getResultList().get(0).getSection();
-                        image = apiClient.getResultList().get(0).getMultimedia().get(0).getUrl();
-                        url = apiClient.getResultList().get(0).getShortUrl();
-
-                        List<String> list = new ArrayList<>();
-                        list.add(title);
-                        list.add(date);
-                        list.add(sectionSubsection);
-                        list.add(image);
-                        list.add(url);
-
-                        Log.i("TAG", "je contiens" + list );
-
-                        return list;
-                    }
-                })
-                .flatMap(list ->
-                        Observable.fromIterable(list)
-                                .map(item -> new GenericNews())
-                                .toList()
-                                .toObservable() // Required for RxJava 2.x
-                );
-    }
-
-
-
-
-    public static Observable<List<TopStories>> testTopStories() {
-        return fetchTopStories(Service.API_TOPSTORIES_SECTION)
-                .map(new Function<APIClient, List<TopStories>>() {
-                    @Override
-                    public List<TopStories> apply(APIClient apiClient) throws Exception {
-
-                        TopStories topStories = new TopStories();
-
-                        topStories.getTopStoriesList();
-
-                        return topStories.getTopStoriesList();
-                    }
-                });
-    }
-
-
-    public static Observable<List<GenericNews>> generifyTopStories() {
-        return fetchTopStories(Service.API_TOPSTORIES_SECTION)
-                .map(new Function<APIClient, List<TopStories>>() {
-                    @Override
-                    public List<TopStories> apply(APIClient apiClient) throws Exception {
-                        return apiClient.getTopStoriesList();
-                    }
-                })
-                .flatMap(list ->
-                Observable.fromIterable(list)
-                        .map(item -> new GenericNews())
-                        .toList()
-                        .toObservable() // Required for RxJava 2.x
-        )
+    // Public method to start fetching the result for Most Popular
+    public static Observable<APIClient> fetchMostPopular(int period) {
+        // Get a Retrofit instance and the related Observable of the Interface
+        Service service = Service.retrofit.create(Service.class);
+        // Create the call on Most Popular API
+        return service.getMostPopular(period)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
-
-
-
-    public static Observable<List<GenericNews>> generifyMostPopular() {
-        return fetchMostPopular(Service.API_PERIOD)
-                .map(new Function<APIClient, List<MostPopular>>() {
-                    @Override
-                    public List<MostPopular> apply(APIClient apiClient) throws Exception {
-                        return apiClient.getMostPopularList();
-                    }
-                })
-                .flatMap(list ->
-                        Observable.fromIterable(list)
-                                .map(item -> new GenericNews())
-                                .toList()
-                                .toObservable() // Required for RxJava 2.x
-                )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
-    }
-
-    public static Observable<List<GenericNews>> generifyArticleSearch() {
-        return fetchArticleSearch(facetFields, newsDesk, sortOrder, page)
-                .map(new Function<APIClient, List<ArticleSearch>>() {
-                    @Override
-                    public List<ArticleSearch> apply(APIClient apiClient) throws Exception {
-                        return apiClient.getArticleSearchList();
-                    }
-                })
-                .flatMap(list ->
-                        Observable.fromIterable(list)
-                                .map(item -> new GenericNews())
-                                .toList()
-                                .toObservable() // Required for RxJava 2.x
-                )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
-    }
-    */
 
 }

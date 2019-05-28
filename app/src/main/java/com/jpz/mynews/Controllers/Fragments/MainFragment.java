@@ -13,21 +13,18 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.jpz.mynews.Controllers.Activities.WebViewActivity;
-import com.jpz.mynews.Controllers.Utils.GetData;
 import com.jpz.mynews.Controllers.Utils.Service;
 import com.jpz.mynews.Controllers.Utils.Streams;
 import com.jpz.mynews.Models.API;
 import com.jpz.mynews.Models.GenericNews;
 import com.jpz.mynews.Models.APIClient;
 import com.jpz.mynews.Models.MostPopular;
-import com.jpz.mynews.Models.Result;
-import com.jpz.mynews.Models.TopStories;
+
 import com.jpz.mynews.R;
 import com.jpz.mynews.Views.AdapterAPI;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
@@ -43,19 +40,12 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     private Disposable disposable;
 
     // Declare list of results & Adapter
-    private List<Result> resultList;
     private AdapterAPI adapterAPI;
     private List<GenericNews> genericNewsList;
 
-    private List<TopStories> topStoriesList = new ArrayList<>();
     private MostPopular mostPopular = new MostPopular();
 
 
-    //private GenericNews genericNews = new GenericNews();
-
-    private GetData getData;
-
-    private APIClient apiClient;
     private API api;
 
     // Create keys for Bundle & Intent
@@ -161,94 +151,13 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     // Execute TopStories stream
     private void executeTopStoriesRequest(){
         // Execute the stream subscribing to Observable defined inside Stream
-        this.disposable = Streams.fetchTopStories(Service.API_TOPSTORIES_SECTION)
-                .subscribeWith(new DisposableObserver<APIClient>() {
-                    @Override
-                    public void onNext(APIClient apiClient) {
-                        Log.i("TAG","On Next TopStories");
-                        // Update UI with result of Top Stories
-
-                        List<GenericNews> list = new ArrayList<>();
-
-                        GenericNews genericNews = new GenericNews();
-
-                        genericNews.title = apiClient.getResultList().get(0).getTitle();
-                        Log.i("TAG","title :" + genericNews.title);
-                        genericNews.date = apiClient.getResultList().get(0).getPublishedDate();
-                        Log.i("TAG","date :" + genericNews.date);
-                        genericNews.section = apiClient.getResultList().get(0).getSection();
-                        Log.i("TAG","section :" + genericNews.section);
-                        genericNews.image = apiClient.getResultList().get(0).getMultimedia().get(0).getUrl();
-                        genericNews.url = apiClient.getResultList().get(0).getShortUrl();
-
-                        list.add(genericNews);
-
-
-                        Log.i("TAG","la liste :" + list);
-
-                        updateUI(list);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("TAG","On Error TopStories" + Log.getStackTraceString(e));
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.i("TAG","On Complete TopStories");
-                    }
-                });
-    }
-
-
-
-    /*
-
-    // Execute TopStories stream
-    private void generifyTopStoriesRequest(){
-        // Execute the stream subscribing to Observable defined inside Stream
-        this.disposable = Streams.generifyTopStories()
+        this.disposable = Streams.fetchStoriesToGeneric()
                 .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                     @Override
                     public void onNext(List<GenericNews> genericNewsList) {
-                        Log.i("TAG","On Next TopStories liste : " + genericNewsList);
-                        // Update UI with result of Top Stories
-
-                        //updateUI(genericNewsList);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("TAG","On Error TopStories" + Log.getStackTraceString(e));
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.i("TAG","On Complete TopStories");
-                    }
-                });
-    }
-
-
-    // Execute TopStories stream
-    private void topToString(){
-        // Execute the stream subscribing to Observable defined inside Stream
-        this.disposable = Streams.topStoriesToString()
-                .subscribeWith(new DisposableObserver<List<String>>() {
-                    @Override
-                    public void onNext(List<String> list) {
-                        Log.i("TAG","On Next TopStories" + " liste :" + list);
-                        // Update UI with result of Top Stories
-
-                        List<GenericNews> genericNewsList = new ArrayList<>();
-
-
-
-                        Log.i("TAG","genericNewsList : " + genericNewsList);
-
+                        Log.i("TAG","On Next TopStories");
+                        // Update UI with results
                         updateUI(genericNewsList);
-
                     }
 
                     @Override
@@ -263,74 +172,30 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
                 });
     }
 
-
-    // Execute TopStories stream
-    private void topToList(){
+    // Execute MostPopular stream
+    private void executeMostPopularRequest(){
         // Execute the stream subscribing to Observable defined inside Stream
-        this.disposable = Streams.topStoriesToList()
-                .subscribeWith(new DisposableObserver<List<TopStories>>() {
+        this.disposable = Streams.fetchMostPopular(Service.API_PERIOD)
+                .subscribeWith(new DisposableObserver<APIClient>() {
                     @Override
-                    public void onNext(List<TopStories> list) {
-                        Log.i("TAG","On Next TopStories" + "liste :" + list);
-                        // Update UI with result of Top Stories
+                    public void onNext(APIClient apiClient) {
+                        Log.i("TAG","On Next MostPopular");
+                        // Update UI with result of Most Popular
 
-
+                        //updateUI();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("TAG","On Error TopStories" + Log.getStackTraceString(e));
+                        Log.e("TAG","On Error MostPopular" + Log.getStackTraceString(e));
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.i("TAG","On Complete TopStories");
+                        Log.i("TAG","On Complete MostPopular");
                     }
                 });
     }
-*/
-
-        // Execute MostPopular stream
-        private void executeMostPopularRequest(){
-            // Execute the stream subscribing to Observable defined inside Stream
-            this.disposable = Streams.fetchMostPopular(Service.API_PERIOD)
-                    .subscribeWith(new DisposableObserver<APIClient>() {
-                        @Override
-                        public void onNext(APIClient apiClient) {
-                            Log.i("TAG","On Next MostPopular");
-                            // Update UI with result of Most Popular
-
-                            List<MostPopular> mostPopularList = new ArrayList<>();
-
-                            mostPopular.title(apiClient);
-                            mostPopular.date(apiClient);
-                            mostPopular.sectionSubsection(apiClient);
-                            mostPopular.image(apiClient);
-                            mostPopular.url(apiClient);
-
-                            Log.i("TAG","title :" + mostPopular.title(apiClient));
-
-                            /*
-                            genericNewsList = mostPopularList.stream()
-                                    .filter(elt -> elt != null)
-                                    .map(elt -> doSomething(elt))
-                                    .collect(Collectors.toList());
-                                    */
-
-                            //updateUI();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e("TAG","On Error MostPopular" + Log.getStackTraceString(e));
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            Log.i("TAG","On Complete MostPopular");
-                        }
-                    });
-        }
 
         /*
         // Execute ArticleSearch stream
@@ -368,12 +233,9 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     }
 
     //  Update UI for Top Stories
-    private void updateUI(List<GenericNews> list){
-        genericNewsList.addAll(list);
+    private void updateUI(List<GenericNews> newsList){
+        genericNewsList.addAll(newsList);
         adapterAPI.notifyDataSetChanged();
     }
-
-
-
 
 }

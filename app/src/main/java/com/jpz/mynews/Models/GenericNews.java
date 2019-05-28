@@ -9,10 +9,12 @@ public class GenericNews {
 
     public String title;
     public String section;
+    public String subSection;
     public String date;
     public String image;
     public String url;
 
+       /*
 
     public void configureTopStories(APIClient apiClient) {
         title = apiClient.getResultList().get(0).getTitle();
@@ -21,9 +23,6 @@ public class GenericNews {
         image = apiClient.getResultList().get(0).getMultimedia().get(0).getUrl();
         url = apiClient.getResultList().get(0).getShortUrl();
     }
-
-
-    /*
 
     public String title ="title";
     public String date = "date";
@@ -36,22 +35,22 @@ public class GenericNews {
     private TopStories topStories = new TopStories();
     private ArticleSearch articleSearch = new ArticleSearch();
 
-    private GenericNews genericNews = new GenericNews();
+    private List<GenericNews> genericNewsList = new ArrayList<>();
 
 
-    public List getMostPopular(){
-        title = mostPopular.title();
-        sectionSubsection = mostPopular.sectionSubsection();
-        date = mostPopular.date();
-        image = mostPopular.image();
-        url = mostPopular.url();
+    public List getMostPopular(APIClient apiClient){
+        title = mostPopular.title(apiClient);
+        section = mostPopular.sectionSubsection(apiClient);
+        date = mostPopular.date(apiClient);
+        image = mostPopular.image(apiClient);
+        url = mostPopular.url(apiClient);
         return genericNewsList;
     }
 
 
     public List getArticleSearch(){
         title = articleSearch.title();
-        sectionSubsection = apiClient.getResultList().get(0).getSection();
+        section = apiClient.getResultList().get(0).getSection();
         date = apiClient.getResultList().get(0).getPublishedDate();
         image = "";
         url = "";

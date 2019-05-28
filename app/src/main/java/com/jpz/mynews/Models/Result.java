@@ -31,26 +31,13 @@ public class Result {
     @Expose
     private String url;
 
-    @SerializedName("uri")
-    @Expose
-    private String uri;
-
-    @SerializedName("web_url")
-    @Expose
-    private String webUrl;
-
     @SerializedName("pub_date")
     @Expose
     private String pubDate;
 
-    @SerializedName("news_desk")
-    @Expose
-    private String newsDesk;
-
     @SerializedName("section_name")
     @Expose
     private String sectionName;
-
 
     @SerializedName("multimedia")
     @Expose
@@ -68,21 +55,12 @@ public class Result {
         return media;
     }
 
-
     public String getSubsection() {
         return subsection;
     }
 
-    public String getWebUrl() {
-        return webUrl;
-    }
-
     public String getPubDate() {
         return pubDate;
-    }
-
-    public String getNewsDesk() {
-        return newsDesk;
     }
 
     public String getSectionName() {
@@ -107,10 +85,6 @@ public class Result {
 
     public String getSection() {
         return section;
-    }
-
-    public String getUri() {
-        return uri;
     }
 
 }
