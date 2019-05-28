@@ -17,9 +17,9 @@ public class TopStoriesResponse {
 
     @SerializedName("results")
     @Expose
-    private List<TopStories> topStoriesList = null;
+    private List<Result> resultList = null;
 
-    public List<TopStories> getTopStoriesList() {
-        return topStoriesList;
+    public List<Result> getResultList() {
+        return resultList;
     }
 }

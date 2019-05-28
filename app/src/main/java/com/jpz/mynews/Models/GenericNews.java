@@ -16,7 +16,7 @@ public class GenericNews {
 
        /*
 
-    public void configureTopStories(APIClient apiClient) {
+    public void configureTopStories(APINews apiClient) {
         title = apiClient.getResultList().get(0).getTitle();
         section = apiClient.getResultList().get(0).getSection();
         date = apiClient.getResultList().get(0).getPublishedDate();
@@ -38,7 +38,7 @@ public class GenericNews {
     private List<GenericNews> genericNewsList = new ArrayList<>();
 
 
-    public List getMostPopular(APIClient apiClient){
+    public List getMostPopular(APINews apiClient){
         title = mostPopular.title(apiClient);
         section = mostPopular.sectionSubsection(apiClient);
         date = mostPopular.date(apiClient);

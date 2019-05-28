@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.jpz.mynews.Controllers.Activities.WebViewActivity;
-import com.jpz.mynews.Controllers.Utils.Streams;
+import com.jpz.mynews.Controllers.Utils.APIClient;
 import com.jpz.mynews.Models.API;
 import com.jpz.mynews.Models.GenericNews;
 
@@ -143,7 +143,7 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     // Execute TopStories stream
     private void executeTopStoriesRequest(){
         // Execute the stream subscribing to Observable defined inside Stream
-        this.disposable = Streams.fetchStoriesToGeneric()
+        this.disposable = APIClient.fetchStoriesToGeneric()
                 .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                     @Override
                     public void onNext(List<GenericNews> genericNewsList) {
@@ -167,7 +167,7 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     // Execute MostPopular stream
     private void executeMostPopularRequest(){
         // Execute the stream subscribing to Observable defined inside Stream
-        this.disposable = Streams.fetchPopularToGeneric()
+        this.disposable = APIClient.fetchPopularToGeneric()
                 .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                     @Override
                     public void onNext(List<GenericNews> genericNewsList) {
@@ -191,7 +191,7 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
         // Execute ArticleSearch stream
         private void executeArticleSearchRequest(){
             // Execute the stream subscribing to Observable defined inside Stream
-            this.disposable = Streams.fetchSearchToGeneric()
+            this.disposable = APIClient.fetchSearchToGeneric()
                     .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                         @Override
                         public void onNext(List<GenericNews> genericNewsList) {

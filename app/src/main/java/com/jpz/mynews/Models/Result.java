@@ -31,14 +31,6 @@ public class Result {
     @Expose
     private String url;
 
-    @SerializedName("pub_date")
-    @Expose
-    private String pubDate;
-
-    @SerializedName("section_name")
-    @Expose
-    private String sectionName;
-
     @SerializedName("multimedia")
     @Expose
     private List<Multimedium> multimedia = null;
@@ -51,20 +43,13 @@ public class Result {
     @Expose
     private List<Medium> media = null;
 
+
     public List<Medium> getMedia() {
         return media;
     }
 
     public String getSubsection() {
         return subsection;
-    }
-
-    public String getPubDate() {
-        return pubDate;
-    }
-
-    public String getSectionName() {
-        return sectionName;
     }
 
     public String getTitle() {

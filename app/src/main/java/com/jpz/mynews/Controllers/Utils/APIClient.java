@@ -1,16 +1,11 @@
 package com.jpz.mynews.Controllers.Utils;
 
-import android.util.Log;
-
-import com.jpz.mynews.Models.APIClient;
-import com.jpz.mynews.Models.ArticleSearch;
 import com.jpz.mynews.Models.ArticleSearchResponse;
 import com.jpz.mynews.Models.Doc;
 import com.jpz.mynews.Models.GenericNews;
-import com.jpz.mynews.Models.MostPopular;
 import com.jpz.mynews.Models.MostPopularResponse;
 
-import com.jpz.mynews.Models.TopStories;
+import com.jpz.mynews.Models.Result;
 import com.jpz.mynews.Models.TopStoriesResponse;
 
 import java.util.ArrayList;
@@ -22,7 +17,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-public class Streams {
+public class APIClient {
     // Class for streams the New York Times APIs with Observables of RxJava
 
     // Public method to start fetching the result for Top Stories
@@ -39,28 +34,28 @@ public class Streams {
     // Public method to start fetching the result for Top Stories
     public static Observable<List<GenericNews>> fetchStoriesToGeneric(){
         return fetchTopStories(Service.API_TOPSTORIES_SECTION)
-                .map(new Function<TopStoriesResponse, List<TopStories>>() {
+                .map(new Function<TopStoriesResponse, List<Result>>() {
                     @Override
-                    public List<TopStories> apply(TopStoriesResponse response) throws Exception {
+                    public List<Result> apply(TopStoriesResponse response) throws Exception {
 
-                        return response.getTopStoriesList();
+                        return response.getResultList();
                     }
-                }).map(new Function<List<TopStories>, List<GenericNews>>() {
+                }).map(new Function<List<Result>, List<GenericNews>>() {
                     @Override
-                    public List<GenericNews> apply(List<TopStories> topStoriesList) throws Exception {
+                    public List<GenericNews> apply(List<Result> resultList) throws Exception {
 
                         List<GenericNews> genericNewsList = new ArrayList<>();
 
-                        for(TopStories topStories : topStoriesList){
+                        for(Result result : resultList){
 
                             GenericNews genericNews = new GenericNews();
 
-                            genericNews.title = topStories.getTitle();
-                            genericNews.date = topStories.getPublishedDate();
-                            genericNews.section = topStories.getSection();
-                            genericNews.subSection = topStories.getSubsection();
-                            genericNews.image = topStories.getTopStoriesMultimediaList().get(0).getUrl();
-                            genericNews.url = topStories.getShortUrl();
+                            genericNews.title = result.getTitle();
+                            genericNews.date = result.getPublishedDate();
+                            genericNews.section = result.getSection();
+                            genericNews.subSection = result.getSubsection();
+                            genericNews.image = result.getMultimedia().get(0).getUrl();
+                            genericNews.url = result.getShortUrl();
 
                             genericNewsList.add(genericNews);
                         }
@@ -83,28 +78,28 @@ public class Streams {
     // Public method to start fetching the result for Top Stories
     public static Observable<List<GenericNews>> fetchPopularToGeneric(){
         return fetchMostPopular(Service.API_PERIOD)
-                .map(new Function<MostPopularResponse, List<MostPopular>>() {
+                .map(new Function<MostPopularResponse, List<Result>>() {
                     @Override
-                    public List<MostPopular> apply(MostPopularResponse response) throws Exception {
+                    public List<Result> apply(MostPopularResponse response) throws Exception {
 
-                        return response.getMostPopularList();
+                        return response.getResultList();
                     }
-                }).map(new Function<List<MostPopular>, List<GenericNews>>() {
+                }).map(new Function<List<Result>, List<GenericNews>>() {
                     @Override
-                    public List<GenericNews> apply(List<MostPopular> mostPopularList) throws Exception {
+                    public List<GenericNews> apply(List<Result> resultList) throws Exception {
 
                         List<GenericNews> genericNewsList = new ArrayList<>();
 
-                        for(MostPopular mostPopular : mostPopularList){
+                        for(Result result : resultList){
 
                             GenericNews genericNews = new GenericNews();
 
-                            genericNews.title = mostPopular.getTitle();
-                            genericNews.date = mostPopular.getPublishedDate();
-                            genericNews.section = mostPopular.getSection();
-                            genericNews.image = mostPopular.getMostPopularMediaList().get(0)
-                                    .getMostPopularMediaMetadaList().get(0).getUrl();
-                            genericNews.url = mostPopular.getUrl();
+                            genericNews.title = result.getTitle();
+                            genericNews.date = result.getPublishedDate();
+                            genericNews.section = result.getSection();
+                            genericNews.image = result.getMedia().get(0)
+                                    .getMediaMetadata().get(0).getUrl();
+                            genericNews.url = result.getUrl();
 
                             genericNewsList.add(genericNews);
                         }

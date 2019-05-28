@@ -17,10 +17,10 @@ public class MostPopularResponse {
 
     @SerializedName("results")
     @Expose
-    private List<MostPopular> mostPopularList = null;
+    private List<Result> resultList = null;
 
-    public List<MostPopular> getMostPopularList() {
-        return mostPopularList;
+    public List<Result> getResultList() {
+        return resultList;
     }
 
 }

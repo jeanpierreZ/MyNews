@@ -1,6 +1,5 @@
 package com.jpz.mynews.Controllers.Utils;
 
-import com.jpz.mynews.Models.APIClient;
 import com.jpz.mynews.Models.ArticleSearchResponse;
 import com.jpz.mynews.Models.MostPopularResponse;
 import com.jpz.mynews.Models.TopStoriesResponse;
