@@ -92,7 +92,7 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
                 executeMostPopularRequest();
                 break;
             case Foreign:
-                //executeArticleSearchRequest(Service.API_FILTER_FOREIGN);
+                executeArticleSearchRequest();
                 break;
             case Financial:
                 //executeArticleSearchRequest(Service.API_FILTER_FINANCIAL);
@@ -188,22 +188,16 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
                 });
     }
 
-        /*
         // Execute ArticleSearch stream
-        private void executeArticleSearchRequest(String filter){
+        private void executeArticleSearchRequest(){
             // Execute the stream subscribing to Observable defined inside Stream
-            int page = 0;
-
-            this.disposable = Streams.fetchArticleSearch
-                    (Service.API_FACET_FIELDS, filter,
-                            Service.API_FILTER_SORT_ORDER, page)
-                    .subscribeWith(new DisposableObserver<APIClient>() {
+            this.disposable = Streams.fetchSearchToGeneric()
+                    .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                         @Override
-                        public void onNext(APIClient apiClient) {
+                        public void onNext(List<GenericNews> genericNewsList) {
                             Log.i("TAG","On Next ArticleSearch");
-                            // Update UI with a filter of ArticleSearch
-                            updateUI(apiClient);
-
+                            // Update UI with a list of ArticleSearch
+                            updateUI(genericNewsList);
                         }
 
                         @Override
@@ -217,7 +211,7 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
                         }
                     });
         }
-    */
+
     // Dispose subscription
     private void disposeWhenDestroy(){
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
