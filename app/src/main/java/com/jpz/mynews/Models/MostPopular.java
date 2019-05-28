@@ -15,10 +15,6 @@ public class MostPopular {
     @Expose
     private String section;
 
-    @SerializedName("subsection")
-    @Expose
-    private String subsection;
-
     @SerializedName("published_date")
     @Expose
     private String publishedDate;
@@ -38,10 +34,6 @@ public class MostPopular {
 
     public String getSection() {
         return section;
-    }
-
-    public String getSubsection() {
-        return subsection;
     }
 
     public String getPublishedDate() {

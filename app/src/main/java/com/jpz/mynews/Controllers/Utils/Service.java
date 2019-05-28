@@ -1,6 +1,7 @@
 package com.jpz.mynews.Controllers.Utils;
 
 import com.jpz.mynews.Models.APIClient;
+import com.jpz.mynews.Models.MostPopularResponse;
 import com.jpz.mynews.Models.TopStoriesResponse;
 
 import io.reactivex.Observable;
@@ -46,15 +47,15 @@ public interface Service {
             // RxJava Adapter
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build();
-/*
+
     // GET type of REST request for Top Stories
     @GET("topstories/v2/{section}.json?api-key=" + API_KEY)
-    Observable<APIClient>
+    Observable<TopStoriesResponse>
     getTopStories(@Path("section") String sectionValue);
-*/
+
     // GET type of REST request for Most Popular
     @GET("mostpopular/v2/viewed/{period}.json?api-key=" + API_KEY)
-    Observable<APIClient>
+    Observable<MostPopularResponse>
     getMostPopular(@Path("period") int period);
 
     // GET type of REST request for Article Search
@@ -62,12 +63,5 @@ public interface Service {
     Observable<APIClient>
     getArticleSearch(@Query("facet_fields") String facetFields, @Query("fq") String newsDesk,
                      @Query("sort") String sortOrder, @Query("page") int page);
-
-
-    // GET type of REST request for Top Stories
-    @GET("topstories/v2/{section}.json?api-key=" + API_KEY)
-    Observable<TopStoriesResponse>
-    getTopStories(@Path("section") String sectionValue);
-
 
 }

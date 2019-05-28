@@ -32,7 +32,6 @@ public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnCli
     // Declare a Weak Reference to our Callback
     private WeakReference<AdapterAPI.Listener> callbackWeakRef;
 
-
     public ViewHolderAPI(@NonNull View itemView) {
         super(itemView);
         textViewTitle = itemView.findViewById(R.id.fragment_main_item_title);
@@ -57,11 +56,19 @@ public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnCli
     private String convertSectionSubsection(String section, String subSection) {
         // Display section & subsection of an article
         String sectionSubsection;
-        // If subsection is empty, don't call it
-        if (subSection.equals(""))
-            sectionSubsection = section;
-        else
+        // If subsection is null...
+        if (subSection != null)
+
+            // If subsection is empty, don't call it
+            if (subSection.isEmpty())
+                sectionSubsection = section;
+            else
             sectionSubsection = section + " > " + subSection;
+
+        // ...don't call it
+        else
+            sectionSubsection = section;
+
         return sectionSubsection;
     }
 

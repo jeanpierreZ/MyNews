@@ -13,12 +13,9 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.jpz.mynews.Controllers.Activities.WebViewActivity;
-import com.jpz.mynews.Controllers.Utils.Service;
 import com.jpz.mynews.Controllers.Utils.Streams;
 import com.jpz.mynews.Models.API;
 import com.jpz.mynews.Models.GenericNews;
-import com.jpz.mynews.Models.APIClient;
-import com.jpz.mynews.Models.MostPopular;
 
 import com.jpz.mynews.R;
 import com.jpz.mynews.Views.AdapterAPI;
@@ -42,11 +39,6 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     // Declare list of results & Adapter
     private AdapterAPI adapterAPI;
     private List<GenericNews> genericNewsList;
-
-    private MostPopular mostPopular = new MostPopular();
-
-
-    private API api;
 
     // Create keys for Bundle & Intent
     private static final String KEY_POSITION = "position";
@@ -156,7 +148,7 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
                     @Override
                     public void onNext(List<GenericNews> genericNewsList) {
                         Log.i("TAG","On Next TopStories");
-                        // Update UI with results
+                        // Update UI with list of TopStories
                         updateUI(genericNewsList);
                     }
 
@@ -175,14 +167,13 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     // Execute MostPopular stream
     private void executeMostPopularRequest(){
         // Execute the stream subscribing to Observable defined inside Stream
-        this.disposable = Streams.fetchMostPopular(Service.API_PERIOD)
-                .subscribeWith(new DisposableObserver<APIClient>() {
+        this.disposable = Streams.fetchPopularToGeneric()
+                .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                     @Override
-                    public void onNext(APIClient apiClient) {
+                    public void onNext(List<GenericNews> genericNewsList) {
                         Log.i("TAG","On Next MostPopular");
-                        // Update UI with result of Most Popular
-
-                        //updateUI();
+                        // Update UI with lis of MostPopular
+                        updateUI(genericNewsList);
                     }
 
                     @Override

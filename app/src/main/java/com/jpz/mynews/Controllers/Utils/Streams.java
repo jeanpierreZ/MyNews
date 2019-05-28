@@ -4,9 +4,10 @@ import android.util.Log;
 
 import com.jpz.mynews.Models.APIClient;
 import com.jpz.mynews.Models.GenericNews;
-import com.jpz.mynews.Models.Result;
+import com.jpz.mynews.Models.MostPopular;
+import com.jpz.mynews.Models.MostPopularResponse;
+
 import com.jpz.mynews.Models.TopStories;
-import com.jpz.mynews.Models.TopStoriesMultimedia;
 import com.jpz.mynews.Models.TopStoriesResponse;
 
 import java.util.ArrayList;
@@ -20,28 +21,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class Streams {
     // Class for streams the New York Times APIs with Observables of RxJava
-
-    private static String section;
-    private static int period;
-
-    private static String facetFields;
-    private static String newsDesk;
-    private static String sortOrder;
-    private static int page;
-
-
-/*
-    // Public method to start fetching the result for Most Popular
-    public static Observable<APIClient> fetchMostPopular(int period) {
-        // Get a Retrofit instance and the related Observable of the Interface
-        Service service = Service.retrofit.create(Service.class);
-        // Create the call on Most Popular API
-        return service.getMostPopular(period)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
-    }
-*/
 
     // Public method to start fetching the result for Article Search
     public static Observable<APIClient>
@@ -103,7 +82,7 @@ public class Streams {
     }
 
     // Public method to start fetching the result for Most Popular
-    public static Observable<APIClient> fetchMostPopular(int period) {
+    public static Observable<MostPopularResponse> fetchMostPopular(int period) {
         // Get a Retrofit instance and the related Observable of the Interface
         Service service = Service.retrofit.create(Service.class);
         // Create the call on Most Popular API
@@ -111,6 +90,39 @@ public class Streams {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
+    }
+
+    // Public method to start fetching the result for Top Stories
+    public static Observable<List<GenericNews>> fetchPopularToGeneric(){
+        return fetchMostPopular(Service.API_PERIOD)
+                .map(new Function<MostPopularResponse, List<MostPopular>>() {
+                    @Override
+                    public List<MostPopular> apply(MostPopularResponse response) throws Exception {
+
+                        return response.getMostPopularList();
+                    }
+                }).map(new Function<List<MostPopular>, List<GenericNews>>() {
+                    @Override
+                    public List<GenericNews> apply(List<MostPopular> mostPopularList) throws Exception {
+
+                        List<GenericNews> genericNewsList = new ArrayList<>();
+
+                        for(MostPopular mostPopular : mostPopularList){
+
+                            GenericNews genericNews = new GenericNews();
+
+                            genericNews.title = mostPopular.getTitle();
+                            genericNews.date = mostPopular.getPublishedDate();
+                            genericNews.section = mostPopular.getSection();
+                            genericNews.image = mostPopular.getMostPopularMediaList().get(0)
+                                    .getMostPopularMediaMetadaList().get(0).getUrl();
+                            genericNews.url = mostPopular.getUrl();
+
+                            genericNewsList.add(genericNews);
+                        }
+                        return genericNewsList;
+                    }
+                });
     }
 
 }
