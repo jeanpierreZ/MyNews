@@ -2,6 +2,7 @@ package com.jpz.mynews.Controllers.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.jpz.mynews.Controllers.Activities.WebViewActivity;
@@ -35,6 +38,7 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
 
     // For data
     private Disposable disposable;
+    private int page;
 
     // Declare list of results & Adapter
     private AdapterAPI adapterAPI;
@@ -43,6 +47,12 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     // Create keys for Bundle & Intent
     private static final String KEY_POSITION = "position";
     public static final String KEY_URL = "item";
+
+    // Fields (Boolean) to detect more scrolling
+    private LinearLayoutManager layoutManager;
+    private ProgressBar progressBar;
+    private boolean loadMore = false;
+    private int currentItems, totalItems, scrollOutItems;
 
     public MainFragment() {
         // Required empty public constructor
@@ -71,6 +81,9 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
         // Get RecyclerView from layout and serialise it
         recyclerView = view.findViewById(R.id.fragment_main_recycler_view);
 
+        // Get ProgressBar
+        progressBar = view.findViewById(R.id.progressbar);
+
         // Call during UI creation
         configureRecyclerView();
 
@@ -92,7 +105,7 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
                     executeMostPopularRequest();
                     break;
                 case Foreign:
-                    executeArticleSearchRequest();
+                    executeArticleSearchRequest(page);
                     break;
                 case Financial:
                     //executeArticleSearchRequest(Service.API_FILTER_FINANCIAL);
@@ -138,6 +151,44 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
         this.recyclerView.setAdapter(adapterAPI);
         // Set layout manager to position the items
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // Add On Scroll Listener
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
+                    loadMore = true;
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                layoutManager = new LinearLayoutManager(getContext());
+
+                currentItems = layoutManager.getChildCount();
+                totalItems = layoutManager.getItemCount();
+                scrollOutItems = layoutManager.findFirstVisibleItemPosition();
+
+                if (loadMore && currentItems + scrollOutItems == totalItems)
+                    // Data fetch
+                    loadMore = false;
+                fetchData();
+            }
+        });
+    }
+
+    private void fetchData() {
+        progressBar.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                executeArticleSearchRequest(++page);
+                adapterAPI.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+            }
+        }, 2000);
     }
 
     // Execute TopStories stream
@@ -189,9 +240,9 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     }
 
     // Execute ArticleSearch stream
-    private void executeArticleSearchRequest(){
+    private void executeArticleSearchRequest(int page){
         // Execute the stream subscribing to Observable defined inside Stream
-        this.disposable = APIClient.fetchSearchToGeneric()
+        this.disposable = APIClient.fetchSearchToGeneric(page)
                 .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                     @Override
                     public void onNext(List<GenericNews> genericNewsList) {

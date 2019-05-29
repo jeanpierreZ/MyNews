@@ -123,9 +123,9 @@ public class APIClient {
     }
 
     // Public method to start fetching the result for Top Stories
-    public static Observable<List<GenericNews>> fetchSearchToGeneric(){
+    public static Observable<List<GenericNews>> fetchSearchToGeneric(int page){
         return fetchArticleSearch(Service.API_FACET_FIELDS, Service.API_DESK_FOREIGN,
-                Service.API_FILTER_SORT_ORDER, 0)
+                Service.API_FILTER_SORT_ORDER, page)
                 .map(new Function<ArticleSearchResponse, List<Doc>>() {
                     @Override
                     public List<Doc> apply(ArticleSearchResponse response) throws Exception {
