@@ -5,8 +5,6 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.jpz.mynews.Controllers.Utils.Service;
-import com.jpz.mynews.Controllers.Utils.Streams;
-import com.jpz.mynews.Models.APIClient;
 import com.jpz.mynews.Models.GenericNews;
 
 import java.util.ArrayList;
@@ -62,7 +60,7 @@ public class TopStoriesFragment extends NewsFragment {
         // Required empty public constructor
     }
 
-
+/*
     // Execute TopStories stream
     private void executeTopStoriesRequest(){
         // Execute the stream subscribing to Observable defined inside Stream
@@ -95,7 +93,7 @@ public class TopStoriesFragment extends NewsFragment {
                 });
     }
 
-/*
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

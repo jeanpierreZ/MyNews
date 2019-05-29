@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.RequestManager;
 
 import com.jpz.mynews.Models.GenericNews;
-import com.jpz.mynews.Models.Result;
 import com.jpz.mynews.R;
 
 import java.lang.ref.WeakReference;
@@ -33,7 +32,6 @@ public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnCli
     // Declare a Weak Reference to our Callback
     private WeakReference<AdapterAPI.Listener> callbackWeakRef;
 
-
     public ViewHolderAPI(@NonNull View itemView) {
         super(itemView);
         textViewTitle = itemView.findViewById(R.id.fragment_main_item_title);
@@ -44,10 +42,10 @@ public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnCli
 
     public void updateViewHolder(GenericNews genericNews, RequestManager glide, AdapterAPI.Listener callback){
         // Update widgets
-        textViewTitle.setText(genericNews.getTitle());
-        textViewSection.setText(genericNews.getSection());
-        textViewDate.setText(convertDate(genericNews.getDate()));
-        glide.load(genericNews.getImage()).into(imageView);
+        textViewTitle.setText(genericNews.title);
+        textViewSection.setText(convertSectionSubsection(genericNews.section, genericNews.subSection));
+        textViewDate.setText(convertDate(genericNews.date));
+        glide.load(genericNews.image).into(imageView);
 
         // Create a new weak Reference to our Listener
         this.callbackWeakRef = new WeakReference<>(callback);
@@ -55,7 +53,26 @@ public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnCli
         itemView.setOnClickListener(this);
     }
 
-    public String convertDate(String DateAPI) {
+    private String convertSectionSubsection(String section, String subSection) {
+        // Display section & subsection of an article
+        String sectionSubsection;
+        // If subsection is null...
+        if (subSection != null)
+
+            // If subsection is empty, don't call it
+            if (subSection.isEmpty())
+                sectionSubsection = section;
+            else
+                sectionSubsection = section + " > " + subSection;
+
+            // ...don't call it
+        else
+            sectionSubsection = section;
+
+        return sectionSubsection;
+    }
+
+    private String convertDate(String DateAPI) {
         // Build date in dd/MM/yyyy for PubDate
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());

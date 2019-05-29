@@ -1,9 +1,9 @@
 package com.jpz.mynews;
 
 import android.support.test.runner.AndroidJUnit4;
-import com.jpz.mynews.Controllers.Utils.Streams;
+import com.jpz.mynews.Controllers.Utils.APIClient;
 import com.jpz.mynews.Controllers.Utils.Service;
-import com.jpz.mynews.Models.APIClient;
+import com.jpz.mynews.Models.TopStoriesResponse;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,17 +11,16 @@ import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 import static junit.framework.TestCase.assertEquals;
 
-
 @RunWith(AndroidJUnit4.class)
 public class ObservablesTest {
 
     @Test
     public void fetchTopStoriesTest() throws Exception {
         // Get the stream
-        Observable<APIClient> topStoriesObservable = Streams
+        Observable<TopStoriesResponse> topStoriesObservable = APIClient
                 .fetchTopStories(Service.API_TOPSTORIES_SECTION);
         // Create a new TestObserver
-        TestObserver<APIClient> topStoriesTestObserver = new TestObserver<>();
+        TestObserver<TopStoriesResponse> topStoriesTestObserver = new TestObserver<>();
         // Launch observable
         topStoriesObservable.subscribeWith(topStoriesTestObserver)
                 .assertNoErrors() // Check if no errors
@@ -29,7 +28,7 @@ public class ObservablesTest {
                 .awaitTerminalEvent(); // Await the stream terminated before continue
 
         // Get result of topStories fetched
-        APIClient topStoriesFetched = topStoriesTestObserver.values().get(0);
+        TopStoriesResponse topStoriesFetched = topStoriesTestObserver.values().get(0);
 
         /*
         Verify if the GET request connection is OK ( = 200) with getStatus.

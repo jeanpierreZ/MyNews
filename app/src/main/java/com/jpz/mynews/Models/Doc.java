@@ -22,16 +22,10 @@ public class Doc {
     @Expose
     private String pubDate;
 
-    @SerializedName("news_desk")
-    @Expose
-    private String newsDesk;
     @SerializedName("section_name")
     @Expose
     private String sectionName;
 
-    @SerializedName("uri")
-    @Expose
-    private String uri;
 
     public String getWebUrl() {
         return webUrl;
@@ -49,16 +43,8 @@ public class Doc {
         return pubDate;
     }
 
-    public String getNewsDesk() {
-        return newsDesk;
-    }
-
     public String getSectionName() {
         return sectionName;
-    }
-
-    public String getUri() {
-        return uri;
     }
 
 }

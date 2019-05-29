@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class APIClient {
+public class MostPopularResponse {
 
     @SerializedName("status")
     @Expose
@@ -22,14 +22,5 @@ public class APIClient {
     public List<Result> getResultList() {
         return resultList;
     }
-
-    @SerializedName("response")
-    @Expose
-    private Response response;
-
-    public Response getResponse() {
-        return response;
-    }
-
 
 }

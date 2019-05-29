@@ -1,6 +1,8 @@
 package com.jpz.mynews.Controllers.Utils;
 
-import com.jpz.mynews.Models.APIClient;
+import com.jpz.mynews.Models.ArticleSearchResponse;
+import com.jpz.mynews.Models.MostPopularResponse;
+import com.jpz.mynews.Models.TopStoriesResponse;
 
 import io.reactivex.Observable;
 
@@ -24,12 +26,12 @@ public interface Service {
     // Time period : 1, 7, or 30 days ; the following values are allowed: 1, 7, 30
     int API_PERIOD = 7;
 
-    String API_FILTER_ENVIRONMENT = "Environment";
-    String API_FILTER_FINANCIAL = "Financial";
-    String API_FILTER_FOREIGN = "Foreign";
-    String API_FILTER_SCIENCE = "Science";
-    String API_FILTER_SPORTS = "Sports";
-    String API_FILTER_TECHNOLOGY = "Technology";
+    String API_DESK_ENVIRONMENT = "Environment";
+    String API_DESK_FINANCIAL = "Financial";
+    String API_DESK_FOREIGN = "Foreign";
+    String API_DESK_SCIENCE = "Science";
+    String API_DESK_SPORTS = "Sports";
+    String API_DESK_TECHNOLOGY = "Technology";
 
     String API_FACET_FIELDS = "news_desk";
 
@@ -48,17 +50,18 @@ public interface Service {
 
     // GET type of REST request for Top Stories
     @GET("topstories/v2/{section}.json?api-key=" + API_KEY)
-    Observable<APIClient>
+    Observable<TopStoriesResponse>
     getTopStories(@Path("section") String sectionValue);
 
     // GET type of REST request for Most Popular
     @GET("mostpopular/v2/viewed/{period}.json?api-key=" + API_KEY)
-    Observable<APIClient>
+    Observable<MostPopularResponse>
     getMostPopular(@Path("period") int period);
 
     // GET type of REST request for Article Search
     @GET("search/v2/articlesearch.json?api-key=" + API_KEY)
-    Observable<APIClient>
+    Observable<ArticleSearchResponse>
     getArticleSearch(@Query("facet_fields") String facetFields, @Query("fq") String newsDesk,
                      @Query("sort") String sortOrder, @Query("page") int page);
+
 }

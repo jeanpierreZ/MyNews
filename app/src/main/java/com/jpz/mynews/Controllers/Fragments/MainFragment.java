@@ -11,12 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.jpz.mynews.Controllers.Activities.WebViewActivity;
-import com.jpz.mynews.Controllers.Utils.Service;
-import com.jpz.mynews.Controllers.Utils.Streams;
+import com.jpz.mynews.Controllers.Utils.APIClient;
 import com.jpz.mynews.Models.API;
-import com.jpz.mynews.Models.APIClient;
-import com.jpz.mynews.Models.Result;
+import com.jpz.mynews.Models.GenericNews;
+
 import com.jpz.mynews.R;
 import com.jpz.mynews.Views.AdapterAPI;
 
@@ -37,8 +37,8 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     private Disposable disposable;
 
     // Declare list of results & Adapter
-    private List<Result> resultList;
     private AdapterAPI adapterAPI;
+    private List<GenericNews> genericNewsList;
 
     // Create keys for Bundle & Intent
     private static final String KEY_POSITION = "position";
@@ -82,25 +82,25 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
         // Get data from Bundle
         API api = (API) getArguments().getSerializable(KEY_POSITION);
         if (api != null)
-        switch (api) {
-            // Load articles of NY Times when launching the app
-            // Execute streams after UI creation
-            case TopStories:
-                executeTopStoriesRequest();
-                break;
-            case MostPopular:
-                executeMostPopularRequest();
-                break;
-            case Foreign:
-                executeArticleSearchRequest(Service.API_FILTER_FOREIGN);
-                break;
-            case Financial:
-                executeArticleSearchRequest(Service.API_FILTER_FINANCIAL);
-                break;
-            case Technology:
-                executeArticleSearchRequest(Service.API_FILTER_TECHNOLOGY);
-                break;
-        }
+            switch (api) {
+                // Load articles of NY Times when launching the app
+                // Execute streams after UI creation
+                case TopStories:
+                    executeTopStoriesRequest();
+                    break;
+                case MostPopular:
+                    executeMostPopularRequest();
+                    break;
+                case Foreign:
+                    executeArticleSearchRequest();
+                    break;
+                case Financial:
+                    //executeArticleSearchRequest(Service.API_FILTER_FINANCIAL);
+                    break;
+                case Technology:
+                    //executeArticleSearchRequest(Service.API_FILTER_TECHNOLOGY);
+                    break;
+            }
         return view;
     }
 
@@ -115,11 +115,11 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     @Override
     public void onClickItem(int position) {
         // Save the url of the item in the RecyclerView
-        //String url = adapterAPI.getPosition(position).getShortUrl();
+        String url = adapterAPI.getPosition(position).url;
 
         // Spread the click with the url to WebViewActivity
         Intent intent = new Intent(getActivity(), WebViewActivity.class);
-        //intent.putExtra(KEY_URL, url);
+        intent.putExtra(KEY_URL, url);
         startActivity(intent);
     }
 
@@ -131,25 +131,25 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
 
     private void configureRecyclerView(){
         // Reset list
-        resultList = new ArrayList<>();
+        this.genericNewsList = new ArrayList<>();
         // Create adapter passing the list of articles
-        //adapterAPI = new AdapterAPI(resultList, Glide.with(this), this);
+        this.adapterAPI = new AdapterAPI(genericNewsList, Glide.with(this), this);
         // Attach the adapter to the recyclerView to populate items
-        recyclerView.setAdapter(adapterAPI);
+        this.recyclerView.setAdapter(adapterAPI);
         // Set layout manager to position the items
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     // Execute TopStories stream
     private void executeTopStoriesRequest(){
         // Execute the stream subscribing to Observable defined inside Stream
-        this.disposable = Streams.fetchTopStories(Service.API_TOPSTORIES_SECTION)
-                .subscribeWith(new DisposableObserver<APIClient>() {
+        this.disposable = APIClient.fetchStoriesToGeneric()
+                .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                     @Override
-                    public void onNext(APIClient apiClient) {
+                    public void onNext(List<GenericNews> genericNewsList) {
                         Log.i("TAG","On Next TopStories");
-                        // Update UI with result of Top Stories
-                        updateUI(apiClient);
+                        // Update UI with list of TopStories
+                        updateUI(genericNewsList);
                     }
 
                     @Override
@@ -167,13 +167,13 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     // Execute MostPopular stream
     private void executeMostPopularRequest(){
         // Execute the stream subscribing to Observable defined inside Stream
-        this.disposable = Streams.fetchMostPopular(Service.API_PERIOD)
-                .subscribeWith(new DisposableObserver<APIClient>() {
+        this.disposable = APIClient.fetchPopularToGeneric()
+                .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                     @Override
-                    public void onNext(APIClient apiClient) {
+                    public void onNext(List<GenericNews> genericNewsList) {
                         Log.i("TAG","On Next MostPopular");
-                        // Update UI with result of Most Popular
-                        updateUI(apiClient);
+                        // Update UI with lis of MostPopular
+                        updateUI(genericNewsList);
                     }
 
                     @Override
@@ -189,18 +189,15 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     }
 
     // Execute ArticleSearch stream
-    private void executeArticleSearchRequest(String filter){
+    private void executeArticleSearchRequest(){
         // Execute the stream subscribing to Observable defined inside Stream
-        int page = 0;
-
-        this.disposable = Streams.fetchArticleSearch
-                (Service.API_FACET_FIELDS, filter,
-                        Service.API_FILTER_SORT_ORDER, page)
-                .subscribeWith(new DisposableObserver<APIClient>() {
+        this.disposable = APIClient.fetchSearchToGeneric()
+                .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                     @Override
-                    public void onNext(APIClient apiClient) {
+                    public void onNext(List<GenericNews> genericNewsList) {
                         Log.i("TAG","On Next ArticleSearch");
-                        // Update UI with a filter of ArticleSearch
+                        // Update UI with a list of ArticleSearch
+                        updateUI(genericNewsList);
                     }
 
                     @Override
@@ -221,8 +218,8 @@ public class MainFragment extends Fragment implements AdapterAPI.Listener {
     }
 
     //  Update UI for Top Stories
-    private void updateUI(APIClient apiClient){
-        resultList.addAll(apiClient.getResultList());
+    private void updateUI(List<GenericNews> newsList){
+        genericNewsList.addAll(newsList);
         adapterAPI.notifyDataSetChanged();
     }
 

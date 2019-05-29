@@ -9,7 +9,6 @@ public class MediaMetadatum {
     @Expose
     private String url;
 
-
     public String getUrl() {
         return url;
     }

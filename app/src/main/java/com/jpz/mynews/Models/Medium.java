@@ -15,5 +15,4 @@ public class Medium {
         return mediaMetadata;
     }
 
-
 }
