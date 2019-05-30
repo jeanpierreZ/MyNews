@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         configureToolbar();
         configureViewPagerAndTabs();
-        configureAndShowMainFragment();
+        //configureAndShowMainFragment();
     }
 
     @Override
@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
+
+    /*
     private void configureAndShowMainFragment(){
 
         mainFragment = (MainFragment) getSupportFragmentManager()
@@ -82,4 +84,5 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
     }
+    */
 }

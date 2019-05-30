@@ -23,7 +23,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopStoriesFragment extends NewsFragment {
+public class MostPopularFragment extends NewsFragment {
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -53,16 +53,17 @@ public class TopStoriesFragment extends NewsFragment {
 
     @Override
     public List fetchNews(int page) {
-        return fetchNews(0);
+        return fetchNews(1);
     }
 
-
-    public TopStoriesFragment() {
+    public MostPopularFragment() {
         // Required empty public constructor
     }
 
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
         // Get RecyclerView from layout and serialise it
@@ -72,37 +73,38 @@ public class TopStoriesFragment extends NewsFragment {
         progressBar = view.findViewById(R.id.fragment_news_progressbar);
 
         configureRecyclerView();
-        executeTopStoriesRequest();
+        executeMostPopularRequest();
 
         return view;
     }
 
-    public static TopStoriesFragment newInstance() {
-        return (new TopStoriesFragment());
+    public static MostPopularFragment newInstance() {
+        return (new MostPopularFragment());
     }
 
-    // Execute TopStories stream
-    private void executeTopStoriesRequest(){
+    // Execute MostPopular stream
+    private void executeMostPopularRequest(){
         // Execute the stream subscribing to Observable defined inside Stream
-        this.disposable = APIClient.fetchStoriesToGeneric()
+        this.disposable = APIClient.fetchPopularToGeneric()
                 .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                     @Override
                     public void onNext(List<GenericNews> genericNewsList) {
-                        Log.i("TAG","On Next TopStories");
-                        // Update UI with list of TopStories
+                        Log.i("TAG","On Next MostPopular");
+                        // Update UI with lis of MostPopular
                         updateUI(genericNewsList);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("TAG","On Error TopStories" + Log.getStackTraceString(e));
+                        Log.e("TAG","On Error MostPopular" + Log.getStackTraceString(e));
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.i("TAG","On Complete TopStories");
+                        Log.i("TAG","On Complete MostPopular");
                     }
                 });
     }
+
 
 }
