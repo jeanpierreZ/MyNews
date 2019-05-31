@@ -32,7 +32,7 @@ public class APIClient {
     }
 
     // Public method to start fetching the result for Top Stories
-    public static Observable<List<GenericNews>> fetchStoriesToGeneric(){
+    public static Observable<List<GenericNews>> getTopStoriesNews(){
         return fetchTopStories(Service.API_TOPSTORIES_SECTION)
                 .map(new Function<TopStoriesResponse, List<Result>>() {
                     @Override
@@ -78,7 +78,7 @@ public class APIClient {
     }
 
     // Public method to start fetching the result for Top Stories
-    public static Observable<List<GenericNews>> fetchPopularToGeneric(){
+    public static Observable<List<GenericNews>> getMostPopularNews(){
         return fetchMostPopular(Service.API_PERIOD)
                 .map(new Function<MostPopularResponse, List<Result>>() {
                     @Override
@@ -123,8 +123,8 @@ public class APIClient {
     }
 
     // Public method to start fetching the result for Top Stories
-    public static Observable<List<GenericNews>> fetchSearchToGeneric(int page){
-        return fetchArticleSearch(Service.API_FACET_FIELDS, Service.API_DESK_FOREIGN,
+    public static Observable<List<GenericNews>> getArticleSearchNews(String desk, int page){
+        return fetchArticleSearch(Service.API_FACET_FIELDS, desk,
                 Service.API_FILTER_SORT_ORDER, page)
                 .map(new Function<ArticleSearchResponse, List<Doc>>() {
                     @Override

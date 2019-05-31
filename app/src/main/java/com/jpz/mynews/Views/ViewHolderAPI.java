@@ -34,10 +34,10 @@ public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnCli
 
     public ViewHolderAPI(@NonNull View itemView) {
         super(itemView);
-        textViewTitle = itemView.findViewById(R.id.fragment_main_item_title);
-        textViewSection = itemView.findViewById(R.id.fragment_main_item_section);
-        textViewDate = itemView.findViewById(R.id.fragment_main_item_date);
-        imageView = itemView.findViewById(R.id.fragment_main_item_image);
+        textViewTitle = itemView.findViewById(R.id.fragment_item_title);
+        textViewSection = itemView.findViewById(R.id.fragment_item_section);
+        textViewDate = itemView.findViewById(R.id.fragment_item_date);
+        imageView = itemView.findViewById(R.id.fragment_item_image);
     }
 
     public void updateViewHolder(GenericNews genericNews, RequestManager glide, AdapterAPI.Listener callback){

@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.jpz.mynews.R;
 
-import static com.jpz.mynews.Controllers.Fragments.MainFragment.KEY_URL;
+import static com.jpz.mynews.Controllers.Fragments.NewsFragment.KEY_URL;
 
 public class WebViewActivity extends AppCompatActivity {
 

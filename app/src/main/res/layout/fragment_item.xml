@@ -17,7 +17,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/fragment_main_item_image"
+            android:id="@+id/fragment_item_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"
@@ -36,7 +36,7 @@
                 android:layout_weight="3">
 
                 <TextView
-                    android:id="@+id/fragment_main_item_section"
+                    android:id="@+id/fragment_item_section"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:lines="1"
@@ -45,7 +45,7 @@
                     android:padding="8dp" />
 
                 <TextView
-                    android:id="@+id/fragment_main_item_date"
+                    android:id="@+id/fragment_item_date"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="end"
@@ -54,7 +54,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/fragment_main_item_title"
+                android:id="@+id/fragment_item_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:lines="2"

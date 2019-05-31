@@ -5,13 +5,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.jpz.mynews.Controllers.Fragments.ArticleSearchFragment;
-import com.jpz.mynews.Controllers.Fragments.MainFragment;
 import com.jpz.mynews.Controllers.Fragments.MostPopularFragment;
 import com.jpz.mynews.Controllers.Fragments.TopStoriesFragment;
-import com.jpz.mynews.Models.API;
+import com.jpz.mynews.Controllers.Utils.Desk;
 
 public class PageAdapter extends FragmentStatePagerAdapter {
 
+    // Field for the number of page to show
     private static final int NUM_ITEMS = 5;
 
     // Default Constructor
@@ -34,36 +34,15 @@ public class PageAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return MostPopularFragment.newInstance();
             case 2:
-                return ArticleSearchFragment.newInstance();
+                return ArticleSearchFragment.newInstance(Desk.Foreign);
             case 3:
-                return ArticleSearchFragment.newInstance();
+                return ArticleSearchFragment.newInstance(Desk.Financial);
             case 4:
-                return ArticleSearchFragment.newInstance();
+                return ArticleSearchFragment.newInstance(Desk.Technology);
             default:
                 return null;
         }
     }
-
-    /*
-    @Override
-    public Fragment getItem(int position) {
-        // Page to return
-        switch (position) {
-            case 0:
-                return MainFragment.newInstance(API.TopStories);
-            case 1:
-                return MainFragment.newInstance(API.MostPopular);
-            case 2:
-                return MainFragment.newInstance(API.Foreign);
-            case 3:
-                return MainFragment.newInstance(API.Financial);
-            case 4:
-                return MainFragment.newInstance(API.Technology);
-            default:
-                return MainFragment.newInstance(API.TopStories);
-        }
-    }
-    */
 
     @Override
     public CharSequence getPageTitle(int position) {

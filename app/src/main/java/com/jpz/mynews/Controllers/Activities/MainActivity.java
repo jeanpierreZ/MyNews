@@ -9,13 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.jpz.mynews.Controllers.Fragments.MainFragment;
 import com.jpz.mynews.R;
 import com.jpz.mynews.Views.PageAdapter;
 
 public class MainActivity extends AppCompatActivity {
-
-    private MainFragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
         configureToolbar();
         configureViewPagerAndTabs();
-        //configureAndShowMainFragment();
     }
 
     @Override
@@ -70,19 +66,4 @@ public class MainActivity extends AppCompatActivity {
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
-
-    /*
-    private void configureAndShowMainFragment(){
-
-        mainFragment = (MainFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.activity_main_viewpager);
-
-        if (mainFragment == null) {
-            mainFragment = new MainFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.activity_main_viewpager, mainFragment)
-                    .commit();
-        }
-    }
-    */
 }

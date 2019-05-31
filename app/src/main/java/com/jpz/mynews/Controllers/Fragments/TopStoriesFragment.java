@@ -1,7 +1,6 @@
 package com.jpz.mynews.Controllers.Fragments;
 
 
-
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -27,9 +26,9 @@ public class TopStoriesFragment extends NewsFragment implements AdapterAPI.Liste
     }
 
     @Override
-    protected void executeRequest(int page) {
+    protected void executeRequest(String desk, int page) {
         // Execute the stream subscribing to Observable defined inside Stream
-        this.disposable = APIClient.fetchStoriesToGeneric()
+        this.disposable = APIClient.getTopStoriesNews()
                 .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                     @Override
                     public void onNext(List<GenericNews> genericNewsList) {

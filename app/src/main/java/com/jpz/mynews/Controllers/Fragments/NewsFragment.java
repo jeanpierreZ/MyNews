@@ -33,6 +33,7 @@ public abstract class NewsFragment extends Fragment implements AdapterAPI.Listen
     protected RecyclerView recyclerView;
     protected Disposable disposable;
     protected int page;
+    protected String desk;
 
     // Declare list of news & Adapter
     protected AdapterAPI adapterAPI;
@@ -52,24 +53,27 @@ public abstract class NewsFragment extends Fragment implements AdapterAPI.Listen
     }
 
     // Overloading methods for child fragments
-    protected abstract void executeRequest(int page);
+    protected abstract void executeRequest(String desk, int page);
     protected abstract void fetchData();
 
-        @Override
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Get layout of this fragment
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_news, container, false);
 
         // Get RecyclerView from layout and serialise it
-        recyclerView = view.findViewById(R.id.fragment_main_recycler_view);
+        recyclerView = view.findViewById(R.id.fragment_news_recycler_view);
 
         // Get ProgressBar
-        progressBar = view.findViewById(R.id.progressbar);
+        progressBar = view.findViewById(R.id.fragment_news_progressbar);
 
         // Call during UI creation
         configureRecyclerView();
-        executeRequest(page);
+
+        // Load articles of NY Times when launching the app
+        // Execute streams after UI creation
+        executeRequest(desk, page);
 
         return view;
     }

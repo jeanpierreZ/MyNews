@@ -41,7 +41,7 @@ public class AdapterAPI extends RecyclerView.Adapter<ViewHolderAPI> {
         // Create ViewHolderAPI and inflating its xml layout
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.fragment_main_item, viewGroup, false);
+        View view = inflater.inflate(R.layout.fragment_item, viewGroup, false);
 
         return new ViewHolderAPI(view);
     }
