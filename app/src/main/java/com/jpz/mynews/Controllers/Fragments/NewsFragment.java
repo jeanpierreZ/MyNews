@@ -3,7 +3,6 @@ package com.jpz.mynews.Controllers.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,49 +29,46 @@ import io.reactivex.disposables.Disposable;
  */
 public abstract class NewsFragment extends Fragment implements AdapterAPI.Listener {
 
-    private RecyclerView recyclerView;
+    protected RecyclerView recyclerView;
 
     // For data
-    private Disposable disposable;
+    protected Disposable disposable;
+    protected int page;
 
     // Declare list of results & Adapter
-    private List<GenericNews> genericNewsList = new ArrayList<>();
-    private AdapterAPI adapterAPI;
-
-    // Fields (Boolean) to detect more scrolling
-    private LinearLayoutManager layoutManager;
-    private ProgressBar progressBar;
-    private boolean loadMore = false;
-    private int currentItems, totalItems, scrollOutItems;
-
+    protected AdapterAPI adapterAPI;
+    protected List<GenericNews> genericNewsList;
 
     // Create keys for Intent
     public static final String KEY_URL = "item";
 
-    // Force developer implement those methods
-    //protected abstract int getFragmentLayout();
-    protected abstract void updateRecyclerView();
-    protected abstract void destroyView();
-    protected abstract void updateOnClickItem();
-    protected abstract void fetchData();
-
-    //protected abstract void updateNewsUI();
-
-    public abstract List fetchNews(int page);
-
+    // Fields (Boolean) to detect more scrolling
+    protected LinearLayoutManager layoutManager;
+    protected ProgressBar progressBar;
+    protected boolean loadMore = false;
+    protected int currentItems, totalItems, scrollOutItems;
 
     public NewsFragment() {
         // Required empty public constructor
     }
 
-    @Override
+    protected abstract void executeRequest(int page);
+
+    protected abstract void updateUI(List<GenericNews> newsList);
+
+    protected abstract void fetchData();
+
+
+
+
+        @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Get layout of this fragment
-        View view = inflater.inflate(R.layout.fragment_news, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Get RecyclerView from layout and serialise it
-        recyclerView = view.findViewById(R.id.fragment_news_recycler_view);
+        recyclerView = view.findViewById(R.id.fragment_main_recycler_view);
 
         // Get ProgressBar
         progressBar = view.findViewById(R.id.progressbar);
@@ -80,17 +76,16 @@ public abstract class NewsFragment extends Fragment implements AdapterAPI.Listen
         // Call during UI creation
         configureRecyclerView();
 
+        executeRequest(page);
+
         return view;
     }
-
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         // Dispose subscription when activity is destroyed
         this.disposeWhenDestroy();
-
-        destroyView();
     }
 
     // Override the method to load url
@@ -103,19 +98,23 @@ public abstract class NewsFragment extends Fragment implements AdapterAPI.Listen
         Intent intent = new Intent(getActivity(), WebViewActivity.class);
         intent.putExtra(KEY_URL, url);
         startActivity(intent);
-
-        updateOnClickItem();
     }
 
-    public void configureRecyclerView(){
+    // -------------------
+    // HTTP (RxJAVA)
+    // -------------------
+
+    // Configure RecyclerViews, Adapters, LayoutManager & glue it together
+
+    protected void configureRecyclerView(){
         // Reset list
-        List<GenericNews> genericNewsList = new ArrayList<>();
+        this.genericNewsList = new ArrayList<>();
         // Create adapter passing the list of articles
-        adapterAPI = new AdapterAPI(genericNewsList, Glide.with(this), this);
+        this.adapterAPI = new AdapterAPI(genericNewsList, Glide.with(this), this);
         // Attach the adapter to the recyclerView to populate items
-        recyclerView.setAdapter(adapterAPI);
+        this.recyclerView.setAdapter(adapterAPI);
         // Set layout manager to position the items
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Add On Scroll Listener
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -142,18 +141,11 @@ public abstract class NewsFragment extends Fragment implements AdapterAPI.Listen
                 fetchData();
             }
         });
-        updateRecyclerView();
     }
 
     // Dispose subscription
-    private void disposeWhenDestroy(){
+    protected void disposeWhenDestroy(){
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
-    }
-
-    //  Update UI for Top Stories
-    public void updateUI(List<GenericNews> newsList){
-        genericNewsList.addAll(newsList);
-        adapterAPI.notifyDataSetChanged();
     }
 
 }

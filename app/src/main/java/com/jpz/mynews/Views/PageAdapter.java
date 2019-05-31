@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.jpz.mynews.Controllers.Fragments.ArticleSearchFragment;
 import com.jpz.mynews.Controllers.Fragments.MainFragment;
 import com.jpz.mynews.Controllers.Fragments.MostPopularFragment;
-import com.jpz.mynews.Controllers.Fragments.NewsFragment;
 import com.jpz.mynews.Controllers.Fragments.TopStoriesFragment;
 import com.jpz.mynews.Models.API;
 
@@ -51,7 +50,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         // Page to return
         switch (position) {
             case 0:
-                return TopStoriesFragment.newInstance();
+                return MainFragment.newInstance(API.TopStories);
             case 1:
                 return MainFragment.newInstance(API.MostPopular);
             case 2:
