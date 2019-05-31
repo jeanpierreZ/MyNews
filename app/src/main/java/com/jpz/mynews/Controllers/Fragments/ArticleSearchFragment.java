@@ -52,12 +52,6 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterAPI.Li
     }
 
     @Override
-    protected void updateUI(List<GenericNews> newsList) {
-        genericNewsList.addAll(newsList);
-        adapterAPI.notifyDataSetChanged();
-    }
-
-    @Override
     protected void fetchData() {
         progressBar.setVisibility(View.VISIBLE);
         new Handler().postDelayed(new Runnable() {

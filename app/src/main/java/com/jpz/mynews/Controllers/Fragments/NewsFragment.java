@@ -29,13 +29,12 @@ import io.reactivex.disposables.Disposable;
  */
 public abstract class NewsFragment extends Fragment implements AdapterAPI.Listener {
 
-    protected RecyclerView recyclerView;
-
     // For data
+    protected RecyclerView recyclerView;
     protected Disposable disposable;
     protected int page;
 
-    // Declare list of results & Adapter
+    // Declare list of news & Adapter
     protected AdapterAPI adapterAPI;
     protected List<GenericNews> genericNewsList;
 
@@ -52,14 +51,9 @@ public abstract class NewsFragment extends Fragment implements AdapterAPI.Listen
         // Required empty public constructor
     }
 
+    // Overloading methods for child fragments
     protected abstract void executeRequest(int page);
-
-    protected abstract void updateUI(List<GenericNews> newsList);
-
     protected abstract void fetchData();
-
-
-
 
         @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -75,7 +69,6 @@ public abstract class NewsFragment extends Fragment implements AdapterAPI.Listen
 
         // Call during UI creation
         configureRecyclerView();
-
         executeRequest(page);
 
         return view;
@@ -141,6 +134,11 @@ public abstract class NewsFragment extends Fragment implements AdapterAPI.Listen
                 fetchData();
             }
         });
+    }
+
+    protected void updateUI(List<GenericNews> newsList) {
+        genericNewsList.addAll(newsList);
+        adapterAPI.notifyDataSetChanged();
     }
 
     // Dispose subscription

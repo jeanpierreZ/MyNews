@@ -51,13 +51,5 @@ public class TopStoriesFragment extends NewsFragment implements AdapterAPI.Liste
     }
 
     @Override
-    protected void updateUI(List<GenericNews> newsList) {
-        genericNewsList.addAll(newsList);
-        adapterAPI.notifyDataSetChanged();
-    }
-
-    @Override
-    protected void fetchData() {
-
-    }
+    protected void fetchData() { }
 }
