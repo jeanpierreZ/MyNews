@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.jpz.mynews.Controllers.Utils.APIClient;
 import com.jpz.mynews.Models.GenericNews;
-import com.jpz.mynews.Views.AdapterAPI;
+import com.jpz.mynews.Views.AdapterNews;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopStoriesFragment extends NewsFragment implements AdapterAPI.Listener {
+public class TopStoriesFragment extends NewsFragment implements AdapterNews.Listener {
 
     public TopStoriesFragment() {
         // Required empty public constructor
@@ -26,8 +26,8 @@ public class TopStoriesFragment extends NewsFragment implements AdapterAPI.Liste
     }
 
     @Override
-    protected void executeRequest(String desk, int page) {
-        // Execute the stream subscribing to Observable defined inside Stream
+    protected void fetchData() {
+        // Execute the stream subscribing to Observable defined inside APIClient
         this.disposable = APIClient.getTopStoriesNews()
                 .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                     @Override
@@ -49,6 +49,4 @@ public class TopStoriesFragment extends NewsFragment implements AdapterAPI.Liste
                 });
     }
 
-    @Override
-    protected void fetchData() { }
 }

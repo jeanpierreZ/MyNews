@@ -21,7 +21,7 @@ import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
-public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class ViewHolderNews extends RecyclerView.ViewHolder implements View.OnClickListener {
     // Represent an item (line) in the RecyclerView
 
     private TextView textViewTitle;
@@ -30,9 +30,9 @@ public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnCli
     private ImageView imageView;
 
     // Declare a Weak Reference to our Callback
-    private WeakReference<AdapterAPI.Listener> callbackWeakRef;
+    private WeakReference<AdapterNews.Listener> callbackWeakRef;
 
-    public ViewHolderAPI(@NonNull View itemView) {
+    public ViewHolderNews(@NonNull View itemView) {
         super(itemView);
         textViewTitle = itemView.findViewById(R.id.fragment_item_title);
         textViewSection = itemView.findViewById(R.id.fragment_item_section);
@@ -40,7 +40,7 @@ public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnCli
         imageView = itemView.findViewById(R.id.fragment_item_image);
     }
 
-    public void updateViewHolder(GenericNews genericNews, RequestManager glide, AdapterAPI.Listener callback){
+    public void updateViewHolder(GenericNews genericNews, RequestManager glide, AdapterNews.Listener callback){
         // Update widgets
         textViewTitle.setText(genericNews.title);
         textViewSection.setText(convertSectionSubsection(genericNews.section, genericNews.subSection));
@@ -92,7 +92,7 @@ public class ViewHolderAPI extends RecyclerView.ViewHolder implements View.OnCli
     @Override
     public void onClick(View v) {
         // When a click happens, we fire our listener.
-        AdapterAPI.Listener callback = callbackWeakRef.get();
+        AdapterNews.Listener callback = callbackWeakRef.get();
         if (callback != null) callback.onClickItem(getAdapterPosition());
     }
 

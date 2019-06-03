@@ -10,14 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.jpz.mynews.Controllers.Activities.WebViewActivity;
 import com.jpz.mynews.Models.GenericNews;
 import com.jpz.mynews.R;
-import com.jpz.mynews.Views.AdapterAPI;
+import com.jpz.mynews.Views.AdapterNews;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,33 +25,24 @@ import io.reactivex.disposables.Disposable;
 /**
  * A simple {@link Fragment} subclass.
  */
-public abstract class NewsFragment extends Fragment implements AdapterAPI.Listener {
+public abstract class NewsFragment extends Fragment implements AdapterNews.Listener {
 
     // For data
     protected RecyclerView recyclerView;
     protected Disposable disposable;
-    protected int page;
-    protected String desk;
 
     // Declare list of news & Adapter
-    protected AdapterAPI adapterAPI;
+    protected AdapterNews adapterNews;
     protected List<GenericNews> genericNewsList;
 
-    // Create keys for Intent
+    // Create key for Intent
     public static final String KEY_URL = "item";
-
-    // Fields (Boolean) to detect more scrolling
-    protected LinearLayoutManager layoutManager;
-    protected ProgressBar progressBar;
-    protected boolean loadMore = false;
-    protected int currentItems, totalItems, scrollOutItems;
 
     public NewsFragment() {
         // Required empty public constructor
     }
 
     // Overloading methods for child fragments
-    protected abstract void executeRequest(String desk, int page);
     protected abstract void fetchData();
 
     @Override
@@ -65,15 +54,12 @@ public abstract class NewsFragment extends Fragment implements AdapterAPI.Listen
         // Get RecyclerView from layout and serialise it
         recyclerView = view.findViewById(R.id.fragment_news_recycler_view);
 
-        // Get ProgressBar
-        progressBar = view.findViewById(R.id.fragment_news_progressbar);
-
         // Call during UI creation
         configureRecyclerView();
 
         // Load articles of NY Times when launching the app
         // Execute streams after UI creation
-        executeRequest(desk, page);
+        fetchData();
 
         return view;
     }
@@ -89,7 +75,7 @@ public abstract class NewsFragment extends Fragment implements AdapterAPI.Listen
     @Override
     public void onClickItem(int position) {
         // Save the url of the item in the RecyclerView
-        String url = adapterAPI.getPosition(position).url;
+        String url = adapterNews.getPosition(position).url;
 
         // Spread the click with the url to WebViewActivity
         Intent intent = new Intent(getActivity(), WebViewActivity.class);
@@ -107,42 +93,16 @@ public abstract class NewsFragment extends Fragment implements AdapterAPI.Listen
         // Reset list
         this.genericNewsList = new ArrayList<>();
         // Create adapter passing the list of articles
-        this.adapterAPI = new AdapterAPI(genericNewsList, Glide.with(this), this);
+        this.adapterNews = new AdapterNews(genericNewsList, Glide.with(this), this);
         // Attach the adapter to the recyclerView to populate items
-        this.recyclerView.setAdapter(adapterAPI);
+        this.recyclerView.setAdapter(adapterNews);
         // Set layout manager to position the items
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        // Add On Scroll Listener
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
-                    loadMore = true;
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                layoutManager = new LinearLayoutManager(getContext());
-
-                currentItems = layoutManager.getChildCount();
-                totalItems = layoutManager.getItemCount();
-                scrollOutItems = layoutManager.findFirstVisibleItemPosition();
-
-                if (loadMore && currentItems + scrollOutItems == totalItems)
-                    // Data fetch
-                    loadMore = false;
-                fetchData();
-            }
-        });
     }
 
     protected void updateUI(List<GenericNews> newsList) {
         genericNewsList.addAll(newsList);
-        adapterAPI.notifyDataSetChanged();
+        adapterNews.notifyDataSetChanged();
     }
 
     // Dispose subscription

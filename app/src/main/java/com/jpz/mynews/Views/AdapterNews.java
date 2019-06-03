@@ -13,7 +13,7 @@ import com.jpz.mynews.R;
 
 import java.util.List;
 
-public class AdapterAPI extends RecyclerView.Adapter<ViewHolderAPI> {
+public class AdapterNews extends RecyclerView.Adapter<ViewHolderNews> {
 
     // Declaring callback
     private final Listener callback;
@@ -24,7 +24,7 @@ public class AdapterAPI extends RecyclerView.Adapter<ViewHolderAPI> {
     // Declaring a Glide object
     private RequestManager glide;
 
-    public AdapterAPI(List<GenericNews> genericNewsList, RequestManager glide, Listener callback) {
+    public AdapterNews(List<GenericNews> genericNewsList, RequestManager glide, Listener callback) {
         this.genericNewsList = genericNewsList;
         this.glide = glide;
         this.callback = callback;
@@ -37,18 +37,18 @@ public class AdapterAPI extends RecyclerView.Adapter<ViewHolderAPI> {
 
     @NonNull
     @Override
-    public ViewHolderAPI onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        // Create ViewHolderAPI and inflating its xml layout
+    public ViewHolderNews onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        // Create ViewHolderNews and inflating its xml layout
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.fragment_item, viewGroup, false);
 
-        return new ViewHolderAPI(view);
+        return new ViewHolderNews(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderAPI viewHolderAPI, int position) {
-        viewHolderAPI.updateViewHolder(this.genericNewsList.get(position), this.glide, this.callback);
+    public void onBindViewHolder(@NonNull ViewHolderNews viewHolderNews, int position) {
+        viewHolderNews.updateViewHolder(this.genericNewsList.get(position), this.glide, this.callback);
     }
 
     @Override

@@ -54,7 +54,7 @@ public class APIClient {
                             genericNews.date = result.getPublishedDate();
                             genericNews.section = result.getSection();
                             genericNews.subSection = result.getSubsection();
-                            // If Multimedia is empty don't display the photo
+                            // If Multimedium is empty don't display the photo
                             if ( result.getMultimedia().size() != 0)
                             genericNews.image = result.getMultimedia().get(0).getUrl();
                             genericNews.url = result.getShortUrl();
@@ -99,6 +99,8 @@ public class APIClient {
                             genericNews.title = result.getTitle();
                             genericNews.date = result.getPublishedDate();
                             genericNews.section = result.getSection();
+                            // If MediaMetadatum is empty don't display the photo
+                            if ( result.getMedia().get(0).getMediaMetadata().size() != 0)
                             genericNews.image = result.getMedia().get(0)
                                     .getMediaMetadata().get(0).getUrl();
                             genericNews.url = result.getUrl();
@@ -145,7 +147,7 @@ public class APIClient {
                             genericNews.title = doc.getHeadline().getMain();
                             genericNews.date = doc.getPubDate();
                             genericNews.section = doc.getSectionName();
-                            // If Multimedia is empty don't display the photo
+                            // If Multimedium is empty don't display the photo
                             if ( doc.getMultimedia().size() != 0)
                                 genericNews.image = "https://www.nytimes.com/"
                                         + doc.getMultimedia().get(0).getUrl();
