@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ProgressBar;
 
 import com.jpz.mynews.Controllers.Utils.APIClient;
@@ -29,16 +28,20 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class ArticleSearchFragment extends NewsFragment implements AdapterNews.Listener {
 
+    // Use for pagination
     private int page;
 
     // Create keys for Bundle
     private static final String KEY_POSITION = "position";
 
-    // Fields (Boolean) to detect more scrolling
-    protected LinearLayoutManager layoutManager;
-    protected ProgressBar progressBar;
-    protected boolean loadMore = false;
-    protected int currentItems, totalItems, scrollOutItems;
+    // Fields to detect more scrolling
+    private LinearLayoutManager layoutManager;
+    private ProgressBar progressBar;
+    private int visibleItem, totalItems, firstVisibleItem;
+    // The total number of items in the dataset after the last load. Starts from 0.
+    private int previousTotal = 0;
+    // True if we are still waiting for the last set of data to load.
+    private boolean loading = true;
 
     public ArticleSearchFragment() {
         // Required empty public constructor
@@ -68,26 +71,26 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
-                    loadMore = true;
-            }
-
-            @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
                 if (layoutManager != null) {
-                    currentItems = layoutManager.getChildCount();
+                    visibleItem = layoutManager.getChildCount();
                     totalItems = layoutManager.getItemCount();
-                    scrollOutItems = layoutManager.findFirstVisibleItemPosition();
+                    firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
 
-                    if (loadMore && currentItems + scrollOutItems == totalItems)
-                        // Data fetch
-                        loadMore = false;
-                    fetchNextPage();
+                    if (loading) {
+                        if (totalItems > previousTotal) {
+                            loading = false;
+                            previousTotal = totalItems;
+                        }
+                    }
+                    if (!loading && (totalItems - visibleItem) <= firstVisibleItem) {
+                        // End has been reached
+                        fetchNextPage();
+                        loading = true;
+                    }
                 }
             }
         });
