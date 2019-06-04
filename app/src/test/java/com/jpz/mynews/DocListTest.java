@@ -12,7 +12,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 public class DocListTest {
 
@@ -58,13 +58,13 @@ public class DocListTest {
     {
         for (Doc doc : articleSearchResponse.getResponse().getDocs())
         {
-            assertThat("String is in the field", doc.getHeadline().getMain() != null);
-            assertThat("String is in the field", doc.getSectionName() != null);
-            assertThat("String is in the field", doc.getSubsectionName() != null);
-            assertThat("String is in the field", doc.getPubDate() != null);
-            assertThat("String is in the field",
-                    doc.getMultimedia().get(0).getUrl() != null);
-            assertThat("String is in the field", doc.getWebUrl() != null);
+            assertEquals("Title", doc.getHeadline().getMain());
+            assertEquals("Section", doc.getSectionName());
+            assertEquals("Subsection", doc.getSubsectionName());
+            assertEquals("06052019", doc.getPubDate());
+            assertEquals("https:-static01.nyt.com-images-2019-05-05-world-image-thumbStandard.jpg",
+                    doc.getMultimedia().get(0).getUrl());
+            assertEquals("https://api.nytimes.com/svc/", doc.getWebUrl());
         }
     }
 

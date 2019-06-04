@@ -13,7 +13,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 public class ResultListTest {
 
@@ -54,13 +54,13 @@ public class ResultListTest {
     {
         for (Result result : topStoriesResponse.getResultList())
         {
-            assertThat("String is in the field", result.getTitle() != null);
-            assertThat("String is in the field", result.getSection() != null);
-            assertThat("String is in the field", result.getSubsection() != null);
-            assertThat("String is in the field", result.getPublishedDate() != null);
-            assertThat("String is in the field",
-                    result.getMultimedia().get(0).getUrl() != null);
-            assertThat("String is in the field", result.getShortUrl() != null);
+            assertEquals("Title", result.getTitle());
+            assertEquals("Section", result.getSection());
+            assertEquals("Subsection", result.getSubsection());
+            assertEquals("06052019", result.getPublishedDate());
+            assertEquals("https:-static01.nyt.com-images-2019-05-05-world-image-thumbStandard.jpg",
+                    result.getMultimedia().get(0).getUrl());
+            assertEquals("https://api.nytimes.com/svc/", result.getShortUrl());
         }
     }
 
@@ -104,13 +104,13 @@ public class ResultListTest {
     {
         for (Result result : mostPopularResponse.getResultList())
         {
-            assertThat("String is in the field", result.getTitle() != null);
-            assertThat("String is in the field", result.getSection() != null);
-            assertThat("String is in the field", result.getSubsection() != null);
-            assertThat("String is in the field", result.getPublishedDate() != null);
-            assertThat("String is in the field",
-                    result.getMedia().get(0).getMediaMetadata().get(0).getUrl() != null);
-            assertThat("String is in the field", result.getUrl() != null);
+            assertEquals("Title", result.getTitle());
+            assertEquals("Section", result.getSection());
+            assertEquals("Subsection", result.getSubsection());
+            assertEquals("06052019", result.getPublishedDate());
+            assertEquals("https:-static01.nyt.com-images-2019-05-05-world-image-thumbStandard.jpg",
+                    result.getMedia().get(0).getMediaMetadata().get(0).getUrl());
+            assertEquals("https://api.nytimes.com/svc/", result.getUrl());
         }
     }
 
