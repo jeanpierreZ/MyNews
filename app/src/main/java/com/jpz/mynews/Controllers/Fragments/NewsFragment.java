@@ -78,9 +78,9 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
         String url = adapterNews.getPosition(position).url;
 
         // Spread the click with the url to WebViewActivity
-        Intent intent = new Intent(getActivity(), WebViewActivity.class);
-        intent.putExtra(KEY_URL, url);
-        startActivity(intent);
+        Intent webViewActivity = new Intent(getActivity(), WebViewActivity.class);
+        webViewActivity.putExtra(KEY_URL, url);
+        startActivity(webViewActivity);
     }
 
     // -------------------

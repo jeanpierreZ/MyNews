@@ -13,14 +13,18 @@
         android:theme="@style/AppTheme">
 
         <activity
+            android:name=".Controllers.Activities.SearchActivity"
+            android:parentActivityName=".Controllers.Activities.MainActivity"></activity>
+
+        <activity
             android:name=".Controllers.Activities.WebViewActivity"
-            android:parentActivityName=".Controllers.Activities.MainActivity">
-        </activity>
+            android:parentActivityName=".Controllers.Activities.MainActivity"></activity>
 
         <activity
             android:name=".Controllers.Activities.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
