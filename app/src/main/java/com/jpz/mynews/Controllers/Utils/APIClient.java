@@ -99,6 +99,7 @@ public class APIClient {
                             genericNews.title = result.getTitle();
                             genericNews.date = result.getPublishedDate();
                             genericNews.section = result.getSection();
+                            genericNews.subSection = result.getSubsection();
                             // If MediaMetadatum is empty don't display the photo
                             if ( result.getMedia().get(0).getMediaMetadata().size() != 0)
                             genericNews.image = result.getMedia().get(0)
@@ -114,11 +115,11 @@ public class APIClient {
 
     // Public method to start fetching the result for Article Search
     public static Observable<ArticleSearchResponse>
-    fetchArticleSearch(String facetFields, String newsDesk, String sortOrder, int page) {
+    fetchArticleSearch(String newsDesk, String sortOrder, int page) {
         // Get a Retrofit instance and the related Observable of the Interface
         Service service = Service.retrofit.create(Service.class);
         // Create the call on Article Search API
-        return service.getArticleSearch(facetFields, newsDesk, sortOrder, page)
+        return service.getArticleSearch(newsDesk, sortOrder, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
@@ -126,7 +127,7 @@ public class APIClient {
 
     // Public method to start fetching the result for Top Stories
     public static Observable<List<GenericNews>> getArticleSearchNews(String desk, int page){
-        return fetchArticleSearch(Service.API_FACET_FIELDS, desk,
+        return fetchArticleSearch(desk,
                 Service.API_FILTER_SORT_ORDER, page)
                 .map(new Function<ArticleSearchResponse, List<Doc>>() {
                     @Override
@@ -147,6 +148,7 @@ public class APIClient {
                             genericNews.title = doc.getHeadline().getMain();
                             genericNews.date = doc.getPubDate();
                             genericNews.section = doc.getSectionName();
+                            genericNews.subSection = doc.getSubsectionName();
                             // If Multimedium is empty don't display the photo
                             if ( doc.getMultimedia().size() != 0)
                                 genericNews.image = "https://www.nytimes.com/"

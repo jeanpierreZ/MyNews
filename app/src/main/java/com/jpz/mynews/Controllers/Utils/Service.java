@@ -14,10 +14,9 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface Service {
-    // Interface for requests the New York Times APIs
+    // Interface for requests of the New York Times APIs
 
     // Fields to complete requests
-
     String API_BASE_URL = "https://api.nytimes.com/svc/";
     String API_KEY = "ZFLWOr4Llj4dNQEA4itSAoJJm2ggwLJx";
 
@@ -26,14 +25,12 @@ public interface Service {
     // Time period : 1, 7, or 30 days ; the following values are allowed: 1, 7, 30
     int API_PERIOD = 7;
 
-    String API_DESK_ENVIRONMENT = "Environment";
-    String API_DESK_FINANCIAL = "Financial";
-    String API_DESK_FOREIGN = "Foreign";
-    String API_DESK_SCIENCE = "Science";
-    String API_DESK_SPORTS = "Sports";
-    String API_DESK_TECHNOLOGY = "Technology";
-
-    String API_FACET_FIELDS = "news_desk";
+    String API_DESK_ENVIRONMENT = "news_desk:(\"Environment\")";
+    String API_DESK_FOREIGN = "news_desk:(\"Foreign\")";
+    String API_DESK_BUSINESS = "news_desk:(\"Business\")";
+    String API_DESK_SCIENCE = "news_desk:(\"Science\")";
+    String API_DESK_SPORTS = "news_desk:(\"Sports\")";
+    String API_DESK_TECHNOLOGY = "news_desk:(\"Technology\")";
 
     // Sort order ; the following values are allowed: newest, oldest, relevance
     String API_FILTER_SORT_ORDER = "newest";
@@ -61,7 +58,7 @@ public interface Service {
     // GET type of REST request for Article Search
     @GET("search/v2/articlesearch.json?api-key=" + API_KEY)
     Observable<ArticleSearchResponse>
-    getArticleSearch(@Query("facet_fields") String facetFields, @Query("fq") String newsDesk,
-                     @Query("sort") String sortOrder, @Query("page") int page);
+    getArticleSearch(@Query("fq") String newsDesk, @Query("sort") String sortOrder,
+                     @Query("page") int page);
 
 }

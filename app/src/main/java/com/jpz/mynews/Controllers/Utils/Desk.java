@@ -3,7 +3,7 @@ package com.jpz.mynews.Controllers.Utils;
 public enum Desk {
     // The desks of API
     Environment (Service.API_DESK_ENVIRONMENT),
-    Financial (Service.API_DESK_FINANCIAL),
+    Business (Service.API_DESK_BUSINESS),
     Foreign (Service.API_DESK_FOREIGN),
     Science (Service.API_DESK_SCIENCE),
     Sports (Service.API_DESK_SPORTS),

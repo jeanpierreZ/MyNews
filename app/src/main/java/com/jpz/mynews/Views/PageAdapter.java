@@ -36,7 +36,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
             case 2:
                 return ArticleSearchFragment.newInstance(Desk.Foreign);
             case 3:
-                return ArticleSearchFragment.newInstance(Desk.Financial);
+                return ArticleSearchFragment.newInstance(Desk.Business);
             case 4:
                 return ArticleSearchFragment.newInstance(Desk.Technology);
             default:
@@ -55,7 +55,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
             case 2:
                 return "Foreign";
             case 3:
-                return "Financial";
+                return "Business";
             case 4:
                 return "Technology";
             default:

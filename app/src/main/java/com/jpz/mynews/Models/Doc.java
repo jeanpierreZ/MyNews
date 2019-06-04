@@ -26,6 +26,9 @@ public class Doc {
     @Expose
     private String sectionName;
 
+    @SerializedName("subsection_name")
+    @Expose
+    private String subsectionName;
 
     public String getWebUrl() {
         return webUrl;
@@ -45,6 +48,10 @@ public class Doc {
 
     public String getSectionName() {
         return sectionName;
+    }
+
+    public String getSubsectionName() {
+        return subsectionName;
     }
 
 }
