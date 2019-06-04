@@ -23,4 +23,8 @@ public class MostPopularResponse {
         return resultList;
     }
 
+    public void setResultList (List<Result> resultList) {
+        this.resultList = resultList;
+    }
+
 }

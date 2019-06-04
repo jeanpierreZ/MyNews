@@ -34,24 +34,48 @@ public class Doc {
         return webUrl;
     }
 
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
+    }
+
     public List<Multimedium> getMultimedia() {
         return multimedia;
+    }
+
+    public void setMultimedia(List<Multimedium> multimedia) {
+        this.multimedia = multimedia;
     }
 
     public Headline getHeadline() {
         return headline;
     }
 
+    public void setHeadline(Headline headline) {
+        this.headline = headline;
+    }
+
     public String getPubDate() {
         return pubDate;
+    }
+
+    public void setPubDate(String pubDate) {
+        this.pubDate = pubDate;
     }
 
     public String getSectionName() {
         return sectionName;
     }
 
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
+    }
+
     public String getSubsectionName() {
         return subsectionName;
+    }
+
+    public void setSubsectionName(String subsectionName) {
+        this.subsectionName = subsectionName;
     }
 
 }

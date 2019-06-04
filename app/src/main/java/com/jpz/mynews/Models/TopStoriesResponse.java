@@ -22,4 +22,9 @@ public class TopStoriesResponse {
     public List<Result> getResultList() {
         return resultList;
     }
+
+    public void setResultList (List<Result> resultList) {
+        this.resultList = resultList;
+    }
+
 }
