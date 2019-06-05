@@ -25,12 +25,12 @@ public interface Service {
     // Time period : 1, 7, or 30 days ; the following values are allowed: 1, 7, 30
     int API_PERIOD = 7;
 
-    String API_DESK_ENVIRONMENT = "news_desk:(\"Environment\")";
-    String API_DESK_FOREIGN = "news_desk:(\"Foreign\")";
-    String API_DESK_BUSINESS = "news_desk:(\"Business\")";
-    String API_DESK_SCIENCE = "news_desk:(\"Science\")";
-    String API_DESK_SPORTS = "news_desk:(\"Sports\")";
-    String API_DESK_TECHNOLOGY = "news_desk:(\"Technology\")";
+    String API_DESK_ENVIRONMENT = "Environment";
+    String API_DESK_FOREIGN = "Foreign";
+    String API_DESK_BUSINESS = "Business";
+    String API_DESK_SCIENCE = "Science";
+    String API_DESK_SPORTS = "Sports";
+    String API_DESK_T_MAGAZINE = "T Magazine";
 
     // Sort order ; the following values are allowed: newest, oldest, relevance
     String API_FILTER_SORT_ORDER = "newest";
@@ -45,20 +45,27 @@ public interface Service {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build();
 
-    // GET type of REST request for Top Stories
+    // GET type of REST request for Top Stories API
     @GET("topstories/v2/{section}.json?api-key=" + API_KEY)
     Observable<TopStoriesResponse>
     getTopStories(@Path("section") String sectionValue);
 
-    // GET type of REST request for Most Popular
+    // GET type of REST request for Most Popular API
     @GET("mostpopular/v2/viewed/{period}.json?api-key=" + API_KEY)
     Observable<MostPopularResponse>
     getMostPopular(@Path("period") int period);
 
-    // GET type of REST request for Article Search
+    // GET type of REST request for Article Search API
     @GET("search/v2/articlesearch.json?api-key=" + API_KEY)
     Observable<ArticleSearchResponse>
     getArticleSearch(@Query("fq") String newsDesk, @Query("sort") String sortOrder,
                      @Query("page") int page);
+
+    // GET type of REST request for Article Search API with query terms and dates
+    @GET("search/v2/articlesearch.json?api-key=" + API_KEY)
+    Observable<ArticleSearchResponse>
+    getSearchWithTerms(@Query("fq") String newsDesk, @Query("sort") String sortOrder,
+                       @Query("page") int page, @Query("q") String query,
+                       @Query("begin_date") String beginDate, @Query("end_date") String endDate);
 
 }

@@ -7,7 +7,7 @@ public enum Desk {
     Foreign (Service.API_DESK_FOREIGN),
     Science (Service.API_DESK_SCIENCE),
     Sports (Service.API_DESK_SPORTS),
-    Technology (Service.API_DESK_TECHNOLOGY);
+    T_Magazine (Service.API_DESK_T_MAGAZINE);
 
     private String name;
 

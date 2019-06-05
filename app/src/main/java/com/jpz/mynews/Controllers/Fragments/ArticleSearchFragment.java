@@ -105,7 +105,7 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
 
             if (desk != null)
             // Execute the stream subscribing to Observable defined inside APIClient
-            this.disposable = APIClient.getArticleSearchNews(desk.toDesk(), page)
+            this.disposable = APIClient.getArticleSearchNews("news_desk:(" + desk.toDesk() +")", page)
                     .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                         @Override
                         public void onNext(List<GenericNews> genericNewsList) {

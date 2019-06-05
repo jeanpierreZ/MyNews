@@ -38,7 +38,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
             case 3:
                 return ArticleSearchFragment.newInstance(Desk.Business);
             case 4:
-                return ArticleSearchFragment.newInstance(Desk.Technology);
+                return ArticleSearchFragment.newInstance(Desk.T_Magazine);
             default:
                 return null;
         }
@@ -53,11 +53,11 @@ public class PageAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return "Most Popular";
             case 2:
-                return "Foreign";
+                return Desk.Foreign.toDesk();
             case 3:
-                return "Business";
+                return Desk.Business.toDesk();
             case 4:
-                return "Technology";
+                return Desk.T_Magazine.toDesk();
             default:
                 return null;
         }

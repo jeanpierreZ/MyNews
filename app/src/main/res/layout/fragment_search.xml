@@ -14,45 +14,89 @@
         app:layout_constraintGuide_percent="0.5"/>
 
     <EditText
-        android:id="@+id/search_fragment_edit_text"
-        android:layout_width="wrap_content"
+        android:id="@+id/search_fragment_query"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="top"
         android:hint="Search query term"
+        android:inputType="text"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="Autofill"/>
 
-    <DatePicker
-        android:id="@+id/search_fragment_datepicker_one"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/search_fragment_text_one"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="Begin Date"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_fragment_edit_text" >
-    </DatePicker>
+        app:layout_constraintTop_toBottomOf="@+id/search_fragment_query"/>
 
-    <DatePicker
-        android:id="@+id/search_fragment_datepicker_two"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/search_fragment_edit_date_one"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toRightOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/search_fragment_edit_text" >
-    </DatePicker>
+        android:focusable="true"
+        android:clickable="true"
+        android:inputType="date"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/search_fragment_text_one"
+        tools:ignore="Autofill"/>
+
+    <TextView
+        android:id="@+id/search_fragment_text_two"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="End Date"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toRightOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/search_fragment_query"/>
+
+    <EditText
+        android:id="@+id/search_fragment_edit_date_two"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:clickable="true"
+        android:inputType="date"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toRightOf="@id/guideline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_fragment_text_two"
+        tools:ignore="Autofill"/>
 
     <CheckBox
         android:id="@+id/search_fragment_checkbox_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="4dp"
         android:text="one"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_fragment_datepicker_one" />
+        app:layout_constraintTop_toBottomOf="@+id/search_fragment_edit_date_one" />
 
 
     <CheckBox
         android:id="@+id/search_fragment_checkbox_two"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="4dp"
         android:text="two"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_fragment_checkbox_one" />
 
@@ -60,7 +104,10 @@
         android:id="@+id/search_fragment_checkbox_three"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="4dp"
         android:text="three"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_fragment_checkbox_two" />
 
@@ -68,15 +115,21 @@
         android:id="@+id/search_fragment_checkbox_four"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="4dp"
         android:text="four"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintLeft_toRightOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/search_fragment_datepicker_two" />
+        app:layout_constraintTop_toBottomOf="@+id/search_fragment_edit_date_two" />
 
     <CheckBox
         android:id="@+id/search_fragment_checkbox_five"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="4dp"
         android:text="five"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintLeft_toRightOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/search_fragment_checkbox_four" />
 
@@ -84,15 +137,21 @@
         android:id="@+id/search_fragment_checkbox_six"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="4dp"
         android:text="six"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintLeft_toRightOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/search_fragment_checkbox_five" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:id="@+id/search_fragment_button"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="bottom"
         android:text="SEARCH"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_fragment_checkbox_three" />
