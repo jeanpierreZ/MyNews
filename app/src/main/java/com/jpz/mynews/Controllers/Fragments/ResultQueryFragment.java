@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.jpz.mynews.Controllers.Utils.APIClient;
 import com.jpz.mynews.Controllers.Utils.ConvertMethods;
@@ -32,7 +33,6 @@ import io.reactivex.observers.DisposableObserver;
 public class ResultQueryFragment extends NewsFragment implements AdapterNews.Listener {
 
     private MySharedPreferences prefs;
-
     private ConvertMethods convertMethods = new ConvertMethods();
 
     // Use for pagination
@@ -110,17 +110,23 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
 
     @Override
     protected void fetchData() {
-        Context context = getActivity();
+        final Context context = getActivity();
         if (context != null) {
-            prefs = new MySharedPreferences(context.getApplicationContext());
+            prefs = new MySharedPreferences(context);
         }
         // Get the query terms to research
         queryTerms = prefs.getQueryTerms();
         Log.i("TAG", "queryTerms : "+ queryTerms);
 
+        // Get the begin date to research
         String beginDateBeforeConvert = prefs.getBeginDate();
         beginDate = convertMethods.convertBeginOrEndDate(beginDateBeforeConvert);
         Log.i("TAG", "beginDate : "+ beginDate);
+
+        // Get the end date to research
+        String endDateBeforeConvert = prefs.getEndDate();
+        endDate = convertMethods.convertBeginOrEndDate(endDateBeforeConvert);
+        Log.i("TAG", "endDate : "+ endDate);
 
         /*
         // Get data from Bundle (created in method newInstance)
@@ -136,8 +142,12 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
                             @Override
                             public void onNext(List<GenericNews> genericNewsList) {
                                 Log.i("TAG", "On Next ResultQueryFragment");
-                                // Update UI with a list of ArticleSearch
-                                updateUI(genericNewsList);
+                                // Check if there a result in the list
+                                if (genericNewsList.size() == 0)
+                                    Toast.makeText(context, "There is no result for your request", Toast.LENGTH_LONG).show();
+                                else
+                                    // Update UI with a list of ArticleSearch
+                                    updateUI(genericNewsList);
                             }
 
                             @Override

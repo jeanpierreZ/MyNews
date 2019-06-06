@@ -18,7 +18,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jpz.mynews.Controllers.Activities.SearchActivity;
 import com.jpz.mynews.Controllers.Utils.MySharedPreferences;
 import com.jpz.mynews.R;
 
@@ -35,6 +34,7 @@ public class ResearchFragment extends Fragment {
     private EditText editQuery;
 
     private EditText editBeginDate;
+    private EditText editEndDate;
 
     private Calendar calendar;
 
@@ -57,7 +57,7 @@ public class ResearchFragment extends Fragment {
 
         context = getActivity();
         if (context != null) {
-            prefs = new MySharedPreferences(context.getApplicationContext());
+            prefs = new MySharedPreferences(context);
         }
 
         // Get widgets from layout
@@ -67,7 +67,7 @@ public class ResearchFragment extends Fragment {
         editBeginDate = view.findViewById(R.id.search_fragment_edit_begin_date);
 
         TextView textTwo = view.findViewById(R.id.search_fragment_text_two);
-        EditText endDate = view.findViewById(R.id.search_fragment_edit_end_date);
+        editEndDate = view.findViewById(R.id.search_fragment_edit_end_date);
 
         CheckBox checkBoxOne = view.findViewById(R.id.search_fragment_checkbox_one);
         CheckBox checkBoxTwo = view.findViewById(R.id.search_fragment_checkbox_two);
@@ -87,7 +87,7 @@ public class ResearchFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Check the query term input
+                // Check the effective query term input to activate the search button
                 searchButton.setEnabled(s.toString().length() != 0);
             }
 
@@ -97,13 +97,15 @@ public class ResearchFragment extends Fragment {
             }
         });
 
+        //------------------------------------------------------------------------------------------
         /*
         Create, display & save DatePicker in EditText
          */
         calendar = Calendar.getInstance();
 
         // Action when click on editText under "Begin Date"
-        final DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+        final DatePickerDialog.OnDateSetListener beginDateSetListener =
+                new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 calendar.set(Calendar.YEAR, year);
@@ -116,12 +118,33 @@ public class ResearchFragment extends Fragment {
         editBeginDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(context, dateSetListener,
+                new DatePickerDialog(context, beginDateSetListener,
                         calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
+        // Action when click on editText under "End Date"
+        final DatePickerDialog.OnDateSetListener EndDateSetListener =
+                new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                addEndDate();
+            }
+        };
+
+        editEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(context, EndDateSetListener,
+                        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        //------------------------------------------------------------------------------------------
 
         // Action when click on search button
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +159,6 @@ public class ResearchFragment extends Fragment {
                 mCallback.OnSearchClicked(v);
             }
         });
-
         return view;
     }
 
@@ -152,6 +174,20 @@ public class ResearchFragment extends Fragment {
         String beginDate = editBeginDate.getText().toString();
         prefs.saveBeginDate(beginDate);
         Log.i("TAG", "ResearchFragment save beginDate : "+ beginDate);
+    }
+
+    private void addEndDate() {
+        // Set date format
+        String dateFormat = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.getDefault());
+
+        // Show calendar to choose begin date
+        editEndDate.setText(sdf.format(calendar.getTime()));
+
+        // Save the query terms when button clicked
+        String endDate = editEndDate.getText().toString();
+        prefs.saveEndDate(endDate);
+        Log.i("TAG", "ResearchFragment save beginDate : "+ endDate);
     }
 
     @Override
@@ -175,7 +211,5 @@ public class ResearchFragment extends Fragment {
             throw new ClassCastException(e.toString()+ " must implement OnSearchClickedListener");
         }
     }
-
-
 
 }
