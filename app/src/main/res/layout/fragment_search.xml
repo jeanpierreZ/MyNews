@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Controllers.Fragments.SearchFragment">
+    tools:context=".Controllers.Fragments.ResearchFragment">
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -96,7 +96,7 @@
         android:paddingStart="4dp"
         android:text="two"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_fragment_checkbox_one" />
 
@@ -107,7 +107,7 @@
         android:paddingStart="4dp"
         android:text="three"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_fragment_checkbox_two" />
 
@@ -129,7 +129,7 @@
         android:paddingStart="4dp"
         android:text="five"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintLeft_toRightOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/search_fragment_checkbox_four" />
 
@@ -140,7 +140,7 @@
         android:paddingStart="4dp"
         android:text="six"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintLeft_toRightOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/search_fragment_checkbox_five" />
 

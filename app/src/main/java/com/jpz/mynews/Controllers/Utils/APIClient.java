@@ -163,12 +163,12 @@ public class APIClient {
 
     // Public method to start fetching the result for a specific Search with query terms
     public static Observable<ArticleSearchResponse>
-    fetchSearchWithTerms(String newsDesk, String sortOrder, int page, String query,
+    fetchResearchWithTerms(String newsDesk, String sortOrder, int page, String query,
                          String beginDate, String endDate) {
         // Get a Retrofit instance and the related Observable of the Interface
         Service service = Service.retrofit.create(Service.class);
         // Create the call on Article Search API
-        return service.getSearchWithTerms(newsDesk, sortOrder, page, query, beginDate, endDate)
+        return service.getResearchWithTerms(newsDesk, sortOrder, page, query, beginDate, endDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
@@ -176,8 +176,8 @@ public class APIClient {
 
     // Public method to generify the result for a specific Search with query terms
     public static Observable<List<GenericNews>>
-    getSearchWithTerms(String desk, int page, String query, String beginDate, String endDate){
-        return fetchSearchWithTerms(desk, Service.API_FILTER_SORT_ORDER, page, query, beginDate, endDate)
+    getResearchWithTerms(String desk, int page, String query, String beginDate, String endDate){
+        return fetchResearchWithTerms(desk, Service.API_FILTER_SORT_ORDER, page, query, beginDate, endDate)
                 .map(new Function<ArticleSearchResponse, List<Doc>>() {
                     @Override
                     public List<Doc> apply(ArticleSearchResponse response) throws Exception {
