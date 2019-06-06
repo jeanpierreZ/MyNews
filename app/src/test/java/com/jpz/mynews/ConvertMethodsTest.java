@@ -15,11 +15,13 @@ public class ConvertMethodsTest {
     private String subSection;
     private String subSectionSecond;
     private String subSectionThird;
+    private String dateBeginOrEnd;
 
     @Before
     public void setStringsForTests() {
         // Original date to convert
         dateNews = "2019-05-06T03:18:15-04:00";
+        dateBeginOrEnd = "13/06/2019";
 
         // Originals section & subsections to convert
         section = "Section";
@@ -49,5 +51,11 @@ public class ConvertMethodsTest {
     public void convertSectionSubsectionThirdTest() {
         assertEquals("Section",
                 convertMethods.convertSectionSubsection(section, subSectionThird));
+    }
+
+    @Test
+    public void convertBeginOrEndDate() {
+        assertEquals("20190613", convertMethods.convertBeginOrEndDate(dateBeginOrEnd));
+
     }
 }

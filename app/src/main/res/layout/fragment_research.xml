@@ -38,10 +38,10 @@
         app:layout_constraintTop_toBottomOf="@+id/search_fragment_query"/>
 
     <EditText
-        android:id="@+id/search_fragment_edit_date_one"
+        android:id="@+id/search_fragment_edit_begin_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:focusable="true"
+        android:focusable="false"
         android:clickable="true"
         android:inputType="date"
         android:layout_marginStart="16dp"
@@ -63,7 +63,7 @@
         app:layout_constraintTop_toBottomOf="@+id/search_fragment_query"/>
 
     <EditText
-        android:id="@+id/search_fragment_edit_date_two"
+        android:id="@+id/search_fragment_edit_end_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:focusable="true"
@@ -86,7 +86,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_fragment_edit_date_one" />
+        app:layout_constraintTop_toBottomOf="@+id/search_fragment_edit_begin_date" />
 
 
     <CheckBox
@@ -120,7 +120,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toRightOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/search_fragment_edit_date_two" />
+        app:layout_constraintTop_toBottomOf="@+id/search_fragment_edit_end_date" />
 
     <CheckBox
         android:id="@+id/search_fragment_checkbox_five"

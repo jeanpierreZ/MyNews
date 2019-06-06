@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.jpz.mynews.Controllers.Utils.APIClient;
+import com.jpz.mynews.Controllers.Utils.ConvertMethods;
 import com.jpz.mynews.Controllers.Utils.Desk;
 import com.jpz.mynews.Controllers.Utils.MySharedPreferences;
 import com.jpz.mynews.Models.GenericNews;
@@ -31,6 +32,8 @@ import io.reactivex.observers.DisposableObserver;
 public class ResultQueryFragment extends NewsFragment implements AdapterNews.Listener {
 
     private MySharedPreferences prefs;
+
+    private ConvertMethods convertMethods = new ConvertMethods();
 
     // Use for pagination
     private int page;
@@ -114,6 +117,10 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
         // Get the query terms to research
         queryTerms = prefs.getQueryTerms();
         Log.i("TAG", "queryTerms : "+ queryTerms);
+
+        String beginDateBeforeConvert = prefs.getBeginDate();
+        beginDate = convertMethods.convertBeginOrEndDate(beginDateBeforeConvert);
+        Log.i("TAG", "beginDate : "+ beginDate);
 
         /*
         // Get data from Bundle (created in method newInstance)

@@ -9,8 +9,9 @@ public class MySharedPreferences {
 
     private SharedPreferences prefs;
 
-    // Key for the query terms from the research
+    // Keys for the research
     private String queryKey = "queryKey";
+    private String beginDateKey = "beginDateKey";
 
     // Constructor
     public MySharedPreferences(Context context){
@@ -25,6 +26,16 @@ public class MySharedPreferences {
     // Get the query terms from the research
     public String getQueryTerms() {
         return prefs.getString(queryKey, null);
+    }
+
+    // Save the query terms from the research
+    public void saveBeginDate(String beginDate) {
+        prefs.edit().putString(beginDateKey, beginDate).apply();
+    }
+
+    // Save the query terms from the research
+    public String getBeginDate() {
+        return prefs.getString(beginDateKey, null);
     }
 
 }

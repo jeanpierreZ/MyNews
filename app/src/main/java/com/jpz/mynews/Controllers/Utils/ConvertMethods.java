@@ -47,4 +47,21 @@ public class ConvertMethods {
         return newDate;
     }
 
+    public String convertBeginOrEndDate(String BeginEndDate) {
+        // Build date in dd/MM/yyyy for PubDate
+        SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+
+        Date date;
+        String newDate = "";
+
+        try {
+            date = inputFormat.parse(BeginEndDate);
+            newDate = outputFormat.format(date);
+        } catch (ParseException e) {
+            Log.e(TAG, "ParseException - dateFormat");
+        }
+        return newDate;
+    }
+
 }
