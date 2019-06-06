@@ -91,16 +91,22 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
                     totalItems = layoutManager.getItemCount();
                     firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
 
-                    if (loading) {
-                        if (totalItems > previousTotal) {
-                            loading = false;
-                            previousTotal = totalItems;
+                    // If the size of the result list is less than 10 (pagination size from the API),
+                    // it's useless to load another page
+                    if (totalItems < 10)
+                        loading = false;
+                    else {
+                        if (loading) {
+                            if (totalItems > previousTotal) {
+                                loading = false;
+                                previousTotal = totalItems;
+                            }
                         }
-                    }
-                    if (!loading && (totalItems - visibleItem) <= firstVisibleItem) {
-                        // End has been reached
-                        fetchNextPage();
-                        loading = true;
+                        if (!loading && (totalItems - visibleItem) <= firstVisibleItem) {
+                            // End has been reached
+                            fetchNextPage();
+                            loading = true;
+                        }
                     }
                 }
             }
@@ -119,14 +125,24 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
         Log.i("TAG", "queryTerms : "+ queryTerms);
 
         // Get the begin date to research
-        String beginDateBeforeConvert = prefs.getBeginDate();
-        beginDate = convertMethods.convertBeginOrEndDate(beginDateBeforeConvert);
-        Log.i("TAG", "beginDate : "+ beginDate);
+        final String beginDateBeforeConvert = prefs.getBeginDate();
+        // If there is no date saved, set ""
+        if (beginDateBeforeConvert.equals(""))
+            beginDate = null;
+        else {
+            beginDate = convertMethods.convertBeginOrEndDate(beginDateBeforeConvert);
+            Log.i("TAG", "beginDate : "+ beginDate);
+        }
 
         // Get the end date to research
-        String endDateBeforeConvert = prefs.getEndDate();
-        endDate = convertMethods.convertBeginOrEndDate(endDateBeforeConvert);
-        Log.i("TAG", "endDate : "+ endDate);
+        final String endDateBeforeConvert = prefs.getEndDate();
+        // If there is no date saved, set ""
+        if (endDateBeforeConvert.equals(""))
+            endDate = null;
+        else {
+            endDate = convertMethods.convertBeginOrEndDate(endDateBeforeConvert);
+            Log.i("TAG", "endDate : " + endDate);
+        }
 
         /*
         // Get data from Bundle (created in method newInstance)
@@ -144,7 +160,10 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
                                 Log.i("TAG", "On Next ResultQueryFragment");
                                 // Check if there a result in the list
                                 if (genericNewsList.size() == 0)
-                                    Toast.makeText(context, "There is no result for your request", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context,
+                                            "There is no result for your request \""+queryTerms
+                                                    +"\" from "+beginDateBeforeConvert+" to "
+                                                    +endDateBeforeConvert+".", Toast.LENGTH_LONG).show();
                                 else
                                     // Update UI with a list of ArticleSearch
                                     updateUI(genericNewsList);

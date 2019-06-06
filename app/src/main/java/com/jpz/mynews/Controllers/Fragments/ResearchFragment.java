@@ -111,7 +111,7 @@ public class ResearchFragment extends Fragment {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                addBeginDate();
+                displayBeginDate();
             }
         };
 
@@ -132,7 +132,7 @@ public class ResearchFragment extends Fragment {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                addEndDate();
+                displayEndDate();
             }
         };
 
@@ -150,10 +150,21 @@ public class ResearchFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // Save the query terms when button clicked
                 String queryTerms = editQuery.getText().toString();
                 prefs.saveQueryTerms(queryTerms);
                 Log.i("TAG", "ResearchFragment save queryTerms : "+ queryTerms);
+
+                // Save the query terms when button clicked
+                String beginDate = editBeginDate.getText().toString();
+                prefs.saveBeginDate(beginDate);
+                Log.i("TAG", "ResearchFragment save beginDate : "+ beginDate);
+
+                // Save the query terms when button clicked
+                String endDate = editEndDate.getText().toString();
+                prefs.saveEndDate(endDate);
+                Log.i("TAG", "ResearchFragment save endDate : "+ endDate);
 
                 // Spread the click to the parent activity
                 mCallback.OnSearchClicked(v);
@@ -162,32 +173,20 @@ public class ResearchFragment extends Fragment {
         return view;
     }
 
-    private void addBeginDate() {
+    private void displayBeginDate() {
         // Set date format
         String dateFormat = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.getDefault());
-
         // Show calendar to choose begin date
         editBeginDate.setText(sdf.format(calendar.getTime()));
-
-        // Save the query terms when button clicked
-        String beginDate = editBeginDate.getText().toString();
-        prefs.saveBeginDate(beginDate);
-        Log.i("TAG", "ResearchFragment save beginDate : "+ beginDate);
     }
 
-    private void addEndDate() {
+    private void displayEndDate() {
         // Set date format
         String dateFormat = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.getDefault());
-
         // Show calendar to choose begin date
         editEndDate.setText(sdf.format(calendar.getTime()));
-
-        // Save the query terms when button clicked
-        String endDate = editEndDate.getText().toString();
-        prefs.saveEndDate(endDate);
-        Log.i("TAG", "ResearchFragment save beginDate : "+ endDate);
     }
 
     @Override

@@ -80,16 +80,22 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
                     totalItems = layoutManager.getItemCount();
                     firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
 
-                    if (loading) {
-                        if (totalItems > previousTotal) {
-                            loading = false;
-                            previousTotal = totalItems;
+                    // If the size of the result list is less than 10 (pagination size from the API),
+                    // it's useless to load another page
+                    if (totalItems < 10)
+                        loading = false;
+                    else {
+                        if (loading) {
+                            if (totalItems > previousTotal) {
+                                loading = false;
+                                previousTotal = totalItems;
+                            }
                         }
-                    }
-                    if (!loading && (totalItems - visibleItem) <= firstVisibleItem) {
-                        // End has been reached
-                        fetchNextPage();
-                        loading = true;
+                        if (!loading && (totalItems - visibleItem) <= firstVisibleItem) {
+                            // End has been reached
+                            fetchNextPage();
+                            loading = true;
+                        }
                     }
                 }
             }
