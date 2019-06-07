@@ -53,11 +53,11 @@ public class PageAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return "Most Popular";
             case 2:
-                return Desk.Foreign.toDesk();
+                return "Foreign";
             case 3:
-                return Desk.Business.toDesk();
+                return "Business";
             case 4:
-                return Desk.T_Magazine.toDesk();
+                return "T_Magazine";
             default:
                 return null;
         }

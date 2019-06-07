@@ -14,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jpz.mynews.Controllers.Utils.Desk;
 import com.jpz.mynews.Controllers.Utils.MySharedPreferences;
 import com.jpz.mynews.R;
 
@@ -35,6 +37,20 @@ public class ResearchFragment extends Fragment {
 
     private EditText editBeginDate;
     private EditText editEndDate;
+    private CheckBox checkBoxOne;
+    private CheckBox checkBoxTwo;
+    private CheckBox checkBoxThree;
+    private CheckBox checkBoxFour;
+    private CheckBox checkBoxFive;
+    private CheckBox checkBoxSix;
+
+    private String checkBoxOneValue;
+    private String checkBoxTwoValue;
+    private String checkBoxThreeValue;
+    private String checkBoxFourValue;
+    private String checkBoxFiveValue;
+    private String checkBoxSixValue;
+
 
     private Calendar calendar;
 
@@ -69,14 +85,18 @@ public class ResearchFragment extends Fragment {
         TextView textTwo = view.findViewById(R.id.search_fragment_text_two);
         editEndDate = view.findViewById(R.id.search_fragment_edit_end_date);
 
-        CheckBox checkBoxOne = view.findViewById(R.id.search_fragment_checkbox_one);
-        CheckBox checkBoxTwo = view.findViewById(R.id.search_fragment_checkbox_two);
-        CheckBox checkBoxThree = view.findViewById(R.id.search_fragment_checkbox_three);
-        CheckBox checkBoxFour = view.findViewById(R.id.search_fragment_checkbox_four);
-        CheckBox checkBoxFive = view.findViewById(R.id.search_fragment_checkbox_five);
-        CheckBox checkBoxSix = view.findViewById(R.id.search_fragment_checkbox_six);
+        checkBoxOne = view.findViewById(R.id.search_fragment_checkbox_one);
+        checkBoxTwo = view.findViewById(R.id.search_fragment_checkbox_two);
+        checkBoxThree = view.findViewById(R.id.search_fragment_checkbox_three);
+        checkBoxFour = view.findViewById(R.id.search_fragment_checkbox_four);
+        checkBoxFive = view.findViewById(R.id.search_fragment_checkbox_five);
+        checkBoxSix = view.findViewById(R.id.search_fragment_checkbox_six);
 
         searchButton = view.findViewById(R.id.search_fragment_button);
+
+        //------------------------------------------------------------------------------------------
+        // Active the search button when the query is entered
+
         searchButton.setEnabled(false);
 
         editQuery.addTextChangedListener(new TextWatcher() {
@@ -98,12 +118,11 @@ public class ResearchFragment extends Fragment {
         });
 
         //------------------------------------------------------------------------------------------
-        /*
-        Create, display & save DatePicker in EditText
-         */
+        // Create, display & save DatePicker in EditText
+
         calendar = Calendar.getInstance();
 
-        // Action when click on editText under "Begin Date"
+        // Actions when click on editText under "Begin Date"
         final DatePickerDialog.OnDateSetListener beginDateSetListener =
                 new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -124,7 +143,7 @@ public class ResearchFragment extends Fragment {
             }
         });
 
-        // Action when click on editText under "End Date"
+        // Actions when click on editText under "End Date"
         final DatePickerDialog.OnDateSetListener EndDateSetListener =
                 new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -144,32 +163,89 @@ public class ResearchFragment extends Fragment {
                         calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-        //------------------------------------------------------------------------------------------
 
+        //------------------------------------------------------------------------------------------
+        // Set texts & values for checkBoxes
+
+        checkBoxOne.setText(Desk.Foreign.toDesk());
+        checkBoxTwo.setText(Desk.Business.toDesk());
+        checkBoxThree.setText(Desk.T_Magazine.toDesk());
+        checkBoxFour.setText(Desk.Environment.toDesk());
+        checkBoxFive.setText(Desk.Science.toDesk());
+        checkBoxSix.setText(Desk.Sports.toDesk());
+
+        checkBoxOne.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (checkBoxOne.isChecked())
+                    checkBoxOneValue = checkBoxOne.getText().toString();
+                else checkBoxOneValue = null;
+            }
+        });
+
+        checkBoxTwo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (checkBoxTwo.isChecked())
+                    checkBoxTwoValue = checkBoxTwo.getText().toString();
+                else checkBoxTwoValue = null;
+            }
+        });
+
+        checkBoxThree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (checkBoxThree.isChecked())
+                    checkBoxThreeValue = checkBoxThree.getText().toString();
+                else checkBoxThreeValue = null;
+            }
+        });
+
+        checkBoxFour.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (checkBoxFour.isChecked())
+                    checkBoxFourValue = checkBoxFour.getText().toString();
+                else checkBoxFourValue = null;
+            }
+        });
+
+        checkBoxFive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (checkBoxFive.isChecked())
+                    checkBoxFiveValue = checkBoxFive.getText().toString();
+                else checkBoxFiveValue = null;
+            }
+        });
+
+        checkBoxSix.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (checkBoxSix.isChecked())
+                    checkBoxSixValue = checkBoxSix.getText().toString();
+                else checkBoxSixValue = null;
+            }
+        });
+
+        //------------------------------------------------------------------------------------------
         // Action when click on search button
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // Save the query terms when button clicked
-                String queryTerms = editQuery.getText().toString();
-                prefs.saveQueryTerms(queryTerms);
-                Log.i("TAG", "ResearchFragment save queryTerms : "+ queryTerms);
-
-                // Save the query terms when button clicked
-                String beginDate = editBeginDate.getText().toString();
-                prefs.saveBeginDate(beginDate);
-                Log.i("TAG", "ResearchFragment save beginDate : "+ beginDate);
-
-                // Save the query terms when button clicked
-                String endDate = editEndDate.getText().toString();
-                prefs.saveEndDate(endDate);
-                Log.i("TAG", "ResearchFragment save endDate : "+ endDate);
+                // Call the methods to save value for the research
+                saveQueryTermsValue();
+                saveBeginDateValue();
+                saveEndDateValue();
+                saveCheckBoxesValues();
 
                 // Spread the click to the parent activity
                 mCallback.OnSearchClicked(v);
             }
         });
+        //------------------------------------------------------------------------------------------
+
         return view;
     }
 
@@ -187,6 +263,35 @@ public class ResearchFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.getDefault());
         // Show calendar to choose begin date
         editEndDate.setText(sdf.format(calendar.getTime()));
+    }
+
+    private void saveQueryTermsValue() {
+        // Save the query terms when the search button is clicked
+        String queryTerms = editQuery.getText().toString();
+        prefs.saveQueryTerms(queryTerms);
+        Log.i("TAG", "ResearchFragment save queryTerms : "+ queryTerms);
+    }
+
+    private void saveBeginDateValue() {
+        // Save the begin date when the search button is clicked
+        String beginDate = editBeginDate.getText().toString();
+        prefs.saveBeginDate(beginDate);
+        Log.i("TAG", "ResearchFragment save beginDate : "+ beginDate);
+    }
+
+    private void saveEndDateValue() {
+        // Save the end date when the search button is clicked
+        String endDate = editEndDate.getText().toString();
+        prefs.saveEndDate(endDate);
+        Log.i("TAG", "ResearchFragment save endDate : "+ endDate);
+    }
+
+    private void saveCheckBoxesValues() {
+        // Save the checkBoxes values when the search button is clicked
+        prefs.saveBoxesValues(checkBoxOneValue, checkBoxTwoValue, checkBoxThreeValue,
+                checkBoxFourValue, checkBoxFiveValue, checkBoxSixValue);
+        Log.i("TAG", "ResearchFragment save boxes : "+ checkBoxOneValue + checkBoxTwoValue +
+                checkBoxThreeValue + checkBoxFourValue + checkBoxFiveValue + checkBoxSixValue );
     }
 
     @Override

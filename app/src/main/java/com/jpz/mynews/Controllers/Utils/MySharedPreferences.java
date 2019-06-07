@@ -13,6 +13,12 @@ public class MySharedPreferences {
     private String queryKey = "queryKey";
     private String beginDateKey = "beginDateKey";
     private String endDateKey = "endDateKey";
+    private String checkBoxOneKey = "checkBoxOneKey";
+    private String checkBoxTwoKey = "checkBoxTwoKey";
+    private String checkBoxThreeKey = "checkBoxThreeKey";
+    private String checkBoxFourKey = "checkBoxFourKey";
+    private String checkBoxFiveKey = "checkBoxFiveKey";
+    private String checkBoxSixKey = "checkBoxSixKey";
 
     // Constructor
     public MySharedPreferences(Context context){
@@ -47,6 +53,31 @@ public class MySharedPreferences {
     // Get the end date from the research
     public String getEndDate() {
         return prefs.getString(endDateKey, null);
+    }
+
+    // Save the checkBox values from the research
+    public void saveBoxesValues(String checkBoxOne, String checkBoxTwo, String checkBoxThree,
+                                String checkBoxFour, String checkBoxFive, String checkBoxSix) {
+        prefs.edit().putString(checkBoxOneKey, checkBoxOne).apply();
+        prefs.edit().putString(checkBoxTwoKey, checkBoxTwo).apply();
+        prefs.edit().putString(checkBoxThreeKey, checkBoxThree).apply();
+        prefs.edit().putString(checkBoxFourKey, checkBoxFour).apply();
+        prefs.edit().putString(checkBoxFiveKey, checkBoxFive).apply();
+        prefs.edit().putString(checkBoxSixKey, checkBoxSix).apply();
+    }
+
+    // Get the checkBox values from the research
+    public String[] getBoxesValues() {
+        String checkBoxOne = prefs.getString(checkBoxOneKey, null);
+        String checkBoxTwo = prefs.getString(checkBoxTwoKey, null);
+        String checkBoxThree = prefs.getString(checkBoxThreeKey, null);
+        String checkBoxFour = prefs.getString(checkBoxFourKey, null);
+        String checkBoxFive = prefs.getString(checkBoxFiveKey, null);
+        String checkBoxSix = prefs.getString(checkBoxSixKey, null);
+
+        String[] whole = {checkBoxOne, checkBoxTwo, checkBoxThree, checkBoxFour, checkBoxFive, checkBoxSix};
+
+        return whole;
     }
 
 }
