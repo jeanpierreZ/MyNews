@@ -115,69 +115,21 @@ public class APIClient {
 
     // Public method to start fetching the result for Article Search
     public static Observable<ArticleSearchResponse>
-    fetchArticleSearch(String newsDesk, String sortOrder, int page) {
+    fetchArticleSearch(String newsDesk, String sortOrder, int page, String query,
+                       String beginDate, String endDate) {
         // Get a Retrofit instance and the related Observable of the Interface
         Service service = Service.retrofit.create(Service.class);
         // Create the call on Article Search API
-        return service.getArticleSearch(newsDesk, sortOrder, page)
+        return service.getArticleSearch(newsDesk, sortOrder, page, query, beginDate, endDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
 
     // Public method to generify the result for Article Search
-    public static Observable<List<GenericNews>> getArticleSearchNews(String desk, int page){
-        return fetchArticleSearch(desk, Service.API_FILTER_SORT_ORDER, page)
-                .map(new Function<ArticleSearchResponse, List<Doc>>() {
-                    @Override
-                    public List<Doc> apply(ArticleSearchResponse response) throws Exception {
-
-                        return response.getResponse().getDocs();
-                    }
-                }).map(new Function<List<Doc>, List<GenericNews>>() {
-                    @Override
-                    public List<GenericNews> apply(List<Doc> docList) throws Exception {
-
-                        List<GenericNews> genericNewsList = new ArrayList<>();
-
-                        for(Doc doc : docList){
-
-                            GenericNews genericNews = new GenericNews();
-
-                            genericNews.title = doc.getHeadline().getMain();
-                            genericNews.date = doc.getPubDate();
-                            genericNews.section = doc.getSectionName();
-                            genericNews.subSection = doc.getSubsectionName();
-                            // If Multimedium is empty don't display the photo
-                            if ( doc.getMultimedia().size() != 0)
-                                genericNews.image = "https://www.nytimes.com/"
-                                        + doc.getMultimedia().get(0).getUrl();
-                            genericNews.url = doc.getWebUrl();
-
-                            genericNewsList.add(genericNews);
-                        }
-                        return genericNewsList;
-                    }
-                });
-    }
-
-    // Public method to start fetching the result for a specific Search with query terms
-    public static Observable<ArticleSearchResponse>
-    fetchResearchWithTerms(String newsDesk, String sortOrder, int page, String query,
-                         String beginDate, String endDate) {
-        // Get a Retrofit instance and the related Observable of the Interface
-        Service service = Service.retrofit.create(Service.class);
-        // Create the call on Article Search API
-        return service.getResearchWithTerms(newsDesk, sortOrder, page, query, beginDate, endDate)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
-    }
-
-    // Public method to generify the result for a specific Search with query terms
     public static Observable<List<GenericNews>>
-    getResearchWithTerms(String desk, int page, String query, String beginDate, String endDate){
-        return fetchResearchWithTerms(desk, Service.API_FILTER_SORT_ORDER, page, query, beginDate, endDate)
+    getArticleSearchNews(String desk, int page, String query, String beginDate, String endDate){
+        return fetchArticleSearch(desk, Service.API_FILTER_SORT_ORDER, page, query, beginDate, endDate)
                 .map(new Function<ArticleSearchResponse, List<Doc>>() {
                     @Override
                     public List<Doc> apply(ArticleSearchResponse response) throws Exception {

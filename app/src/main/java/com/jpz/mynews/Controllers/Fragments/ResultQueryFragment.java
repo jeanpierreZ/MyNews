@@ -131,7 +131,7 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
         fetchDesks();
 
         // Execute the stream subscribing to Observable defined inside APIClient
-        this.disposable = APIClient.getResearchWithTerms
+        this.disposable = APIClient.getArticleSearchNews
                 (desk, page, queryTerms, beginDate, endDate)
                 .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                     @Override

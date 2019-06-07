@@ -30,6 +30,9 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
 
     // Use for pagination
     private int page;
+    private String query;
+    private String beginDate;
+    private String endDate;
 
     // Create keys for Bundle
     private static final String KEY_POSITION = "position";
@@ -111,7 +114,8 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
 
             if (desk != null)
             // Execute the stream subscribing to Observable defined inside APIClient
-            this.disposable = APIClient.getArticleSearchNews("news_desk:(" + desk.toDesk() +")", page)
+            this.disposable = APIClient.getArticleSearchNews
+                    ("news_desk:(" + desk.toDesk() +")", page, query, beginDate, endDate)
                     .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                         @Override
                         public void onNext(List<GenericNews> genericNewsList) {

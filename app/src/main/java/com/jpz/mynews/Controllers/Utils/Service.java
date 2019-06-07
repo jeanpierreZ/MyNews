@@ -59,13 +59,7 @@ public interface Service {
     @GET("search/v2/articlesearch.json?api-key=" + API_KEY)
     Observable<ArticleSearchResponse>
     getArticleSearch(@Query("fq") String newsDesk, @Query("sort") String sortOrder,
-                     @Query("page") int page);
-
-    // GET type of REST request for Article Search API with query terms and dates
-    @GET("search/v2/articlesearch.json?api-key=" + API_KEY)
-    Observable<ArticleSearchResponse>
-    getResearchWithTerms(@Query("fq") String newsDesk, @Query("sort") String sortOrder,
-                       @Query("page") int page, @Query("q") String query,
-                       @Query("begin_date") String beginDate, @Query("end_date") String endDate);
+                         @Query("page") int page, @Query("q") String query,
+                         @Query("begin_date") String beginDate, @Query("end_date") String endDate);
 
 }
