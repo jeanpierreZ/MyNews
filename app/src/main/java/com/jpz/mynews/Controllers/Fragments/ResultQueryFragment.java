@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.jpz.mynews.Controllers.Utils.APIClient;
 import com.jpz.mynews.Controllers.Utils.ConvertMethods;
-import com.jpz.mynews.Controllers.Utils.Desk;
 import com.jpz.mynews.Controllers.Utils.MySharedPreferences;
 import com.jpz.mynews.Models.GenericNews;
 import com.jpz.mynews.R;
@@ -38,20 +37,13 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
     // Use for pagination
     private int page;
 
-    // Use for research articles
+    // Fields used for the research of articles
     private String queryTerms;
     private String beginDate;
     private String endDate;
-
+    private String beginDateBeforeConvert;
+    private String endDateBeforeConvert;
     private String desk;
-
-    private String desks[];
-    private String deskOne;
-    private String deskTwo;
-    private String deskThree;
-    private String deskFour;
-    private String deskFive;
-    private String deskSix;
 
     // Create key for Bundle
     private static final String ARG_POSITION = "position";
@@ -126,49 +118,17 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
 
     @Override
     protected void fetchData() {
+        // Get context for sharedPreferences
         final Context context = getActivity();
         if (context != null) {
             prefs = new MySharedPreferences(context);
         }
-        // Get the query terms to research
-        queryTerms = prefs.getQueryTerms();
-        Log.i("TAG", "queryTerms : "+ queryTerms);
 
-        // Get the begin date to research
-        final String beginDateBeforeConvert = prefs.getBeginDate();
-        // If there is no date saved, set ""
-        if (beginDateBeforeConvert.equals(""))
-            beginDate = null;
-        else {
-            beginDate = convertMethods.convertBeginOrEndDate(beginDateBeforeConvert);
-            Log.i("TAG", "beginDate : "+ beginDate);
-        }
-
-        // Get the end date to research
-        final String endDateBeforeConvert = prefs.getEndDate();
-        // If there is no date saved, set ""
-        if (endDateBeforeConvert.equals(""))
-            endDate = null;
-        else {
-            endDate = convertMethods.convertBeginOrEndDate(endDateBeforeConvert);
-            Log.i("TAG", "endDate : " + endDate);
-        }
-
-        // Get desk values from boxes
-        desks = prefs.getBoxesValues();
-        // Add value form each desk
-        deskOne = desks[0];
-        deskTwo = desks[1];
-        deskThree = desks[2];
-        deskFour = desks[3];
-        deskFive = desks[4];
-        deskSix = desks[5];
-
-        Log.i("TAG", "desks : " + deskOne + deskTwo
-                + deskThree + deskFour + deskFive + deskSix);
-
-        desk = "news_desk:(" + deskOne + " " + deskTwo + " " + deskThree
-                + " " +  deskFour + " " +  deskFive + " " + deskSix +")";
+        // Call methods to fetch fields for the request
+        fetchQueryTerms();
+        fetchBeginDate();
+        fetchEndDate();
+        fetchDesks();
 
         // Execute the stream subscribing to Observable defined inside APIClient
         this.disposable = APIClient.getResearchWithTerms
@@ -177,20 +137,21 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
                     @Override
                     public void onNext(List<GenericNews> genericNewsList) {
                         Log.i("TAG", "On Next ResultQueryFragment");
-                        // Check if there a result in the list
+                        // Check if there is no result in the first page of the list...
                         if (page == 0) {
                             if (genericNewsList.size() == 0)
+                                // ...and inform the user
                                 Toast.makeText(context,
                                         "There is no result for your request \""+queryTerms
                                                 +"\" from "+beginDateBeforeConvert+" to "
                                                 +endDateBeforeConvert+" with the categories chosen.",
                                         Toast.LENGTH_LONG).show();
                             else
-                                // Update UI with a list of ArticleSearch
+                                // Else update UI with a list of ArticleSearch
                                 updateUI(genericNewsList);
                         }
+                        // Update UI with a list of ArticleSearch for following pages
                         else
-                            // Update UI with a list of ArticleSearch
                             updateUI(genericNewsList);
                     }
 
@@ -212,6 +173,7 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                // When end of list is reached, fetch next page
                 page = ++page;
                 fetchData();
                 adapterNews.notifyDataSetChanged();
@@ -220,4 +182,49 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
         }, 2000);
     }
 
+    private void fetchQueryTerms() {
+        // Get the query terms to research
+        queryTerms = prefs.getQueryTerms();
+        Log.i("TAG", "queryTerms : "+ queryTerms);
+    }
+
+    private void fetchBeginDate() {
+        // Get the begin date to research
+        beginDateBeforeConvert = prefs.getBeginDate();
+        // If there is no date saved, set ""
+        if (beginDateBeforeConvert.equals(""))
+            beginDate = null;
+        else {
+            beginDate = convertMethods.convertBeginOrEndDate(beginDateBeforeConvert);
+            Log.i("TAG", "beginDate : "+ beginDate);
+        }
+    }
+
+    private void fetchEndDate() {
+        // Get the end date to research
+        endDateBeforeConvert = prefs.getEndDate();
+        // If there is no date saved, set ""
+        if (endDateBeforeConvert.equals(""))
+            endDate = null;
+        else {
+            endDate = convertMethods.convertBeginOrEndDate(endDateBeforeConvert);
+            Log.i("TAG", "endDate : " + endDate);
+        }
+    }
+
+    private void fetchDesks() {
+        // Get desk values from boxes
+        String[] desks = prefs.getBoxesValues();
+        // Add value form each desk
+        String deskOne = desks[0];
+        String deskTwo = desks[1];
+        String deskThree = desks[2];
+        String deskFour = desks[3];
+        String deskFive = desks[4];
+        String deskSix = desks[5];
+        Log.i("TAG", "desks : " +deskOne+deskTwo+deskThree+deskFour+deskFive+deskSix);
+        // Formatting desks chosen for the request
+        desk = "news_desk:(" + deskOne + " " + deskTwo + " " + deskThree
+                + " " +  deskFour + " " +  deskFive + " " + deskSix +")";
+    }
 }

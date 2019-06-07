@@ -33,24 +33,21 @@ import java.util.Locale;
 public class ResearchFragment extends Fragment {
 
     private Button searchButton;
+
     private EditText editQuery;
+    private EditText editBeginDate, editEndDate;
 
-    private EditText editBeginDate;
-    private EditText editEndDate;
-    private CheckBox checkBoxOne;
-    private CheckBox checkBoxTwo;
-    private CheckBox checkBoxThree;
-    private CheckBox checkBoxFour;
-    private CheckBox checkBoxFive;
-    private CheckBox checkBoxSix;
+    private CheckBox checkBoxOne, checkBoxTwo, checkBoxThree, checkBoxFour, checkBoxFive, checkBoxSix;
+    private String checkBoxOneValue, checkBoxTwoValue, checkBoxThreeValue,
+            checkBoxFourValue, checkBoxFiveValue, checkBoxSixValue;
 
-    private String checkBoxOneValue;
-    private String checkBoxTwoValue;
-    private String checkBoxThreeValue;
-    private String checkBoxFourValue;
-    private String checkBoxFiveValue;
-    private String checkBoxSixValue;
-
+    private Boolean queryInput = false;
+    private Boolean boxOneChecked = false;
+    private Boolean boxTwoChecked = false;
+    private Boolean boxThreeChecked = false;
+    private Boolean boxFourChecked = false;
+    private Boolean boxFiveChecked = false;
+    private Boolean boxSixChecked = false;
 
     private Calendar calendar;
 
@@ -66,7 +63,7 @@ public class ResearchFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Get layout for ResearchFragment
         View view = inflater.inflate(R.layout.fragment_research, container, false);
@@ -94,11 +91,11 @@ public class ResearchFragment extends Fragment {
 
         searchButton = view.findViewById(R.id.search_fragment_button);
 
-        //------------------------------------------------------------------------------------------
-        // Active the search button when the query is entered
-
+        //Initialize the search button to be disabled on fragment creation
         searchButton.setEnabled(false);
 
+        //------------------------------------------------------------------------------------------
+        // Detect if a query is entered
         editQuery.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -107,8 +104,12 @@ public class ResearchFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Check the effective query term input to activate the search button
-                searchButton.setEnabled(s.toString().length() != 0);
+                // Verify that the term is entered as the first condition to enable the search button
+                if (s.toString().length() != 0)
+                    queryInput = true;
+                else if (s.toString().length() == 0)
+                    queryInput = false;
+                setSearchButtonEnabled();
             }
 
             @Override
@@ -174,57 +175,96 @@ public class ResearchFragment extends Fragment {
         checkBoxFive.setText(Desk.Science.toDesk());
         checkBoxSix.setText(Desk.Sports.toDesk());
 
+        // If a checkBox is checked, load desk value in a string
+        // Verify it also as the second condition to enable the search button
+
         checkBoxOne.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (checkBoxOne.isChecked())
+                if (isChecked) {
                     checkBoxOneValue = checkBoxOne.getText().toString();
-                else checkBoxOneValue = null;
+                    boxOneChecked = true;
+                }
+                else {
+                    checkBoxOneValue = null;
+                    boxOneChecked = false;
+                }
+                setSearchButtonEnabled();
             }
         });
 
         checkBoxTwo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (checkBoxTwo.isChecked())
+                if (isChecked) {
                     checkBoxTwoValue = checkBoxTwo.getText().toString();
-                else checkBoxTwoValue = null;
+                    boxTwoChecked = true;
+                }
+                else {
+                    checkBoxTwoValue = null;
+                    boxTwoChecked = false;
+                }
+                setSearchButtonEnabled();
             }
         });
 
         checkBoxThree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (checkBoxThree.isChecked())
+                if (isChecked) {
                     checkBoxThreeValue = checkBoxThree.getText().toString();
-                else checkBoxThreeValue = null;
+                    boxThreeChecked = true;
+                }
+                else {
+                    checkBoxThreeValue = null;
+                    boxThreeChecked = false;
+                }
+                setSearchButtonEnabled();
             }
         });
 
         checkBoxFour.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (checkBoxFour.isChecked())
+                if (isChecked) {
                     checkBoxFourValue = checkBoxFour.getText().toString();
-                else checkBoxFourValue = null;
+                    boxFourChecked = true;
+                }
+                else {
+                    checkBoxFourValue = null;
+                    boxFiveChecked = false;
+                }
+                setSearchButtonEnabled();
             }
         });
 
         checkBoxFive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (checkBoxFive.isChecked())
+                if (isChecked) {
                     checkBoxFiveValue = checkBoxFive.getText().toString();
-                else checkBoxFiveValue = null;
+                    boxFiveChecked = true;
+                }
+                else {
+                    checkBoxFiveValue = null;
+                    boxFiveChecked = false;
+                }
+                setSearchButtonEnabled();
             }
         });
 
         checkBoxSix.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (checkBoxSix.isChecked())
+                if (isChecked) {
                     checkBoxSixValue = checkBoxSix.getText().toString();
-                else checkBoxSixValue = null;
+                    boxSixChecked = true;
+                }
+                else {
+                    checkBoxSixValue = null;
+                    boxSixChecked = false;
+                }
+                setSearchButtonEnabled();
             }
         });
 
@@ -292,6 +332,15 @@ public class ResearchFragment extends Fragment {
                 checkBoxFourValue, checkBoxFiveValue, checkBoxSixValue);
         Log.i("TAG", "ResearchFragment save boxes : "+ checkBoxOneValue + checkBoxTwoValue +
                 checkBoxThreeValue + checkBoxFourValue + checkBoxFiveValue + checkBoxSixValue );
+    }
+
+    private void setSearchButtonEnabled() {
+        // Active the search button when the query is entered and at least a checkBox is checked
+        if (queryInput && (boxOneChecked || boxTwoChecked || boxThreeChecked
+                || boxFourChecked || boxFiveChecked || boxSixChecked))
+        searchButton.setEnabled(true);
+        else
+            searchButton.setEnabled(false);
     }
 
     @Override
