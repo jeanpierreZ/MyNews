@@ -77,8 +77,8 @@ public class MySharedPrefsTest {
         // Mock with value put in method saveBoxesValues()
         when(prefs.getBoxesValues()).thenReturn(checkBoxes);
 
-        String[] expectedResult = {"\"Foreign\"", "\"Business\"", "\"T Magazine\"",
-                "\"Environment\"", "\"Science\"", "\"Sports\""};
+        String[] expectedResult = {"Foreign", "Business", "T Magazine",
+                "Environment", "Science", "Sports"};
 
         assertArrayEquals(expectedResult, prefs.getBoxesValues());
     }
