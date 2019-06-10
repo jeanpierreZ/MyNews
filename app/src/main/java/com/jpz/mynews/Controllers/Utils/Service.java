@@ -25,12 +25,12 @@ public interface Service {
     // Time period : 1, 7, or 30 days ; the following values are allowed: 1, 7, 30
     int API_PERIOD = 7;
 
-    String API_DESK_ENVIRONMENT = "\"Environment\"";
-    String API_DESK_FOREIGN = "\"Foreign\"";
-    String API_DESK_BUSINESS = "\"Business\"";
-    String API_DESK_SCIENCE = "\"Science\"";
-    String API_DESK_SPORTS = "\"Sports\"";
-    String API_DESK_T_MAGAZINE = "\"T Magazine\"";
+    String API_DESK_ENVIRONMENT = "Environment";
+    String API_DESK_FOREIGN = "Foreign";
+    String API_DESK_BUSINESS = "Business";
+    String API_DESK_SCIENCE = "Science";
+    String API_DESK_SPORTS = "Sports";
+    String API_DESK_T_MAGAZINE = "T Magazine";
 
     // Sort order ; the following values are allowed: newest, oldest, relevance
     String API_FILTER_SORT_ORDER = "newest";

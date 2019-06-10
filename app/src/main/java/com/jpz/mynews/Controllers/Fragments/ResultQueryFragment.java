@@ -224,7 +224,7 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
         String deskSix = desks[5];
         Log.i("TAG", "desks : " +deskOne+deskTwo+deskThree+deskFour+deskFive+deskSix);
         // Formatting desks chosen for the request
-        desk = "news_desk:(" + deskOne + " " + deskTwo + " " + deskThree
-                + " " +  deskFour + " " +  deskFive + " " + deskSix +")";
+        desk = "news_desk:(\"" + deskOne + "\" \"" + deskTwo + "\" \"" + deskThree
+                + "\" \"" +  deskFour + "\" \"" +  deskFive + "\" \"" + deskSix +"\")";
     }
 }
