@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">MyNews</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Strings used for Menu in the ToolBar-->
+    <string name="searchIcon">Search</string>
+    <string name="parametersIcon">Parameters</string>
+
+    <!-- Strings used for the Fragment Research -->
+    <string name="searchQueryTerm">Search query term</string>
+    <string name="beginDate">Begin Date</string>
+    <string name="endDate">End Date</string>
+    <string name="searchButton">SEARCH</string>
+
 </resources>

@@ -16,6 +16,8 @@
         android:id="@+id/activity_main_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:background="#FFFFFF"
         app:tabBackground="@color/colorPrimary"
         app:tabIndicatorColor="@color/colorAccent"
         app:tabTextColor="#1b1b1b"
