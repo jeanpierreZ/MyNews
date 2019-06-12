@@ -17,8 +17,8 @@ import android.widget.Toast;
 
 import com.jpz.mynews.Controllers.Utils.APIClient;
 import com.jpz.mynews.Controllers.Utils.ConvertMethods;
-import com.jpz.mynews.Controllers.Utils.MySharedPreferences;
 import com.jpz.mynews.Models.GenericNews;
+import com.jpz.mynews.Models.SearchQuery;
 import com.jpz.mynews.R;
 import com.jpz.mynews.Views.AdapterNews;
 
@@ -26,27 +26,26 @@ import java.util.List;
 
 import io.reactivex.observers.DisposableObserver;
 
+import static com.jpz.mynews.Controllers.Activities.SearchActivity.KEY_BEGIN_DATE;
+import static com.jpz.mynews.Controllers.Activities.SearchActivity.KEY_DESKS;
+import static com.jpz.mynews.Controllers.Activities.SearchActivity.KEY_END_DATE;
+import static com.jpz.mynews.Controllers.Activities.SearchActivity.KEY_QUERY;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ResultQueryFragment extends NewsFragment implements AdapterNews.Listener {
 
-    private MySharedPreferences prefs;
     private ConvertMethods convertMethods = new ConvertMethods();
+    private SearchQuery searchQuery = new SearchQuery();
 
     // Use for pagination
     private int page;
 
-    // Fields used for the research of articles
-    private String queryTerms;
-    private String beginDate;
-    private String endDate;
-    private String beginDateBeforeConvert;
-    private String endDateBeforeConvert;
-    private String desk;
-
-    // Create key for Bundle
-    private static final String ARG_POSITION = "position";
+    // Fields used for the research of articles in request
+    private String beginDateAfterConversion;
+    private String endDateAfterConversion;
+    private String selectedDesks;
 
     // Fields to detect more scrolling
     private LinearLayoutManager layoutManager;
@@ -59,15 +58,6 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
 
     public ResultQueryFragment() {
         // Required empty public constructor
-    }
-
-    public static ResultQueryFragment newInstance(int position) {
-        // Create fragment and give it an argument specifying the article it should show
-        ResultQueryFragment resultQueryFragment = new ResultQueryFragment();
-        Bundle args = new Bundle();
-        args.putInt(ResultQueryFragment.ARG_POSITION, position);
-        resultQueryFragment.setArguments(args);
-        return(resultQueryFragment);
     }
 
     @Override
@@ -118,11 +108,8 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
 
     @Override
     protected void fetchData() {
-        // Get context for sharedPreferences
+
         final Context context = getActivity();
-        if (context != null) {
-            prefs = new MySharedPreferences(context);
-        }
 
         // Call methods to fetch fields for the request
         fetchQueryTerms();
@@ -132,7 +119,7 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
 
         // Execute the stream subscribing to Observable defined inside APIClient
         this.disposable = APIClient.getArticleSearchNews
-                (desk, page, queryTerms, beginDate, endDate)
+                (selectedDesks, page, searchQuery.queryTerms, beginDateAfterConversion, endDateAfterConversion)
                 .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                     @Override
                     public void onNext(List<GenericNews> genericNewsList) {
@@ -142,9 +129,9 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
                             if (genericNewsList.size() == 0)
                                 // ...and inform the user
                                 Toast.makeText(context,
-                                        "There is no result for your request \""+queryTerms
-                                                +"\" from "+beginDateBeforeConvert+" to "
-                                                +endDateBeforeConvert+" with the categories chosen.",
+                                        "There is no result for your request \""+searchQuery.queryTerms
+                                                +"\" from "+beginDateAfterConversion+" to "
+                                                +endDateAfterConversion+" with the categories chosen.",
                                         Toast.LENGTH_LONG).show();
                             else
                                 // Else update UI with a list of ArticleSearch
@@ -184,47 +171,57 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
 
     private void fetchQueryTerms() {
         // Get the query terms to research
-        queryTerms = prefs.getQueryTerms();
-        Log.i("TAG", "queryTerms : "+ queryTerms);
+        if (getArguments() != null)
+            searchQuery.queryTerms = getArguments().getString(KEY_QUERY);
+        Log.i("TAG", "RESULT queryTerms : "+ searchQuery.queryTerms);
     }
 
     private void fetchBeginDate() {
         // Get the begin date to research
-        beginDateBeforeConvert = prefs.getBeginDate();
+        if (getArguments() != null)
+            searchQuery.beginDate = getArguments().getString(KEY_BEGIN_DATE);
+
         // If there is no date saved, set ""
-        if (beginDateBeforeConvert.equals(""))
-            beginDate = null;
-        else {
-            beginDate = convertMethods.convertBeginOrEndDate(beginDateBeforeConvert);
-            Log.i("TAG", "beginDate : "+ beginDate);
+        if (searchQuery.beginDate != null) {
+            if (searchQuery.beginDate.equals(""))
+                beginDateAfterConversion = null;
+            else {
+                beginDateAfterConversion = convertMethods.convertBeginOrEndDate(searchQuery.beginDate);
+                Log.i("TAG", "RESULT beginDate : "+ beginDateAfterConversion);
+            }
         }
     }
 
     private void fetchEndDate() {
         // Get the end date to research
-        endDateBeforeConvert = prefs.getEndDate();
+        if (getArguments() != null)
+            searchQuery.endDate = getArguments().getString(KEY_END_DATE);
+
         // If there is no date saved, set ""
-        if (endDateBeforeConvert.equals(""))
-            endDate = null;
-        else {
-            endDate = convertMethods.convertBeginOrEndDate(endDateBeforeConvert);
-            Log.i("TAG", "endDate : " + endDate);
+        if (searchQuery.endDate != null) {
+            if (searchQuery.endDate.equals(""))
+                endDateAfterConversion = null;
+            else {
+                endDateAfterConversion = convertMethods.convertBeginOrEndDate(searchQuery.endDate);
+                Log.i("TAG", "RESULT endDate : " + searchQuery.endDate);
+            }
         }
     }
 
     private void fetchDesks() {
-        // Get desk values from boxes
-        String[] desks = prefs.getBoxesValues();
-        // Add value form each desk
-        String deskOne = desks[0];
-        String deskTwo = desks[1];
-        String deskThree = desks[2];
-        String deskFour = desks[3];
-        String deskFive = desks[4];
-        String deskSix = desks[5];
-        Log.i("TAG", "desks : " +deskOne+deskTwo+deskThree+deskFour+deskFive+deskSix);
+        // Get desk values ro research
+        if (getArguments() != null)
+            searchQuery.desks = getArguments().getStringArray(KEY_DESKS);
+
         // Formatting desks chosen for the request
-        desk = "news_desk:(\"" + deskOne + "\" \"" + deskTwo + "\" \"" + deskThree
-                + "\" \"" +  deskFour + "\" \"" +  deskFive + "\" \"" + deskSix +"\")";
+        if (searchQuery.desks != null) {
+            Log.i("TAG", "RESULT desks : " +
+                    searchQuery.desks[0]+searchQuery.desks[1]+searchQuery.desks[2]+
+                    searchQuery.desks[3]+searchQuery.desks[4]+searchQuery.desks[5]);
+            selectedDesks =
+                    "news_desk:(\"" + searchQuery.desks[0] + "\" \"" + searchQuery.desks[1] +
+                            "\" \"" + searchQuery.desks[2] + "\" \"" + searchQuery.desks[3] +
+                            "\" \"" + searchQuery.desks[4] + "\" \"" + searchQuery.desks[5] +"\")";
+        }
     }
 }

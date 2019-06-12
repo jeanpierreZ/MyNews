@@ -5,16 +5,29 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.jpz.mynews.Controllers.Fragments.ResearchFragment;
 import com.jpz.mynews.Controllers.Fragments.ResultQueryFragment;
+import com.jpz.mynews.Models.SearchQuery;
 import com.jpz.mynews.R;
+
 
 public class SearchActivity extends AppCompatActivity implements ResearchFragment.OnSearchClickedListener {
 
     ResearchFragment researchFragment = new ResearchFragment();
     ResultQueryFragment resultQueryFragment = new ResultQueryFragment();
+
+    private SearchQuery searchQuery = new SearchQuery();
+
+    private Bundle bundle = new Bundle();
+
+    // Create keys for Bundles
+    public static final String KEY_QUERY = "query";
+    public static final String KEY_BEGIN_DATE = "beginDate";
+    public static final String KEY_END_DATE = "endDate";
+    public static final String KEY_DESKS = "desks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +55,8 @@ public class SearchActivity extends AppCompatActivity implements ResearchFragmen
 
     private void configureResearchFragment(){
         // Get FragmentManager (Support) and Try to find existing instance of fragment in FrameLayout container
-        researchFragment = (ResearchFragment) getSupportFragmentManager().findFragmentById(R.id.activity_search_frame_layout);
+        researchFragment = (ResearchFragment)
+                getSupportFragmentManager().findFragmentById(R.id.activity_search_frame_layout);
         if (researchFragment == null) {
             // Create new ResearchFragment
             researchFragment = new ResearchFragment();
@@ -64,5 +78,49 @@ public class SearchActivity extends AppCompatActivity implements ResearchFragmen
 
         // Commit the transaction
         transaction.commit();
+    }
+
+
+    //----------------------------------------------------------------------------------
+    // Implements methods from ResearchFragment to set Arguments for ResultQueryFragment
+
+    @Override
+    public void saveQueryTermsValue(String queryTerms) {
+        searchQuery.queryTerms = queryTerms;
+
+        bundle.putString(KEY_QUERY, searchQuery.queryTerms);
+        Log.i("LOG","bundle " + searchQuery.queryTerms);
+
+        resultQueryFragment.setArguments(bundle);
+    }
+
+    @Override
+    public void saveBeginDateValue(String beginDate) {
+        searchQuery.beginDate = beginDate;
+
+        bundle.putString(KEY_BEGIN_DATE, searchQuery.beginDate);
+        Log.i("LOG","bundle " + searchQuery.beginDate);
+
+        resultQueryFragment.setArguments(bundle);
+    }
+
+    @Override
+    public void saveEndDateValue(String endDate) {
+        searchQuery.endDate = endDate;
+
+        bundle.putString(KEY_END_DATE, searchQuery.endDate);
+        Log.i("LOG","bundle " + searchQuery.endDate);
+
+        resultQueryFragment.setArguments(bundle);
+    }
+
+    @Override
+    public void saveDesksValues(String[] deskList) {
+        searchQuery.desks = deskList;
+
+        bundle.putStringArray(KEY_DESKS, searchQuery.desks);
+        Log.i("LOG","bundle deskOne" + searchQuery.desks[0] + "bundle deskTwo" + searchQuery.desks[1]);
+
+        resultQueryFragment.setArguments(bundle);
     }
 }
