@@ -2,12 +2,12 @@ package com.jpz.mynews.Controllers.Utils;
 
 public enum Desk {
     // The desks of API
-    Environment (Service.API_DESK_ENVIRONMENT),
-    Business (Service.API_DESK_BUSINESS),
     Foreign (Service.API_DESK_FOREIGN),
+    Business (Service.API_DESK_BUSINESS),
+    Magazine (Service.API_DESK_MAGAZINE),
+    Environment (Service.API_DESK_ENVIRONMENT),
     Science (Service.API_DESK_SCIENCE),
-    Sports (Service.API_DESK_SPORTS),
-    T_Magazine (Service.API_DESK_T_MAGAZINE);
+    Sports (Service.API_DESK_SPORTS);
 
     private String name;
 
@@ -20,5 +20,4 @@ public enum Desk {
     public String toDesk(){
         return name;
     }
-
 }

@@ -130,8 +130,8 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
                                 // ...and inform the user
                                 Toast.makeText(context,
                                         "There is no result for your request \""+searchQuery.queryTerms
-                                                +"\" from "+beginDateAfterConversion+" to "
-                                                +endDateAfterConversion+" with the categories chosen.",
+                                                +"\" from "+searchQuery.beginDate+" to "
+                                                +searchQuery.endDate+" with the categories chosen.",
                                         Toast.LENGTH_LONG).show();
                             else
                                 // Else update UI with a list of ArticleSearch

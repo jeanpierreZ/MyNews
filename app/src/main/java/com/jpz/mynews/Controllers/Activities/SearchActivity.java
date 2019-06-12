@@ -1,5 +1,6 @@
 package com.jpz.mynews.Controllers.Activities;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,13 +9,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.jpz.mynews.Controllers.Fragments.NewsFragment;
 import com.jpz.mynews.Controllers.Fragments.ResearchFragment;
 import com.jpz.mynews.Controllers.Fragments.ResultQueryFragment;
 import com.jpz.mynews.Models.SearchQuery;
 import com.jpz.mynews.R;
 
+import static com.jpz.mynews.Controllers.Activities.MainActivity.KEY_URL;
 
-public class SearchActivity extends AppCompatActivity implements ResearchFragment.OnSearchClickedListener {
+
+public class SearchActivity extends AppCompatActivity implements ResearchFragment.OnSearchClickedListener, NewsFragment.OnWebClickedListener {
 
     ResearchFragment researchFragment = new ResearchFragment();
     ResultQueryFragment resultQueryFragment = new ResultQueryFragment();
@@ -67,6 +71,9 @@ public class SearchActivity extends AppCompatActivity implements ResearchFragmen
         }
     }
 
+    //----------------------------------------------------------------------------------
+    // Implements methods from ResearchFragment to set Arguments for ResultQueryFragment
+
     @Override
     public void OnSearchClicked(View view) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -79,10 +86,6 @@ public class SearchActivity extends AppCompatActivity implements ResearchFragmen
         // Commit the transaction
         transaction.commit();
     }
-
-
-    //----------------------------------------------------------------------------------
-    // Implements methods from ResearchFragment to set Arguments for ResultQueryFragment
 
     @Override
     public void saveQueryTermsValue(String queryTerms) {
@@ -119,8 +122,22 @@ public class SearchActivity extends AppCompatActivity implements ResearchFragmen
         searchQuery.desks = deskList;
 
         bundle.putStringArray(KEY_DESKS, searchQuery.desks);
-        Log.i("LOG","bundle deskOne" + searchQuery.desks[0] + "bundle deskTwo" + searchQuery.desks[1]);
+        Log.i("LOG","desks" +
+                searchQuery.desks[0] + searchQuery.desks[1] +
+                searchQuery.desks[2] + searchQuery.desks[3] +
+                searchQuery.desks[4] + searchQuery.desks[5]);
 
         resultQueryFragment.setArguments(bundle);
+    }
+
+    //----------------------------------------------------------------------------------
+    // Implements methods from NewsFragment to create Intent for WebViewActivity
+
+    @Override
+    public void OnWebClicked(int position, String url) {
+        // Spread the click with the url of the article to WebViewActivity
+        Intent webViewActivity = new Intent(SearchActivity.this, WebViewActivity.class);
+        webViewActivity.putExtra(KEY_URL, url);
+        startActivity(webViewActivity);
     }
 }

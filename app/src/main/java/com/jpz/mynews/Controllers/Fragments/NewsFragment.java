@@ -1,7 +1,7 @@
 package com.jpz.mynews.Controllers.Fragments;
 
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.jpz.mynews.Controllers.Activities.WebViewActivity;
 import com.jpz.mynews.Models.GenericNews;
 import com.jpz.mynews.R;
 import com.jpz.mynews.Views.AdapterNews;
@@ -35,8 +34,8 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
     protected AdapterNews adapterNews;
     protected List<GenericNews> genericNewsList;
 
-    // Create key for Intent
-    public static final String KEY_URL = "item";
+    // Declare callback
+    private OnWebClickedListener callbackUrl;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -77,15 +76,12 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
         // Save the url of the item in the RecyclerView
         String url = adapterNews.getPosition(position).url;
 
-        // Spread the click with the url to WebViewActivity
-        Intent webViewActivity = new Intent(getActivity(), WebViewActivity.class);
-        webViewActivity.putExtra(KEY_URL, url);
-        startActivity(webViewActivity);
+        // Spread the click to the parent activity
+        callbackUrl.OnWebClicked(position, url);
     }
 
-    // -------------------
+    // ----------------------------------------------------------------------------
     // HTTP (RxJAVA)
-    // -------------------
 
     // Configure RecyclerViews, Adapters, LayoutManager & glue it together
 
@@ -108,6 +104,31 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
     // Dispose subscription
     protected void disposeWhenDestroy(){
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
+    }
+
+    // ----------------------------------------------------------------------------
+    // Interface for callback to parent activity and associated methods
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // Call the method that creating callback after being attached to parent activity
+        this.createCallbackToParentActivity();
+    }
+
+    // Declare our interface that will be implemented by any container activity
+    public interface OnWebClickedListener {
+        void OnWebClicked(int position, String url);
+    }
+
+    // Create callback to parent activity
+    private void createCallbackToParentActivity(){
+        try {
+            // Parent activity will automatically subscribe to callback
+            callbackUrl = (OnWebClickedListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(e.toString()+ " must implement OnWebClickedListener");
+        }
     }
 
 }

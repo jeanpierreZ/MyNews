@@ -10,10 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.jpz.mynews.Controllers.Fragments.NewsFragment;
 import com.jpz.mynews.R;
 import com.jpz.mynews.Views.PageAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NewsFragment.OnWebClickedListener {
+
+    // Create key for Intent
+    public static final String KEY_URL = "url";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,4 +72,14 @@ public class MainActivity extends AppCompatActivity {
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
+    //----------------------------------------------------------------------------------
+    // Implements methods from NewsFragment to create Intent for WebViewActivity
+
+    @Override
+    public void OnWebClicked(int position, String url) {
+        // Spread the click with the url of the article to WebViewActivity
+        Intent webViewActivity = new Intent(MainActivity.this, WebViewActivity.class);
+        webViewActivity.putExtra(KEY_URL, url);
+        startActivity(webViewActivity);
+    }
 }

@@ -10,7 +10,7 @@ import android.webkit.WebViewClient;
 
 import com.jpz.mynews.R;
 
-import static com.jpz.mynews.Controllers.Fragments.NewsFragment.KEY_URL;
+import static com.jpz.mynews.Controllers.Activities.MainActivity.KEY_URL;
 
 public class WebViewActivity extends AppCompatActivity {
 

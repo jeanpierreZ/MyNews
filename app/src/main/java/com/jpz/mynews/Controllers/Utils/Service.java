@@ -30,7 +30,7 @@ public interface Service {
     String API_DESK_BUSINESS = "Business";
     String API_DESK_SCIENCE = "Science";
     String API_DESK_SPORTS = "Sports";
-    String API_DESK_T_MAGAZINE = "T Magazine";
+    String API_DESK_MAGAZINE = "Magazine";
 
     // Sort order ; the following values are allowed: newest, oldest, relevance
     String API_FILTER_SORT_ORDER = "newest";

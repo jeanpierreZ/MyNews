@@ -178,7 +178,7 @@ public class ResearchFragment extends Fragment {
 
         boxOne.setText(Desk.Foreign.toDesk());
         boxTwo.setText(Desk.Business.toDesk());
-        boxThree.setText(Desk.T_Magazine.toDesk());
+        boxThree.setText(Desk.Magazine.toDesk());
         boxFour.setText(Desk.Environment.toDesk());
         boxFive.setText(Desk.Science.toDesk());
         boxSix.setText(Desk.Sports.toDesk());
