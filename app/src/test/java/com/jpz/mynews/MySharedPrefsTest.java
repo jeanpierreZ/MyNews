@@ -30,7 +30,7 @@ public class MySharedPrefsTest {
 
         String checkBoxOne = Desk.Foreign.toDesk();
         String checkBoxTwo = Desk.Business.toDesk();
-        String checkBoxThree = Desk.T_Magazine.toDesk();
+        String checkBoxThree = Desk.Magazine.toDesk();
         String checkBoxFour = Desk.Environment.toDesk();
         String checkBoxFive = Desk.Science.toDesk();
         String checkBoxSix = Desk.Sports.toDesk();
@@ -77,7 +77,7 @@ public class MySharedPrefsTest {
         // Mock with value put in method saveBoxesValues()
         when(prefs.getBoxesValues()).thenReturn(checkBoxes);
 
-        String[] expectedResult = {"Foreign", "Business", "T Magazine",
+        String[] expectedResult = {"Foreign", "Business", "Magazine",
                 "Environment", "Science", "Sports"};
 
         assertArrayEquals(expectedResult, prefs.getBoxesValues());
