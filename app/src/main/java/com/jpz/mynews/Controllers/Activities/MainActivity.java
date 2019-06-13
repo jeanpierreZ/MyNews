@@ -39,12 +39,19 @@ public class MainActivity extends AppCompatActivity implements NewsFragment.OnWe
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle actions on menu items
         switch (item.getItemId()) {
-            case R.id.menu_activity_main_params:
-                Toast.makeText(this, "Il n'y a rien à paramétrer ici...", Toast.LENGTH_SHORT).show();
-                return true;
             case R.id.menu_activity_main_search:
                 Intent searchActivity = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(searchActivity);
+                return true;
+            case R.id.menu_activity_main_notifications:
+                Intent notificationsActivity = new Intent(MainActivity.this, NotificationsActivity.class);
+                startActivity(notificationsActivity);
+                return true;
+            case R.id.menu_activity_main_help:
+                Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.menu_activity_main_about:
+                Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

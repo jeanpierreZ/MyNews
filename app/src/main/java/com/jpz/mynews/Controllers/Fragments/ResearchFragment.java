@@ -322,7 +322,7 @@ public class ResearchFragment extends Fragment {
     }
 
     private void setSearchButtonEnabled() {
-        // Active the search button when the query is entered and at least a checkBox is checked
+        // Active the search button when the query is entered and at least one checkBox is checked
         if (queryInput && (boxOneChecked || boxTwoChecked || boxThreeChecked
                 || boxFourChecked || boxFiveChecked || boxSixChecked))
             searchButton.setEnabled(true);

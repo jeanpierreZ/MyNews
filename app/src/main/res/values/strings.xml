@@ -3,12 +3,17 @@
 
     <!-- Strings used for Menu in the ToolBar-->
     <string name="searchIcon">Search</string>
-    <string name="parametersIcon">Parameters</string>
+    <string name="notifications">Notifications</string>
+    <string name="help">Help</string>
+    <string name="about">About</string>
 
     <!-- Strings used for the Fragment Research -->
     <string name="searchQueryTerm">Search query term</string>
     <string name="beginDate">Begin Date</string>
     <string name="endDate">End Date</string>
     <string name="searchButton">SEARCH</string>
+
+    <!-- Strings used for the Fragment Notifications -->
+    <string name="enableNotifications">Enable notifications (once per day)</string>
 
 </resources>

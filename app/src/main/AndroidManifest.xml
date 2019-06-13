@@ -13,12 +13,16 @@
         android:theme="@style/AppTheme">
 
         <activity
+            android:name=".Controllers.Activities.NotificationsActivity"
+            android:parentActivityName=".Controllers.Activities.MainActivity" />
+
+        <activity
             android:name=".Controllers.Activities.SearchActivity"
-            android:parentActivityName=".Controllers.Activities.MainActivity"></activity>
+            android:parentActivityName=".Controllers.Activities.MainActivity" />
 
         <activity
             android:name=".Controllers.Activities.WebViewActivity"
-            android:parentActivityName=".Controllers.Activities.MainActivity"></activity>
+            android:parentActivityName=".Controllers.Activities.MainActivity" />
 
         <activity
             android:name=".Controllers.Activities.MainActivity"
