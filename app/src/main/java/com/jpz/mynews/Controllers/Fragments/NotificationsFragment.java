@@ -27,7 +27,7 @@ import java.util.Locale;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NotificationsFragment extends SearchAndNotifyFragment {
+public class NotificationsFragment extends SearchAndNotificationsFragment {
 
     // Widgets layout
     private Switch notificationSwitch;
@@ -177,29 +177,34 @@ public class NotificationsFragment extends SearchAndNotifyFragment {
         });
 
         //---------------------------------------------------------------
-        // Actions when click on search button
+        // Actions when click on switch button
 
-        notificationSwitch.setOnClickListener(new View.OnClickListener() {
+        notificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                // Spread the click to the parent activity
-                mCallback.OnSearchOrNotifyClicked(v);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // Spread the click to the parent activity
+                    mCallback.onSearchOrNotifyClicked(buttonView);
 
-                // Call the methods to save value for the research
-                mCallback.saveQueryTermsValue(searchQuery.queryTerms);
-                Log.i("TAG", "NotificationsFragment save queryTerms : "+ searchQuery.queryTerms);
+                    // Call the methods to save value for the research
+                    mCallback.saveQueryTermsValue(searchQuery.queryTerms);
+                    Log.i("TAG", "NotificationsFragment save queryTerms : "+ searchQuery.queryTerms);
 
-                mCallback.saveBeginDateValue(searchQuery.beginDate);
-                Log.i("TAG", "NotificationsFragment save beginDate : "+ searchQuery.beginDate);
+                    mCallback.saveBeginDateValue(searchQuery.beginDate);
+                    Log.i("TAG", "NotificationsFragment save beginDate : "+ searchQuery.beginDate);
 
-                mCallback.saveEndDateValue(searchQuery.endDate);
-                Log.i("TAG", "NotificationsFragment save endDate : "+ searchQuery.endDate);
+                    mCallback.saveEndDateValue(searchQuery.endDate);
+                    Log.i("TAG", "NotificationsFragment save endDate : "+ searchQuery.endDate);
 
-                mCallback.saveDesksValues(searchQuery.desks);
-                Log.i("TAG", "NotificationsFragment desks : " +searchQuery.desks[0]+searchQuery.desks[1]+
-                        searchQuery.desks[2]+searchQuery.desks[3]+searchQuery.desks[4]+searchQuery.desks[5]);
+                    mCallback.saveDesksValues(searchQuery.desks);
+                    Log.i("TAG", "NotificationsFragment desks : " +searchQuery.desks[0]+searchQuery.desks[1]+
+                            searchQuery.desks[2]+searchQuery.desks[3]+searchQuery.desks[4]+searchQuery.desks[5]);
+                }
+                else
+                    mCallback.onNotificationUnchecked(buttonView);
             }
         });
+
         //---------------------------------------------------------------
 
         return view;
@@ -210,7 +215,8 @@ public class NotificationsFragment extends SearchAndNotifyFragment {
         return R.layout.fragment_notifications;
     }
 
-    private void setSearchAndNotifyEnabled(Boolean query) {
+    @Override
+    protected void setSearchAndNotifyEnabled(Boolean queryOrBox) {
         // Active the switch button when the query is entered and at least one checkBox is checked
         if (queryInput && (boxOneChecked || boxTwoChecked || boxThreeChecked
                 || boxFourChecked || boxFiveChecked || boxSixChecked))

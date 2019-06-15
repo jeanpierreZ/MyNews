@@ -14,17 +14,18 @@ import android.widget.EditText;
 /**
  * A simple {@link Fragment} subclass.
  */
-public abstract class SearchAndNotifyFragment extends Fragment {
+public abstract class SearchAndNotificationsFragment extends Fragment {
 
-    // Booleans for enable the searchButton
+    // Boolean for enable the searchButton
     private Boolean queryInput = false;
 
-    public SearchAndNotifyFragment() {
+    public SearchAndNotificationsFragment() {
         // Required empty public constructor
     }
 
     // Overloading methods for child fragments
     protected abstract int getFragmentLayout();
+    protected abstract void setSearchAndNotifyEnabled(Boolean queryOrBox);
     protected abstract void createCallbackToParentActivity();
 
     @Override
@@ -84,11 +85,13 @@ public abstract class SearchAndNotifyFragment extends Fragment {
 
     // Declare our interface that will be implemented by any container activity
     public interface OnSearchAndNotifyClickedListener {
-        void OnSearchOrNotifyClicked(View view);
+        void onSearchOrNotifyClicked(View view);
         void saveQueryTermsValue(String queryTerms);
         void saveBeginDateValue(String beginDate);
         void saveEndDateValue(String endDate);
         void saveDesksValues(String[] deskList);
+
+        void onNotificationUnchecked(View view);
     }
 
 }
