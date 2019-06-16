@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.jpz.mynews.Controllers.Fragments.NotificationsFragment;
 import com.jpz.mynews.Controllers.Fragments.SearchAndNotificationsFragment;
+import com.jpz.mynews.Controllers.Utils.MySharedPreferences;
 import com.jpz.mynews.Controllers.Utils.NotificationReceiver;
 import com.jpz.mynews.Models.SearchQuery;
 import com.jpz.mynews.R;
@@ -24,8 +25,6 @@ import static android.app.AlarmManager.INTERVAL_DAY;
 
 public class NotificationsActivity extends AppCompatActivity implements SearchAndNotificationsFragment.OnSearchAndNotifyClickedListener {
 
-    NotificationsFragment notificationsFragment = new NotificationsFragment();
-
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
 
@@ -33,16 +32,20 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
 
     private SearchQuery searchQuery = new SearchQuery();
 
+    private MySharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
 
-        // Get context for AlarmManager and Intent
+        // Get context for AlarmManager, Intent and sharedPreferences
         context = getApplicationContext();
         alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, NotificationReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+        prefs = new MySharedPreferences(getApplicationContext());
 
         // Display settings toolbar
         configureToolbar();
@@ -65,7 +68,7 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
 
     private void configureNotificationsFragment(){
         // Get FragmentManager (Support) and Try to find existing instance of fragment in FrameLayout container
-        notificationsFragment = (NotificationsFragment)
+        NotificationsFragment notificationsFragment = (NotificationsFragment)
                 getSupportFragmentManager().findFragmentById(R.id.activity_notifications_frame_layout);
         if (notificationsFragment == null) {
             // Create new NotificationsFragment
@@ -82,19 +85,21 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
 
     @Override
     public void onSearchOrNotifyClicked(View view) {
-
-        startAlarm();
+        // If the switch button for notifications is checked, activate them
+        startNotifications();
     }
 
     @Override
     public void onNotificationUnchecked(View view) {
-        // If switch button for notifications is unchecked, cancel the alarm
-        cancelAlarm();
+        // If the switch button for notifications is unchecked, cancel them
+        cancelNotifications();
     }
 
     @Override
     public void saveQueryTermsValue(String queryTerms) {
         searchQuery.queryTerms = queryTerms;
+
+        prefs.saveQueryTerms(searchQuery.queryTerms);
         Log.i("LOG","Notif Activity " + searchQuery.queryTerms);
 
     }
@@ -126,8 +131,7 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
 
     }
 
-    private void startAlarm() {
-
+    private void startNotifications() {
         // Set the schedule for 7:30 p.m.
         Calendar notificationCalendar = Calendar.getInstance();
         notificationCalendar.setTimeInMillis(System.currentTimeMillis());
@@ -144,13 +148,13 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, notificationCalendar.getTimeInMillis(),
                 INTERVAL_DAY, alarmIntent);
 
-        Toast.makeText(context, R.string.activatedAlarm, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, R.string.activatedNotifications, Toast.LENGTH_SHORT).show();
     }
 
-    private void cancelAlarm() {
+    private void cancelNotifications() {
 
         alarmMgr.cancel(alarmIntent);
-        Toast.makeText(context, R.string.canceledAlarm, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, R.string.canceledNotifications, Toast.LENGTH_SHORT).show();
     }
 
 }
