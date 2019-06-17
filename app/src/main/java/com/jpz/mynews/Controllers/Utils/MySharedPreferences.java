@@ -56,7 +56,7 @@ public class MySharedPreferences {
     }
 
     // Save the checkBox values from the research
-    public void saveBoxesValues(String checkBoxOne, String checkBoxTwo, String checkBoxThree,
+    public void saveDesksValues(String checkBoxOne, String checkBoxTwo, String checkBoxThree,
                                 String checkBoxFour, String checkBoxFive, String checkBoxSix) {
         prefs.edit().putString(checkBoxOneKey, checkBoxOne).apply();
         prefs.edit().putString(checkBoxTwoKey, checkBoxTwo).apply();
@@ -67,7 +67,7 @@ public class MySharedPreferences {
     }
 
     // Get the checkBox values from the research
-    public String[] getBoxesValues() {
+    public String[] getDesksValues() {
         String checkBoxOne = prefs.getString(checkBoxOneKey, null);
         String checkBoxTwo = prefs.getString(checkBoxTwoKey, null);
         String checkBoxThree = prefs.getString(checkBoxThreeKey, null);

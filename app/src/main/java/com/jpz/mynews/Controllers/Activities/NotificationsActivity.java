@@ -98,16 +98,14 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
     @Override
     public void saveQueryTermsValue(String queryTerms) {
         searchQuery.queryTerms = queryTerms;
-
         prefs.saveQueryTerms(searchQuery.queryTerms);
         Log.i("LOG","Notif Activity " + searchQuery.queryTerms);
-
     }
 
     @Override
     public void saveBeginDateValue(String beginDate) {
         searchQuery.beginDate = beginDate;
-
+        prefs.saveBeginDate(searchQuery.beginDate);
         Log.i("LOG","Notif Activity " + searchQuery.beginDate);
 
     }
@@ -115,7 +113,7 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
     @Override
     public void saveEndDateValue(String endDate) {
         searchQuery.endDate = endDate;
-
+        prefs.saveEndDate(searchQuery.endDate);
         Log.i("LOG","Notif Activity " + searchQuery.endDate);
 
     }
@@ -123,19 +121,20 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
     @Override
     public void saveDesksValues(String[] deskList) {
         searchQuery.desks = deskList;
+        prefs.saveDesksValues(searchQuery.desks[0], searchQuery.desks[1], searchQuery.desks[2],
+                searchQuery.desks[3], searchQuery.desks[4], searchQuery.desks[5]);
 
         Log.i("LOG","desks" +
                 searchQuery.desks[0] + searchQuery.desks[1] +
                 searchQuery.desks[2] + searchQuery.desks[3] +
                 searchQuery.desks[4] + searchQuery.desks[5]);
-
     }
 
     private void startNotifications() {
         // Set the schedule for 7:30 p.m.
         Calendar notificationCalendar = Calendar.getInstance();
         notificationCalendar.setTimeInMillis(System.currentTimeMillis());
-        notificationCalendar.set(Calendar.HOUR_OF_DAY, 19);
+        notificationCalendar.set(Calendar.HOUR_OF_DAY, 10);
         notificationCalendar.set(Calendar.MINUTE, 30);
         notificationCalendar.set(Calendar.SECOND, 0);
 
