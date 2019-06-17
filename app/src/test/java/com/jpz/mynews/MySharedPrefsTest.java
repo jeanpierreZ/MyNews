@@ -75,11 +75,11 @@ public class MySharedPrefsTest {
         // Mock context
         prefs = mock(MySharedPreferences.class);
         // Mock with value put in method saveBoxesValues()
-        when(prefs.getBoxesValues()).thenReturn(checkBoxes);
+        when(prefs.getDesksValues()).thenReturn(checkBoxes);
 
         String[] expectedResult = {"Foreign", "Business", "Magazine",
                 "Environment", "Science", "Sports"};
 
-        assertArrayEquals(expectedResult, prefs.getBoxesValues());
+        assertArrayEquals(expectedResult, prefs.getDesksValues());
     }
 }

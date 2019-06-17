@@ -29,7 +29,7 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
     private PendingIntent alarmIntent;
 
     private Context context;
-    
+
     private MySharedPreferences prefs;
 
     @Override
