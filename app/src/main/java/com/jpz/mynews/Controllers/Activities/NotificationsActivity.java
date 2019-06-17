@@ -29,9 +29,7 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
     private PendingIntent alarmIntent;
 
     private Context context;
-
-    private SearchQuery searchQuery = new SearchQuery();
-
+    
     private MySharedPreferences prefs;
 
     @Override
@@ -50,7 +48,7 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
         // Display settings toolbar
         configureToolbar();
 
-        // Display settings ResearchFragment
+        // Display settings SearchFragment
         configureNotificationsFragment();
     }
 
@@ -90,52 +88,31 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
     }
 
     @Override
-    public void onNotificationUnchecked(View view) {
-        // If the switch button for notifications is unchecked, cancel them
-        cancelNotifications();
-    }
-
-    @Override
-    public void saveQueryTermsValue(String queryTerms) {
-        searchQuery.queryTerms = queryTerms;
+    public void onSearchClicked(SearchQuery searchQuery) {
         prefs.saveQueryTerms(searchQuery.queryTerms);
-        Log.i("LOG","Notif Activity " + searchQuery.queryTerms);
-    }
+        Log.i("LOG","Notif Activity queryTerms" + searchQuery.queryTerms);
 
-    @Override
-    public void saveBeginDateValue(String beginDate) {
-        searchQuery.beginDate = beginDate;
-        prefs.saveBeginDate(searchQuery.beginDate);
-        Log.i("LOG","Notif Activity " + searchQuery.beginDate);
-
-    }
-
-    @Override
-    public void saveEndDateValue(String endDate) {
-        searchQuery.endDate = endDate;
-        prefs.saveEndDate(searchQuery.endDate);
-        Log.i("LOG","Notif Activity " + searchQuery.endDate);
-
-    }
-
-    @Override
-    public void saveDesksValues(String[] deskList) {
-        searchQuery.desks = deskList;
         prefs.saveDesksValues(searchQuery.desks[0], searchQuery.desks[1], searchQuery.desks[2],
                 searchQuery.desks[3], searchQuery.desks[4], searchQuery.desks[5]);
 
-        Log.i("LOG","desks" +
+        Log.i("LOG","Notif Activity desks" +
                 searchQuery.desks[0] + searchQuery.desks[1] +
                 searchQuery.desks[2] + searchQuery.desks[3] +
                 searchQuery.desks[4] + searchQuery.desks[5]);
+    }
+
+    @Override
+    public void onNotificationUnchecked(View view) {
+        // If the switch button for notifications is unchecked, cancel them
+        cancelNotifications();
     }
 
     private void startNotifications() {
         // Set the schedule for 7:30 p.m.
         Calendar notificationCalendar = Calendar.getInstance();
         notificationCalendar.setTimeInMillis(System.currentTimeMillis());
-        notificationCalendar.set(Calendar.HOUR_OF_DAY, 10);
-        notificationCalendar.set(Calendar.MINUTE, 30);
+        notificationCalendar.set(Calendar.HOUR_OF_DAY, 14);
+        notificationCalendar.set(Calendar.MINUTE, 46);
         notificationCalendar.set(Calendar.SECOND, 0);
 
         // If the schedule chosen has passed, set the alarmMgr for the next day

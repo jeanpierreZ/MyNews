@@ -183,20 +183,17 @@ public class NotificationsFragment extends SearchAndNotificationsFragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // Spread the click to the parent activity
+                    // Spread the click to the parent activity with values for the research
                     mCallback.onSearchOrNotifyClicked(buttonView);
 
-                    // Call the methods to save value for the research
-                    mCallback.saveQueryTermsValue(searchQuery.queryTerms);
+                    mCallback.onSearchClicked(searchQuery);
+
                     Log.i("TAG", "NotificationsFragment save queryTerms : "+ searchQuery.queryTerms);
 
-                    mCallback.saveBeginDateValue(searchQuery.beginDate);
                     Log.i("TAG", "NotificationsFragment save beginDate : "+ searchQuery.beginDate);
 
-                    mCallback.saveEndDateValue(searchQuery.endDate);
                     Log.i("TAG", "NotificationsFragment save endDate : "+ searchQuery.endDate);
 
-                    mCallback.saveDesksValues(searchQuery.desks);
                     Log.i("TAG", "NotificationsFragment desks : " +searchQuery.desks[0]+searchQuery.desks[1]+
                             searchQuery.desks[2]+searchQuery.desks[3]+searchQuery.desks[4]+searchQuery.desks[5]);
                 }

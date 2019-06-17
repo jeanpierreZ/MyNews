@@ -26,10 +26,7 @@ import java.util.List;
 
 import io.reactivex.observers.DisposableObserver;
 
-import static com.jpz.mynews.Controllers.Activities.SearchActivity.KEY_BEGIN_DATE;
-import static com.jpz.mynews.Controllers.Activities.SearchActivity.KEY_DESKS;
-import static com.jpz.mynews.Controllers.Activities.SearchActivity.KEY_END_DATE;
-import static com.jpz.mynews.Controllers.Activities.SearchActivity.KEY_QUERY;
+import static com.jpz.mynews.Controllers.Activities.SearchActivity.KEY_SEARCH_QUERY;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -108,14 +105,19 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
 
     @Override
     protected void fetchData() {
-
+        // Get context from the activity
         final Context context = getActivity();
 
-        // Call methods to fetch fields for the request
-        fetchQueryTerms();
+        // Get SearchQuery values for the research
+        if (getArguments() != null)
+            searchQuery = (SearchQuery) getArguments().getSerializable(KEY_SEARCH_QUERY);
+
+        // Call methods to convert fields for the request
         fetchBeginDate();
         fetchEndDate();
         fetchDesks();
+
+        Log.i("TAG", "RESULT queryTerms : "+ searchQuery.queryTerms);
 
         // Execute the stream subscribing to Observable defined inside APIClient
         this.disposable = APIClient.getArticleSearchNews
@@ -169,50 +171,34 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
         }, 2000);
     }
 
-    private void fetchQueryTerms() {
-        // Get the query terms to research
-        if (getArguments() != null)
-            searchQuery.queryTerms = getArguments().getString(KEY_QUERY);
-        Log.i("TAG", "RESULT queryTerms : "+ searchQuery.queryTerms);
-    }
-
     private void fetchBeginDate() {
-        // Get the begin date to research
-        if (getArguments() != null)
-            searchQuery.beginDate = getArguments().getString(KEY_BEGIN_DATE);
-
+        // Convert the begin date to research
         // If there is no date saved, set ""
         if (searchQuery.beginDate != null) {
             if (searchQuery.beginDate.equals(""))
                 beginDateAfterConversion = null;
             else {
                 beginDateAfterConversion = convertMethods.convertBeginOrEndDate(searchQuery.beginDate);
-                Log.i("TAG", "RESULT beginDate : "+ beginDateAfterConversion);
+                Log.i("TAG", "RESULT beginDateAfterConversion : "+ beginDateAfterConversion);
             }
         }
     }
 
     private void fetchEndDate() {
-        // Get the end date to research
-        if (getArguments() != null)
-            searchQuery.endDate = getArguments().getString(KEY_END_DATE);
-
+        // Convert the end date to research
         // If there is no date saved, set ""
         if (searchQuery.endDate != null) {
             if (searchQuery.endDate.equals(""))
                 endDateAfterConversion = null;
             else {
                 endDateAfterConversion = convertMethods.convertBeginOrEndDate(searchQuery.endDate);
-                Log.i("TAG", "RESULT endDate : " + searchQuery.endDate);
+                Log.i("TAG", "RESULT endDateAfterConversion : " + endDateAfterConversion);
             }
         }
     }
 
     private void fetchDesks() {
-        // Get desk values ro research
-        if (getArguments() != null)
-            searchQuery.desks = getArguments().getStringArray(KEY_DESKS);
-
+        // Convert desk values to research
         // Formatting desks chosen for the request
         if (searchQuery.desks != null) {
             Log.i("TAG", "RESULT desks : " +

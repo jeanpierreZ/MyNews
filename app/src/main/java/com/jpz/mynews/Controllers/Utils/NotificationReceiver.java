@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.jpz.mynews.Models.GenericNews;
 import com.jpz.mynews.Models.SearchQuery;
@@ -28,7 +27,6 @@ public class NotificationReceiver extends BroadcastReceiver {
     private MySharedPreferences prefs;
     private SearchQuery searchQuery = new SearchQuery();
     private ConvertMethods convertMethods = new ConvertMethods();
-    private Context context;
 
     // Fields used for the notification of articles in the request
     private String beginDateAfterConversion;
@@ -101,17 +99,14 @@ public class NotificationReceiver extends BroadcastReceiver {
         // Get the query terms to notify
         searchQuery.queryTerms = prefs.getQueryTerms();
         Log.i("LOG","Notif Receiver " + searchQuery.queryTerms);
-
     }
 
     private void fetchBeginDate() {
+        // Get the begin date to notify
+        // Make the begin date equals today
         Date today = Calendar.getInstance().getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
-
         searchQuery.beginDate = sdf.format(today);
-
-        // Get the begin date to notify
-        //searchQuery.beginDate = prefs.getBeginDate();
 
         // If there is no date saved, set ""
         if (searchQuery.beginDate != null) {
@@ -122,17 +117,14 @@ public class NotificationReceiver extends BroadcastReceiver {
                 Log.i("LOG","Notif Receiver " + searchQuery.beginDate);
             }
         }
-
     }
 
     private void fetchEndDate() {
+        // Get the end date to notify
+        // Make the end date equals today
         Date today = Calendar.getInstance().getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
-
         searchQuery.endDate = sdf.format(today);
-
-        // Get the end date to notify
-        //searchQuery.endDate = prefs.getEndDate();
 
         // If there is no date saved, set ""
         if (searchQuery.endDate != null) {
@@ -146,7 +138,7 @@ public class NotificationReceiver extends BroadcastReceiver {
     }
 
     private void fetchDesks() {
-        // Get desk values ro notify
+        // Get the desk values to notify
         searchQuery.desks = prefs.getDesksValues();
 
         // Formatting desks chosen for the notification

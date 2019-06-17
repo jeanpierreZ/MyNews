@@ -1,6 +1,8 @@
 package com.jpz.mynews.Models;
 
-public class SearchQuery {
+import java.io.Serializable;
+
+public class SearchQuery implements Serializable {
 
     // Class used for SearchActivity
     public String queryTerms;

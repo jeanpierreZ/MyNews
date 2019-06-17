@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +28,7 @@ import java.util.Locale;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ResearchFragment extends Fragment {
+public class SearchFragment extends Fragment {
 
     // Widgets layout
     private Button searchButton;
@@ -55,14 +54,14 @@ public class ResearchFragment extends Fragment {
     // Declare callback
     private OnSearchClickedListener mCallback;
 
-    public ResearchFragment() {
+    public SearchFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Get layout for ResearchFragment
+        // Get layout for SearchFragment
         View view = inflater.inflate(R.layout.fragment_research, container, false);
 
         context = getActivity();
@@ -282,22 +281,8 @@ public class ResearchFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Spread the click to the parent activity
-                mCallback.OnSearchClicked(v);
-
-                // Call the methods to save value for the research
-                mCallback.saveQueryTermsValue(searchQuery.queryTerms);
-                Log.i("TAG", "ResearchFragment save queryTerms : "+ searchQuery.queryTerms);
-
-                mCallback.saveBeginDateValue(searchQuery.beginDate);
-                Log.i("TAG", "ResearchFragment save beginDate : "+ searchQuery.beginDate);
-
-                mCallback.saveEndDateValue(searchQuery.endDate);
-                Log.i("TAG", "ResearchFragment save endDate : "+ searchQuery.endDate);
-
-                mCallback.saveDesksValues(searchQuery.desks);
-                Log.i("TAG", "ResearchFragment desks : " +searchQuery.desks[0]+searchQuery.desks[1]+
-                        searchQuery.desks[2]+searchQuery.desks[3]+searchQuery.desks[4]+searchQuery.desks[5]);
+                // Spread the click to the parent activity with values for the research
+                mCallback.onSearchClicked(searchQuery);
             }
         });
         //---------------------------------------------------------------
@@ -339,11 +324,7 @@ public class ResearchFragment extends Fragment {
 
     // Declare our interface that will be implemented by any container activity
     public interface OnSearchClickedListener {
-        void OnSearchClicked(View view);
-        void saveQueryTermsValue(String queryTerms);
-        void saveBeginDateValue(String beginDate);
-        void saveEndDateValue(String endDate);
-        void saveDesksValues(String[] deskList);
+        void onSearchClicked(SearchQuery searchQuery);
     }
 
     // Create callback to parent activity

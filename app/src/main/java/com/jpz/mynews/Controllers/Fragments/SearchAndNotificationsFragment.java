@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.jpz.mynews.Models.SearchQuery;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -86,10 +88,7 @@ public abstract class SearchAndNotificationsFragment extends Fragment {
     // Declare our interface that will be implemented by any container activity
     public interface OnSearchAndNotifyClickedListener {
         void onSearchOrNotifyClicked(View view);
-        void saveQueryTermsValue(String queryTerms);
-        void saveBeginDateValue(String beginDate);
-        void saveEndDateValue(String endDate);
-        void saveDesksValues(String[] deskList);
+        void onSearchClicked(SearchQuery searchQuery);
 
         void onNotificationUnchecked(View view);
     }
