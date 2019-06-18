@@ -107,8 +107,8 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
         // Set the schedule for 7:30 p.m.
         Calendar notificationCalendar = Calendar.getInstance();
         notificationCalendar.setTimeInMillis(System.currentTimeMillis());
-        notificationCalendar.set(Calendar.HOUR_OF_DAY, 11);
-        notificationCalendar.set(Calendar.MINUTE, 25);
+        notificationCalendar.set(Calendar.HOUR_OF_DAY, 19);
+        notificationCalendar.set(Calendar.MINUTE, 30);
         notificationCalendar.set(Calendar.SECOND, 0);
 
         // If the schedule chosen has passed, set the alarmMgr for the next day
