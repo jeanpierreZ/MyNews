@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.jpz.mynews.Controllers.Fragments.NotificationsFragment;
@@ -23,7 +22,7 @@ import java.util.Calendar;
 
 import static android.app.AlarmManager.INTERVAL_DAY;
 
-public class NotificationsActivity extends AppCompatActivity implements SearchAndNotificationsFragment.OnSearchAndNotifyClickedListener {
+public class NotificationsActivity extends AppCompatActivity implements SearchAndNotificationsFragment.OnSearchOrNotifyClickedListener {
 
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
@@ -48,7 +47,7 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
         // Display settings toolbar
         configureToolbar();
 
-        // Display settings SearchFragment
+        // Display settings NotificationsFragment
         configureNotificationsFragment();
     }
 
@@ -79,40 +78,37 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
     }
 
     //----------------------------------------------------------------------------------
-    // Implements methods from NotificationsFragment to set data for AlarmManager
 
+    // Implements method from SearchAndNotificationsFragment to set data for AlarmManager
     @Override
-    public void onSearchOrNotifyClicked(View view) {
-        // If the switch button for notifications is checked, activate them
-        startNotifications();
-    }
+    public void onSearchOrNotifyClicked(SearchQuery searchQuery) {
+        // If the switch is checked, activate notifications...
+        if (searchQuery.isChecked) {
+            startNotifications();
 
-    @Override
-    public void onSearchClicked(SearchQuery searchQuery) {
-        prefs.saveQueryTerms(searchQuery.queryTerms);
-        Log.i("LOG","Notif Activity queryTerms" + searchQuery.queryTerms);
+            // ...wih values form the fragment
+            prefs.saveQueryTerms(searchQuery.queryTerms);
+            Log.i("LOG","Notif Activity queryTerms" + searchQuery.queryTerms);
 
-        prefs.saveDesksValues(searchQuery.desks[0], searchQuery.desks[1], searchQuery.desks[2],
-                searchQuery.desks[3], searchQuery.desks[4], searchQuery.desks[5]);
+            prefs.saveDesksValues(searchQuery.desks[0], searchQuery.desks[1], searchQuery.desks[2],
+                    searchQuery.desks[3], searchQuery.desks[4], searchQuery.desks[5]);
 
-        Log.i("LOG","Notif Activity desks" +
-                searchQuery.desks[0] + searchQuery.desks[1] +
-                searchQuery.desks[2] + searchQuery.desks[3] +
-                searchQuery.desks[4] + searchQuery.desks[5]);
-    }
-
-    @Override
-    public void onNotificationUnchecked(View view) {
-        // If the switch button for notifications is unchecked, cancel them
-        cancelNotifications();
+            Log.i("LOG","Notif Activity desks" +
+                    searchQuery.desks[0] + searchQuery.desks[1] +
+                    searchQuery.desks[2] + searchQuery.desks[3] +
+                    searchQuery.desks[4] + searchQuery.desks[5]);
+        }
+        else
+            // If the switch is unchecked, deactivate notifications
+            cancelNotifications();
     }
 
     private void startNotifications() {
         // Set the schedule for 7:30 p.m.
         Calendar notificationCalendar = Calendar.getInstance();
         notificationCalendar.setTimeInMillis(System.currentTimeMillis());
-        notificationCalendar.set(Calendar.HOUR_OF_DAY, 14);
-        notificationCalendar.set(Calendar.MINUTE, 46);
+        notificationCalendar.set(Calendar.HOUR_OF_DAY, 11);
+        notificationCalendar.set(Calendar.MINUTE, 25);
         notificationCalendar.set(Calendar.SECOND, 0);
 
         // If the schedule chosen has passed, set the alarmMgr for the next day
@@ -123,14 +119,13 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
         // Set alarmMgr with to start at the schedule fixed and once per day
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, notificationCalendar.getTimeInMillis(),
                 INTERVAL_DAY, alarmIntent);
-
+        // Confirm with a toast message
         Toast.makeText(context, R.string.activatedNotifications, Toast.LENGTH_SHORT).show();
     }
 
     private void cancelNotifications() {
-
         alarmMgr.cancel(alarmIntent);
+        // Confirm with a toast message
         Toast.makeText(context, R.string.canceledNotifications, Toast.LENGTH_SHORT).show();
     }
-
 }

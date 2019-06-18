@@ -41,13 +41,13 @@ public class TextAndButtonsTest {
     @Test
     public void hintVisibilityTest(){
         // Check hint visibility for query
-        onView(withId(R.id.search_fragment_query)).check(matches(withHint(hintText)));
+        onView(withId(R.id.search_notifications_fragment_query)).check(matches(withHint(hintText)));
     }
 
     @Test
     public void markText() {
         // Enter text
-        onView(withId(R.id.search_fragment_query)).perform(typeText(queryTerms),closeSoftKeyboard());
-        onView(withId(R.id.search_fragment_query)).check(matches(withText("Espresso")));
+        onView(withId(R.id.search_notifications_fragment_query)).perform(typeText(queryTerms),closeSoftKeyboard());
+        onView(withId(R.id.search_notifications_fragment_query)).check(matches(withText("Espresso")));
     }
 }

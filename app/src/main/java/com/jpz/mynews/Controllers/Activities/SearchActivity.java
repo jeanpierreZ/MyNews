@@ -15,7 +15,7 @@ import com.jpz.mynews.R;
 
 import static com.jpz.mynews.Controllers.Activities.MainActivity.KEY_URL;
 
-public class SearchActivity extends AppCompatActivity implements SearchFragment.OnSearchClickedListener, NewsFragment.OnWebClickedListener {
+public class SearchActivity extends AppCompatActivity implements SearchFragment.OnSearchOrNotifyClickedListener, NewsFragment.OnWebClickedListener {
 
     SearchFragment searchFragment = new SearchFragment();
     ResultQueryFragment resultQueryFragment = new ResultQueryFragment();
@@ -67,7 +67,7 @@ public class SearchActivity extends AppCompatActivity implements SearchFragment.
     // Implements listener from SearchFragment to open ResultQueryFragment
 
     @Override
-    public void onSearchClicked(SearchQuery searchQuery) {
+    public void onSearchOrNotifyClicked(SearchQuery searchQuery) {
         // Put values from SearchFragment to set Arguments for ResultQueryFragment
         bundle.putSerializable(KEY_SEARCH_QUERY, searchQuery);
         resultQueryFragment.setArguments(bundle);
