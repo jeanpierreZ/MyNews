@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -10,24 +10,33 @@
     <include
         layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/activity_main_tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="4dp"
-        android:background="#FFFFFF"
+        android:layout_height="0dp"
+        android:elevation="8dp"
+        android:background="@android:color/white"
         app:tabBackground="@color/colorPrimary"
         app:tabIndicatorColor="@color/colorAccent"
-        app:tabTextColor="#1b1b1b"
-        app:tabSelectedTextColor="#fff"/>
+        app:tabTextColor="@color/textColorPrimaryLight"
+        app:tabSelectedTextColor="@color/textColorPrimary"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
     <android.support.v4.view.ViewPager
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_main_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_tabs"
         tools:context=".Controllers.Activities.MainActivity"/>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -16,7 +16,7 @@ import com.jpz.mynews.Views.PageAdapter;
 
 public class MainActivity extends AppCompatActivity implements NewsFragment.OnWebClickedListener {
 
-    // Create key for Intent
+    // Create key for the url of the article
     public static final String KEY_URL = "url";
 
     @Override

@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">MyNews</string>
+
+    <!-- Strings used for Labels in the ToolBar-->
+    <string name="app_name">My News</string>
+    <string name="notifications_name">Notifications</string>
+    <string name="search_articles">Search Articles</string>
 
     <!-- Strings used for Menu in the ToolBar-->
     <string name="searchIcon">Search</string>

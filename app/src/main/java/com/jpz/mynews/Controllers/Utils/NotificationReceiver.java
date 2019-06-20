@@ -123,22 +123,22 @@ public class NotificationReceiver extends BroadcastReceiver {
         String text;
         switch (articlesCounter) {
             case 0:
-                text = "Today there isn't new article for your request " + searchQuery.queryTerms + ".";
+                text = "Today there isn't new article for your request \"" + searchQuery.queryTerms + "\".";
                 break;
             case 1:
-                text = "Today there is " + articlesCounter + " new article for your request " + searchQuery.queryTerms + ".";
+                text = "Today there is " + articlesCounter + " new article for your request \"" + searchQuery.queryTerms + "\".";
                 break;
             default:
-                text = "Today there are " + articlesCounter + " new articles for your request " + searchQuery.queryTerms + ".";
+                text = "Today there are " + articlesCounter + " new articles for your request \"" + searchQuery.queryTerms + "\".";
         }
 
         NotificationManager notificationManager = (NotificationManager)_context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         // Set the notification's content and channel
         NotificationCompat.Builder builder = new NotificationCompat.Builder(_context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notifications)
+                .setSmallIcon(R.drawable.ic_event_note_black_48dp)
                 .setContentTitle(title)
-                .setContentText(text)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         // Notify the builder

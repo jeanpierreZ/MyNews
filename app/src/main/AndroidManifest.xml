@@ -15,11 +15,13 @@
 
         <activity
             android:name=".Controllers.Activities.NotificationsActivity"
-            android:parentActivityName=".Controllers.Activities.MainActivity" />
+            android:parentActivityName=".Controllers.Activities.MainActivity"
+            android:label="@string/notifications" />
 
         <activity
             android:name=".Controllers.Activities.SearchActivity"
-            android:parentActivityName=".Controllers.Activities.MainActivity" />
+            android:parentActivityName=".Controllers.Activities.MainActivity"
+            android:label="@string/search_articles" />
 
         <activity
             android:name=".Controllers.Activities.WebViewActivity"

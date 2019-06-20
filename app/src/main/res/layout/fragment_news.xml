@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Controllers.Fragments.NewsFragment">
 
     <android.support.v7.widget.RecyclerView
@@ -17,9 +17,12 @@
         android:id="@+id/fragment_news_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        app:layout_constraintLeft_toLeftOf="@+id/fragment_news_recycler_view"
+        app:layout_constraintRight_toRightOf="@+id/fragment_news_recycler_view"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_news_recycler_view"
+        app:layout_constraintTop_toTopOf="@+id/fragment_news_recycler_view"
+        app:layout_constraintVertical_bias="0.8"
         android:visibility="gone"
         android:indeterminate="true"/>
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
