@@ -29,7 +29,7 @@ import io.reactivex.observers.DisposableObserver;
 public class ArticleSearchFragment extends NewsFragment implements AdapterNews.Listener {
 
     // Use for pagination
-    private int page;
+    //private int page;
     private String query;
     private String beginDate;
     private String endDate;
@@ -87,11 +87,14 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
                     // it's useless to load another page
                     if (totalItems < 10)
                         loading = false;
+                    if (totalItems < previousTotal) {
+                        previousTotal = totalItems;
+                        loading = true;
+                    }
                     else {
-                        if (loading) {
-                            if (totalItems > previousTotal) {
-                                loading = false;
-                                previousTotal = totalItems;
+                        if ((loading) && (totalItems > previousTotal)) {
+                            loading = false;
+                            previousTotal = totalItems;
                             }
                         }
                         if (!loading && (totalItems - visibleItem) <= firstVisibleItem) {
@@ -99,7 +102,6 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
                             fetchNextPage();
                             loading = true;
                         }
-                    }
                 }
             }
         });
@@ -111,6 +113,8 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
         // Get data from Bundle (created in method newInstance)
         if (getArguments() != null) {
             Desk desk = (Desk) getArguments().getSerializable(KEY_POSITION);
+
+            Log.i("TAG", "On Next ArticleSearch Page : " + page);
 
             if (desk != null)
             // Execute the stream subscribing to Observable defined inside APIClient
@@ -138,13 +142,13 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
     }
 
     private void fetchNextPage() {
+        Log.i("TAG", "fetchNextPage");
         progressBar.setVisibility(View.VISIBLE);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 page = ++page;
                 fetchData();
-                adapterNews.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
             }
         }, 2000);

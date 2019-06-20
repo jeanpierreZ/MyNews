@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Controllers.Fragments.NewsFragment">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fragment_news_swipe_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_news_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/fragment_news_swipe_container"
+        app:layout_constraintRight_toRightOf="@+id/fragment_news_swipe_container"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_news_swipe_container"
+        app:layout_constraintTop_toTopOf="@+id/fragment_news_swipe_container">
     </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/fragment_news_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@+id/fragment_news_recycler_view"
-        app:layout_constraintRight_toRightOf="@+id/fragment_news_recycler_view"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_news_recycler_view"
-        app:layout_constraintTop_toTopOf="@+id/fragment_news_recycler_view"
-        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintLeft_toLeftOf="@+id/fragment_news_swipe_container"
+        app:layout_constraintRight_toRightOf="@+id/fragment_news_swipe_container"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_news_swipe_container"
+        app:layout_constraintTop_toTopOf="@+id/fragment_news_swipe_container"
+        app:layout_constraintVertical_bias="0.9"
         android:visibility="gone"
         android:indeterminate="true"/>
 

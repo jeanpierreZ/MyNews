@@ -1,14 +1,15 @@
 package com.jpz.mynews.Controllers.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.jpz.mynews.Controllers.Fragments.NewsFragment;
 import com.jpz.mynews.R;
@@ -48,10 +49,30 @@ public class MainActivity extends AppCompatActivity implements NewsFragment.OnWe
                 startActivity(notificationsActivity);
                 return true;
             case R.id.menu_activity_main_help:
-                Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show();
+                // Create a dialog
+                AlertDialog.Builder helpDialog = new AlertDialog.Builder(MainActivity.this);
+                helpDialog.setMessage(getString(R.string.helpDialog));
+                // Configure cancel button
+                helpDialog.setPositiveButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                helpDialog.show();
                 return true;
             case R.id.menu_activity_main_about:
-                Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
+                // Create a dialog
+                AlertDialog.Builder aboutDialog = new AlertDialog.Builder(MainActivity.this);
+                aboutDialog.setMessage(getString(R.string.aboutDialog));
+                // Configure cancel button
+                aboutDialog.setPositiveButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                aboutDialog.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

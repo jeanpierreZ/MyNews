@@ -5,8 +5,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +29,11 @@ import io.reactivex.disposables.Disposable;
 public abstract class NewsFragment extends Fragment implements AdapterNews.Listener {
 
     // For data
+    protected SwipeRefreshLayout swipeRefreshLayout;
     protected RecyclerView recyclerView;
     protected Disposable disposable;
+    protected Boolean swipeEnabled = false;
+    protected int page;
 
     // Declare list of news & Adapter
     protected AdapterNews adapterNews;
@@ -50,8 +55,14 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
         // Get layout of this fragment
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
+        // Get SwipeRefreshLayout from layout and serialise it
+        swipeRefreshLayout = view.findViewById(R.id.fragment_news_swipe_container);
+
         // Get RecyclerView from layout and serialise it
         recyclerView = view.findViewById(R.id.fragment_news_recycler_view);
+
+        // Configure the SwipeRefreshLayout
+        configureSwipeRefreshLayout();
 
         // Call during UI creation
         configureRecyclerView();
@@ -83,7 +94,20 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
     // ----------------------------------------------------------------------------
     // HTTP (RxJAVA)
 
-    // Configure RecyclerViews, Adapters, LayoutManager & glue it together
+    // Configure SwipeRefreshLayout, RecyclerViews, Adapters, LayoutManager & glue it together
+
+    protected void configureSwipeRefreshLayout() {
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                genericNewsList.clear();
+                page = 0;
+                fetchData();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
 
     protected void configureRecyclerView(){
         // Reset list

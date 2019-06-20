@@ -1,15 +1,25 @@
 <resources>
 
-    <!-- Strings used for Labels in the ToolBar-->
+    <!-- Strings used for Labels in the ToolBar -->
     <string name="app_name">My News</string>
     <string name="notifications_name">Notifications</string>
     <string name="search_articles">Search Articles</string>
 
-    <!-- Strings used for Menu in the ToolBar-->
+    <!-- Strings used for Menu in the ToolBar -->
     <string name="searchIcon">Search</string>
     <string name="notifications">Notifications</string>
     <string name="help">Help</string>
     <string name="about">About</string>
+
+    <!-- Strings used for AlertDialog in Menu-->
+    <string name="helpDialog">My News is a mobile application that allows you to consult
+        New York Times news articles by topic.\nYou also have the opportunity to search for an
+        article by keywords, themes, with a start date and an end date.\nFinally, you can
+        receive daily notifications (at 7:30 p.m.) by setting keywords and themes.</string>
+    <string name="aboutDialog">My News is the OpenClassrooms Project # 5 in the Android Application
+        Developer Course.\nYou can consult the repository on Github at the following address :\n
+        https://github.com/jeanpierreZ/MyNews.</string>
+    <string name="cancel">@android:string/cancel</string>
 
     <!-- Strings used for the Fragment Research -->
     <string name="searchQueryTerm">Search query term</string>
