@@ -25,6 +25,7 @@ public class MostPopularFragment extends NewsFragment implements AdapterNews.Lis
         return (new MostPopularFragment());
     }
 
+    // HTTP (RxJAVA)
     @Override
     protected void fetchData() {
         // Execute the stream subscribing to Observable defined inside APIClient
@@ -33,7 +34,7 @@ public class MostPopularFragment extends NewsFragment implements AdapterNews.Lis
                     @Override
                     public void onNext(List<GenericNews> genericNewsList) {
                         Log.i("TAG","On Next MostPopular");
-                        // Update UI with lis of MostPopular
+                        // Update UI with the list of MostPopular
                         updateUI(genericNewsList);
                     }
 

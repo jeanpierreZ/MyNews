@@ -25,6 +25,7 @@ public class TopStoriesFragment extends NewsFragment implements AdapterNews.List
         return (new TopStoriesFragment());
     }
 
+    // HTTP (RxJAVA)
     @Override
     protected void fetchData() {
         // Execute the stream subscribing to Observable defined inside APIClient
@@ -33,7 +34,7 @@ public class TopStoriesFragment extends NewsFragment implements AdapterNews.List
                     @Override
                     public void onNext(List<GenericNews> genericNewsList) {
                         Log.i("TAG","On Next TopStories");
-                        // Update UI with list of TopStories
+                        // Update UI with the list of TopStories
                         updateUI(genericNewsList);
                     }
 

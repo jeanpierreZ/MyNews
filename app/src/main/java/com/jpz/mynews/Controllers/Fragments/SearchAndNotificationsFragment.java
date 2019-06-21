@@ -90,7 +90,7 @@ public abstract class SearchAndNotificationsFragment extends Fragment implements
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Verify that a query is entered as the first condition to enable the button
-                // If there is a query, load it
+                // If there is a query, store it
                 if (s.toString().length() != 0) {
                     queryInput = true;
                     searchQuery.queryTerms = editQuery.getText().toString();
@@ -134,8 +134,8 @@ public abstract class SearchAndNotificationsFragment extends Fragment implements
     // Boxes listener
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        // If a checkBox is checked, load desk value in a string
-        // Verify it also as the second condition to enable the button
+        // If a checkBox is checked, load the desk value in a string
+        // Also verify it as the second condition to enable the button
         switch (buttonView.getId()) {
             case R.id.search_notifications_fragment_checkbox_one:
                 searchQuery.desks[0] = getDeskFromBox(isChecked, boxOne);
@@ -170,10 +170,10 @@ public abstract class SearchAndNotificationsFragment extends Fragment implements
     }
 
     //---------------------------------------------------------------
-    // Methods to load desks value and to enable button or switch
+    // Methods to enable button or switch and to load desks value
 
     private void setSearchOrNotifyEnabled() {
-        // Active the search button when the query is entered and at least one checkBox is checked
+        // Active the button or switch when the query is entered and at least one checkBox is checked
         if (queryInput && (boxOne.isChecked() || boxTwo.isChecked() || boxThree.isChecked()
                 || boxFour.isChecked() || boxFive.isChecked() || boxSix.isChecked())) {
             searchButton.setEnabled(true);
@@ -186,7 +186,7 @@ public abstract class SearchAndNotificationsFragment extends Fragment implements
     }
 
     private String getDeskFromBox(boolean isChecked, CheckBox checkBox) {
-        // If a checkBox is checked, load desk value in a string
+        // If a checkBox is checked, load desk value in a string in order to store data
         String desk;
         if (isChecked)
             desk = checkBox.getText().toString();

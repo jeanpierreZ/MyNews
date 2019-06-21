@@ -28,22 +28,16 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class ArticleSearchFragment extends NewsFragment implements AdapterNews.Listener {
 
-    // Use for pagination
-    //private int page;
-    private String query;
-    private String beginDate;
-    private String endDate;
-
-    // Create keys for Bundle
+    // Create a key for Bundle, use to instantiate the fragment with a desk
     private static final String KEY_POSITION = "position";
 
     // Fields to detect more scrolling
     private LinearLayoutManager layoutManager;
     private ProgressBar progressBar;
     private int visibleItem, totalItems, firstVisibleItem;
-    // The total number of items in the dataset after the last load. Starts from 0.
+    // The total number of items in the data set after the last load. Start from 0.
     private int previousTotal = 0;
-    // True if we are still waiting for the last set of data to load.
+    // Loading is true if we are still waiting for the last set of data to load.
     private boolean loading = true;
 
     public ArticleSearchFragment() {
@@ -53,7 +47,7 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
     public static ArticleSearchFragment newInstance(Desk desk) {
         // Create new fragment
         ArticleSearchFragment fragment = new ArticleSearchFragment();
-        // Create bundle and add it some data
+        // Create bundle and add it the desk
         Bundle args = new Bundle();
         args.putSerializable(KEY_POSITION, desk);
         fragment.setArguments(args);
@@ -67,8 +61,8 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         if (view != null)
-        // Get ProgressBar
-        progressBar = view.findViewById(R.id.fragment_news_progressbar);
+            // Get ProgressBar
+            progressBar = view.findViewById(R.id.fragment_news_progressbar);
 
         // Add On Scroll Listener
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -83,39 +77,43 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
                     totalItems = layoutManager.getItemCount();
                     firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
 
-                    // If the size of the result list is less than 10 (pagination size from the API),
+                    // If the size of the list is less than 10 (pagination size from the API),
                     // it's useless to load another page
                     if (totalItems < 10)
                         loading = false;
+
+                    // If totalItems is less than previousTotal (because of SwipeRefresh), the
+                    // list is invalidated and should be reset back to initial state
                     if (totalItems < previousTotal) {
                         previousTotal = totalItems;
                         loading = true;
                     }
-                    else {
-                        if ((loading) && (totalItems > previousTotal)) {
-                            loading = false;
-                            previousTotal = totalItems;
-                            }
-                        }
-                        if (!loading && (totalItems - visibleItem) <= firstVisibleItem) {
-                            // End has been reached
-                            fetchNextPage();
-                            loading = true;
-                        }
+
+                    // Data are loading and previousTotal is actualized with totalItems
+                    if ((loading) && (totalItems > previousTotal)) {
+                        loading = false;
+                        previousTotal = totalItems;
+                    }
+
+                    // Data aren't loading and end of the list has been reached, so call next page
+                    if (!loading && (totalItems - visibleItem) <= firstVisibleItem) {
+                        fetchNextPage();
+                        loading = true;
+                    }
                 }
             }
         });
         return view;
     }
 
+    // HTTP (RxJAVA)
     @Override
     protected void fetchData() {
-        // Get data from Bundle (created in method newInstance)
+        // Get data from Bundle (created in newInstance)
         if (getArguments() != null) {
             Desk desk = (Desk) getArguments().getSerializable(KEY_POSITION);
 
             Log.i("TAG", "On Next ArticleSearch Page : " + page);
-
             if (desk != null)
             // Execute the stream subscribing to Observable defined inside APIClient
             this.disposable = APIClient.getArticleSearchNews
@@ -124,7 +122,7 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
                         @Override
                         public void onNext(List<GenericNews> genericNewsList) {
                             Log.i("TAG", "On Next ArticleSearch");
-                            // Update UI with a list of ArticleSearch
+                            // Update UI with the list of ArticleSearch
                             updateUI(genericNewsList);
                         }
 
@@ -141,6 +139,7 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
         }
     }
 
+    // Load the next page when end of the list has been reached
     private void fetchNextPage() {
         Log.i("TAG", "fetchNextPage");
         progressBar.setVisibility(View.VISIBLE);

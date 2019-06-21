@@ -22,7 +22,7 @@ public class NotificationsFragment extends SearchAndNotificationsFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the parent layout for this fragment
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         // Make the switch and the divider visible, because they are used for notifications

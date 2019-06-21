@@ -25,11 +25,11 @@ public class WebViewActivity extends AppCompatActivity {
         // Display settings toolbar
         configureToolbar();
 
-        // Get the transferred data from source activity.
+        // Get the transferred data from the source activity
         Intent intent = getIntent();
         String url = intent.getStringExtra(KEY_URL);
 
-        // Open the webView in the app instead of browser
+        // Open the webView in the app instead of a browser
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl(url);
     }

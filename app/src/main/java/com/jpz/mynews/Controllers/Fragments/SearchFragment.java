@@ -30,7 +30,7 @@ public class SearchFragment extends SearchAndNotificationsFragment {
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Get layout for SearchFragment
+        // Inflate the parent layout for this fragment
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         context = getActivity();
@@ -119,7 +119,7 @@ public class SearchFragment extends SearchAndNotificationsFragment {
     }
 
     //---------------------------------------------------------------
-    // Private methods to display the dates in the editTexts
+    // Private methods to display and format the dates in the editTexts
 
     private void displayBeginDate() {
         // Set date format

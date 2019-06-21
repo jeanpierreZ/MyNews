@@ -36,10 +36,7 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
     private ConvertMethods convertMethods = new ConvertMethods();
     private SearchQuery searchQuery = new SearchQuery();
 
-    // Use for pagination
-    private int page;
-
-    // Fields used for the research of articles in request
+    // converted fields used for the research of articles in the request
     private String beginDateAfterConversion;
     private String endDateAfterConversion;
     private String selectedDesks;
@@ -48,7 +45,7 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
     private LinearLayoutManager layoutManager;
     private ProgressBar progressBar;
     private int visibleItem, totalItems, firstVisibleItem;
-    // The total number of items in the dataset after the last load. Starts from 0.
+    // The total number of items in the data set after the last load. Start from 0.
     private int previousTotal = 0;
     // True if we are still waiting for the last set of data to load.
     private boolean loading = true;
@@ -80,22 +77,28 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
                     totalItems = layoutManager.getItemCount();
                     firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
 
-                    // If the size of the result list is less than 10 (pagination size from the API),
+                    // If the size of the list is less than 10 (pagination size from the API),
                     // it's useless to load another page
                     if (totalItems < 10)
                         loading = false;
-                    else {
-                        if (loading) {
-                            if (totalItems > previousTotal) {
-                                loading = false;
-                                previousTotal = totalItems;
-                            }
-                        }
-                        if (!loading && (totalItems - visibleItem) <= firstVisibleItem) {
-                            // End has been reached
-                            fetchNextPage();
-                            loading = true;
-                        }
+
+                    // If totalItems is less than previousTotal (because of SwipeRefresh), the
+                    // list is invalidated and should be reset back to initial state
+                    if (totalItems < previousTotal) {
+                        previousTotal = totalItems;
+                        loading = true;
+                    }
+
+                    // Data are loading and previousTotal is actualized with totalItems
+                    if ((loading) && (totalItems > previousTotal)) {
+                        loading = false;
+                        previousTotal = totalItems;
+                    }
+
+                    // Data aren't loading and end of the list has been reached, so call next page
+                    if (!loading && (totalItems - visibleItem) <= firstVisibleItem) {
+                        fetchNextPage();
+                        loading = true;
                     }
                 }
             }
@@ -103,6 +106,7 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
         return view;
     }
 
+    // HTTP (RxJAVA)
     @Override
     protected void fetchData() {
         // Get context from the activity
@@ -112,12 +116,13 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
         if (getArguments() != null)
             searchQuery = (SearchQuery) getArguments().getSerializable(KEY_SEARCH_QUERY);
 
-        // Call methods to convert fields for the request
+        // Call methods to convert the initial fields for the request
         fetchBeginDate();
         fetchEndDate();
         fetchDesks();
 
-        Log.i("TAG", "RESULT queryTerms : "+ searchQuery.queryTerms);
+        Log.i("TAG", "ResultQuery queryTerms : "+ searchQuery.queryTerms);
+        Log.i("TAG", "On Next ArticleSearch Page : " + page);
 
         // Execute the stream subscribing to Observable defined inside APIClient
         this.disposable = APIClient.getArticleSearchNews
@@ -136,10 +141,10 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
                                                 +searchQuery.endDate+" with the categories chosen.",
                                         Toast.LENGTH_LONG).show();
                             else
-                                // Else update UI with a list of ArticleSearch
+                                // Else update UI with the result list of ArticleSearch
                                 updateUI(genericNewsList);
                         }
-                        // Update UI with a list of ArticleSearch for following pages
+                        // For following pages, update UI with a list of ArticleSearch
                         else
                             updateUI(genericNewsList);
                     }
@@ -157,12 +162,12 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
                 });
     }
 
+    // Load the next page when end of the list has been reached
     private void fetchNextPage() {
         progressBar.setVisibility(View.VISIBLE);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // When end of list is reached, fetch next page
                 page = ++page;
                 fetchData();
                 adapterNews.notifyDataSetChanged();
@@ -171,37 +176,37 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
         }, 2000);
     }
 
+    // Convert the begin date to research
     private void fetchBeginDate() {
-        // Convert the begin date to research
-        // If there is no date saved, set ""
         if (searchQuery.beginDate != null) {
+            // If there is no date saved, set null
             if (searchQuery.beginDate.equals(""))
                 beginDateAfterConversion = null;
             else {
                 beginDateAfterConversion = convertMethods.convertBeginOrEndDate(searchQuery.beginDate);
-                Log.i("TAG", "RESULT beginDateAfterConversion : "+ beginDateAfterConversion);
+                Log.i("TAG", "ResultQuery beginDateAfterConversion : "+ beginDateAfterConversion);
             }
         }
     }
 
+    // Convert the end date to research
     private void fetchEndDate() {
-        // Convert the end date to research
-        // If there is no date saved, set ""
         if (searchQuery.endDate != null) {
+            // If there is no date saved, set null
             if (searchQuery.endDate.equals(""))
                 endDateAfterConversion = null;
             else {
                 endDateAfterConversion = convertMethods.convertBeginOrEndDate(searchQuery.endDate);
-                Log.i("TAG", "RESULT endDateAfterConversion : " + endDateAfterConversion);
+                Log.i("TAG", "ResultQuery endDateAfterConversion : " + endDateAfterConversion);
             }
         }
     }
 
+    // Convert desk values to research
     private void fetchDesks() {
-        // Convert desk values to research
         // Formatting desks chosen for the request
         if (searchQuery.desks != null) {
-            Log.i("TAG", "RESULT desks : " +
+            Log.i("TAG", "ResultQuery desks : " +
                     searchQuery.desks[0]+searchQuery.desks[1]+searchQuery.desks[2]+
                     searchQuery.desks[3]+searchQuery.desks[4]+searchQuery.desks[5]);
             selectedDesks =

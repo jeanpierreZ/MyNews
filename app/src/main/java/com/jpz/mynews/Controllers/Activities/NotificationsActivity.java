@@ -44,10 +44,8 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
 
         prefs = new MySharedPreferences(getApplicationContext());
 
-        // Display settings toolbar
+        // Display settings Toolbar and NotificationsFragment
         configureToolbar();
-
-        // Display settings NotificationsFragment
         configureNotificationsFragment();
     }
 
@@ -103,6 +101,8 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
             cancelNotifications();
     }
 
+    // Methods to start or cancel notifications
+
     private void startNotifications() {
         // Set the schedule for 7:30 p.m.
         Calendar notificationCalendar = Calendar.getInstance();
@@ -116,7 +116,7 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
             notificationCalendar.add(Calendar.DATE, 1);
         }
 
-        // Set alarmMgr with to start at the schedule fixed and once per day
+        // Set alarmMgr to start at the schedule fixed and once per day
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, notificationCalendar.getTimeInMillis(),
                 INTERVAL_DAY, alarmIntent);
         // Confirm with a toast message
@@ -124,6 +124,7 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
     }
 
     private void cancelNotifications() {
+        // Cancel alarmMgr
         alarmMgr.cancel(alarmIntent);
         // Confirm with a toast message
         Toast.makeText(context, R.string.canceledNotifications, Toast.LENGTH_SHORT).show();

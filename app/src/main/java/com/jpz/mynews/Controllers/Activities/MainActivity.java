@@ -17,7 +17,7 @@ import com.jpz.mynews.Views.PageAdapter;
 
 public class MainActivity extends AppCompatActivity implements NewsFragment.OnWebClickedListener {
 
-    // Create key for the url of the article
+    // Create a key for the url of the chosen article to be consulted on the website
     public static final String KEY_URL = "url";
 
     @Override
@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements NewsFragment.OnWe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Display settings of Toolbar and ViewPager
         configureToolbar();
         configureViewPagerAndTabs();
     }
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements NewsFragment.OnWe
                 startActivity(notificationsActivity);
                 return true;
             case R.id.menu_activity_main_help:
-                // Create a dialog
+                // Create a dialog window
                 AlertDialog.Builder helpDialog = new AlertDialog.Builder(MainActivity.this);
                 helpDialog.setMessage(getString(R.string.helpDialog));
                 // Configure cancel button
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements NewsFragment.OnWe
                 helpDialog.show();
                 return true;
             case R.id.menu_activity_main_about:
-                // Create a dialog
+                // Create a dialog window
                 AlertDialog.Builder aboutDialog = new AlertDialog.Builder(MainActivity.this);
                 aboutDialog.setMessage(getString(R.string.aboutDialog));
                 // Configure cancel button
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NewsFragment.OnWe
     private void configureViewPagerAndTabs(){
         // Get ViewPager from layout
         ViewPager pager = findViewById(R.id.activity_main_viewpager);
-        // Set Adapter PageAdapter and glue it together
+        // Set PageAdapter and glue it together
         pager.setAdapter(new PageAdapter(getSupportFragmentManager()));
         pager.setCurrentItem(0);
         // Get TabLayout from layout
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements NewsFragment.OnWe
 
     @Override
     public void OnWebClicked(int position, String url) {
-        // Spread the click with the url of the article to WebViewActivity
+        // Spread the click with the url of the article to open WebViewActivity
         Intent webViewActivity = new Intent(MainActivity.this, WebViewActivity.class);
         webViewActivity.putExtra(KEY_URL, url);
         startActivity(webViewActivity);

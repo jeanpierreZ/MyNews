@@ -3,12 +3,12 @@ package com.jpz.mynews.Controllers.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,16 +28,19 @@ import io.reactivex.disposables.Disposable;
  */
 public abstract class NewsFragment extends Fragment implements AdapterNews.Listener {
 
-    // For data
+
+    // Declare Containers, View, Disposable, Adapter & a list of news
     protected SwipeRefreshLayout swipeRefreshLayout;
     protected RecyclerView recyclerView;
     protected Disposable disposable;
-    protected Boolean swipeEnabled = false;
-    protected int page;
-
-    // Declare list of news & Adapter
     protected AdapterNews adapterNews;
     protected List<GenericNews> genericNewsList;
+
+    // For data
+    protected int page;
+    protected String query;
+    protected String beginDate;
+    protected String endDate;
 
     // Declare callback
     private OnWebClickedListener callbackUrl;
@@ -46,7 +49,7 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
         // Required empty public constructor
     }
 
-    // Overloading methods for child fragments
+    // Overloading method for child fragments
     protected abstract void fetchData();
 
     @Override
@@ -61,14 +64,11 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
         // Get RecyclerView from layout and serialise it
         recyclerView = view.findViewById(R.id.fragment_news_recycler_view);
 
-        // Configure the SwipeRefreshLayout
-        configureSwipeRefreshLayout();
-
         // Call during UI creation
+        configureSwipeRefreshLayout();
         configureRecyclerView();
 
-        // Load articles of NY Times when launching the app
-        // Execute streams after UI creation
+        // Load articles of NY Times when launching the app (execute streams after UI creation)
         fetchData();
 
         return view;
@@ -92,8 +92,6 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
     }
 
     // ----------------------------------------------------------------------------
-    // HTTP (RxJAVA)
-
     // Configure SwipeRefreshLayout, RecyclerViews, Adapters, LayoutManager & glue it together
 
     protected void configureSwipeRefreshLayout() {
@@ -101,10 +99,16 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                genericNewsList.clear();
-                page = 0;
-                fetchData();
-                swipeRefreshLayout.setRefreshing(false);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Clear the list and fetch data from the first page
+                        genericNewsList.clear();
+                        page = 0;
+                        fetchData();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 2000);
             }
         });
     }
@@ -112,7 +116,7 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
     protected void configureRecyclerView(){
         // Reset list
         this.genericNewsList = new ArrayList<>();
-        // Create adapter passing the list of articles
+        // Create the adapter by passing the list of articles
         this.adapterNews = new AdapterNews(genericNewsList, Glide.with(this), this);
         // Attach the adapter to the recyclerView to populate items
         this.recyclerView.setAdapter(adapterNews);
@@ -121,11 +125,12 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
     }
 
     protected void updateUI(List<GenericNews> newsList) {
+        // Add the list from the request and notify the adapter
         genericNewsList.addAll(newsList);
         adapterNews.notifyDataSetChanged();
     }
 
-    // Dispose subscription
+    // To dispose subscription
     protected void disposeWhenDestroy(){
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }

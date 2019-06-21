@@ -22,7 +22,7 @@ public class SearchActivity extends AppCompatActivity implements SearchFragment.
 
     private Bundle bundle = new Bundle();
 
-    // Create key for Bundle
+    // Create a key for Bundle, used to save data in SearchQuery
     public static final String KEY_SEARCH_QUERY = "KEY_SEARCH_QUERY";
 
     @Override
@@ -30,10 +30,8 @@ public class SearchActivity extends AppCompatActivity implements SearchFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        // Display settings toolbar
+        // Display settings of Toolbar & SearchFragment
         configureToolbar();
-
-        // Display settings SearchFragment
         configureResearchFragment();
     }
 
@@ -86,7 +84,7 @@ public class SearchActivity extends AppCompatActivity implements SearchFragment.
 
     @Override
     public void OnWebClicked(int position, String url) {
-        // Spread the click with the url of the article to WebViewActivity
+        // Spread the click with the url of the article to open WebViewActivity
         Intent webViewActivity = new Intent(SearchActivity.this, WebViewActivity.class);
         webViewActivity.putExtra(KEY_URL, url);
         startActivity(webViewActivity);
