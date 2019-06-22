@@ -13,7 +13,7 @@ import android.view.MenuItem;
 
 import com.jpz.mynews.Controllers.Fragments.NewsFragment;
 import com.jpz.mynews.R;
-import com.jpz.mynews.Views.PageAdapter;
+import com.jpz.mynews.Controllers.Adapters.PageAdapter;
 
 public class MainActivity extends AppCompatActivity implements NewsFragment.OnWebClickedListener {
 

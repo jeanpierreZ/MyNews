@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -46,7 +47,7 @@
         android:textSize="20sp"
         android:visibility="gone"
         android:focusable="false"
-        android:clickable="true"
+        android:clickable="false"
         android:inputType="date"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -54,7 +55,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/search_notifications_fragment_guideline"
         app:layout_constraintTop_toBottomOf="@+id/search_notifications_fragment_text_one"
-        tools:ignore="Autofill"/>
+        tools:ignore="AutoFill, labelFor" />
 
     <TextView
         android:id="@+id/search_notifications_fragment_text_two"
@@ -75,7 +76,7 @@
         android:textSize="20sp"
         android:visibility="gone"
         android:focusable="false"
-        android:clickable="true"
+        android:clickable="false"
         android:inputType="date"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -83,7 +84,7 @@
         app:layout_constraintLeft_toRightOf="@id/search_notifications_fragment_guideline"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_notifications_fragment_text_two"
-        tools:ignore="Autofill"/>
+        tools:ignore="AutoFill, labelFor"/>
 
     <CheckBox
         android:id="@+id/search_notifications_fragment_checkbox_one"
@@ -91,6 +92,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:paddingStart="4dp"
+        android:paddingEnd="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -103,6 +105,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:paddingStart="4dp"
+        android:paddingEnd="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -114,10 +117,11 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:paddingStart="4dp"
+        android:paddingEnd="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_notifications_fragment_checkbox_two" />
+        app:layout_constraintTop_toBottomOf="@+id/search_notifications_fragment_checkbox_two"/>
 
     <CheckBox
         android:id="@+id/search_notifications_fragment_checkbox_four"
@@ -125,6 +129,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:paddingStart="4dp"
+        android:paddingEnd="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toRightOf="@id/search_notifications_fragment_guideline"
@@ -136,6 +141,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:paddingStart="4dp"
+        android:paddingEnd="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toRightOf="@id/search_notifications_fragment_guideline"
@@ -147,6 +153,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:paddingStart="4dp"
+        android:paddingEnd="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toRightOf="@id/search_notifications_fragment_guideline"
@@ -166,7 +173,8 @@
         android:elevation="4dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_notifications_fragment_checkbox_three" />
+        app:layout_constraintTop_toBottomOf="@+id/search_notifications_fragment_checkbox_three"
+        tools:targetApi="LOLLIPOP"/>
 
     <ImageView
         android:id="@+id/search_notifications_divider"

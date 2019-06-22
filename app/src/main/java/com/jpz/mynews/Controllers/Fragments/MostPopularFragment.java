@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.jpz.mynews.Controllers.Utils.APIClient;
 import com.jpz.mynews.Models.GenericNews;
-import com.jpz.mynews.Views.AdapterNews;
+import com.jpz.mynews.Controllers.Adapters.AdapterNews;
 
 import java.util.List;
 

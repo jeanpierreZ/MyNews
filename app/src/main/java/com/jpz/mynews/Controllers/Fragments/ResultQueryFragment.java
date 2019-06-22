@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +21,7 @@ import com.jpz.mynews.Controllers.Utils.ConvertMethods;
 import com.jpz.mynews.Models.GenericNews;
 import com.jpz.mynews.Models.SearchQuery;
 import com.jpz.mynews.R;
-import com.jpz.mynews.Views.AdapterNews;
+import com.jpz.mynews.Controllers.Adapters.AdapterNews;
 
 import java.util.List;
 
@@ -35,11 +36,6 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
 
     private ConvertMethods convertMethods = new ConvertMethods();
     private SearchQuery searchQuery = new SearchQuery();
-
-    // converted fields used for the research of articles in the request
-    private String beginDateAfterConversion;
-    private String endDateAfterConversion;
-    private String selectedDesks;
 
     // Fields to detect more scrolling
     private LinearLayoutManager layoutManager;
@@ -116,17 +112,22 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
         if (getArguments() != null)
             searchQuery = (SearchQuery) getArguments().getSerializable(KEY_SEARCH_QUERY);
 
-        // Call methods to convert the initial fields for the request
-        fetchBeginDate();
-        fetchEndDate();
-        fetchDesks();
+        // Just for tags
+        if (searchQuery != null) {
+            Log.i("TAG", "ResultQuery queryTerms : "+ searchQuery.queryTerms);
+            Log.i("TAG", "ResultQuery Page : " + page);
+            Log.i("TAG", "ResultQuery dateAfterConversion : begin "
+                    + fetchDate(searchQuery.beginDate) + " end " + fetchDate(searchQuery.endDate));
+            Log.i("TAG", "ResultQuery desks : " +
+                    searchQuery.desks[0]+searchQuery.desks[1]+searchQuery.desks[2]+
+                    searchQuery.desks[3]+searchQuery.desks[4]+searchQuery.desks[5]);
+        }
 
-        Log.i("TAG", "ResultQuery queryTerms : "+ searchQuery.queryTerms);
-        Log.i("TAG", "On Next ArticleSearch Page : " + page);
-
+        if (searchQuery != null)
         // Execute the stream subscribing to Observable defined inside APIClient
         this.disposable = APIClient.getArticleSearchNews
-                (selectedDesks, page, searchQuery.queryTerms, beginDateAfterConversion, endDateAfterConversion)
+                (fetchDesksValues(searchQuery.desks), page, searchQuery.queryTerms,
+                        fetchDate(searchQuery.beginDate), fetchDate(searchQuery.endDate))
                 .subscribeWith(new DisposableObserver<List<GenericNews>>() {
                     @Override
                     public void onNext(List<GenericNews> genericNewsList) {
@@ -176,43 +177,29 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
         }, 2000);
     }
 
-    // Convert the begin date to research
-    private void fetchBeginDate() {
-        if (searchQuery.beginDate != null) {
+    // Convert the begin or end date from DatePickerDialog to research
+    @VisibleForTesting()
+    public String fetchDate(String beginOrEndDate) {
+        if (beginOrEndDate != null) {
             // If there is no date saved, set null
-            if (searchQuery.beginDate.equals(""))
-                beginDateAfterConversion = null;
+            if (beginOrEndDate.equals(""))
+                beginOrEndDate = null;
             else {
-                beginDateAfterConversion = convertMethods.convertBeginOrEndDate(searchQuery.beginDate);
-                Log.i("TAG", "ResultQuery beginDateAfterConversion : "+ beginDateAfterConversion);
+                beginOrEndDate = convertMethods.convertDateToSearch(beginOrEndDate);
             }
         }
+        return beginOrEndDate;
     }
 
-    // Convert the end date to research
-    private void fetchEndDate() {
-        if (searchQuery.endDate != null) {
-            // If there is no date saved, set null
-            if (searchQuery.endDate.equals(""))
-                endDateAfterConversion = null;
-            else {
-                endDateAfterConversion = convertMethods.convertBeginOrEndDate(searchQuery.endDate);
-                Log.i("TAG", "ResultQuery endDateAfterConversion : " + endDateAfterConversion);
-            }
-        }
-    }
+    // Formatting desks chosen for the request
+    @VisibleForTesting()
+    public String fetchDesksValues(String[] desks) {
+        String formatDesksValue = "";
+        if (desks != null)
+            formatDesksValue = "news_desk:(\"" + desks[0] + "\" \"" + desks[1]
+                    + "\" \"" + desks[2] + "\" \"" + desks[3]
+                    + "\" \"" + desks[4] + "\" \"" + desks[5] +"\")";
 
-    // Convert desk values to research
-    private void fetchDesks() {
-        // Formatting desks chosen for the request
-        if (searchQuery.desks != null) {
-            Log.i("TAG", "ResultQuery desks : " +
-                    searchQuery.desks[0]+searchQuery.desks[1]+searchQuery.desks[2]+
-                    searchQuery.desks[3]+searchQuery.desks[4]+searchQuery.desks[5]);
-            selectedDesks =
-                    "news_desk:(\"" + searchQuery.desks[0] + "\" \"" + searchQuery.desks[1] +
-                            "\" \"" + searchQuery.desks[2] + "\" \"" + searchQuery.desks[3] +
-                            "\" \"" + searchQuery.desks[4] + "\" \"" + searchQuery.desks[5] +"\")";
-        }
+        return formatDesksValue;
     }
 }

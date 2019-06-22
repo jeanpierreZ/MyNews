@@ -1,7 +1,7 @@
 package com.jpz.mynews.Controllers.Utils;
 
 public enum Desk {
-    // The desks of API
+    // Some Filter Query Fields "news_desk" of the API ArticleSearch
     Foreign (Service.API_DESK_FOREIGN),
     Business (Service.API_DESK_BUSINESS),
     Magazine (Service.API_DESK_MAGAZINE),

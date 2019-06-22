@@ -8,8 +8,8 @@ public class SearchQuery implements Serializable {
     public String queryTerms;
     public String beginDate;
     public String endDate;
+    public String[] desks = new String[6];
 
-    public String[] desks = {null, null, null, null, null, null};
-
+    // Boolean to verify the state of the notificationSwitch
     public Boolean isChecked;
 }

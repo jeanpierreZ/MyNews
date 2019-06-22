@@ -36,4 +36,7 @@
     <string name="channel_name">"Channel</string>
     <string name="channel_description">Channel for notifications</string>
 
+    <!-- Strings used for the Image (contentDescription) -->
+    <string name="image">Image</string>
+
 </resources>

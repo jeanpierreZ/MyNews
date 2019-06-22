@@ -8,6 +8,7 @@ import android.os.Build;
 import com.jpz.mynews.R;
 
 public class ApplicationNotification extends Application {
+    // Class to create a channel used by the notifications
 
     public static final String CHANNEL_ID = "channel_id";
 
@@ -32,6 +33,5 @@ public class ApplicationNotification extends Application {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-
     }
 }

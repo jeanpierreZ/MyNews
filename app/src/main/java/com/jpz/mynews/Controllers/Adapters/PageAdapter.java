@@ -1,4 +1,4 @@
-package com.jpz.mynews.Views;
+package com.jpz.mynews.Controllers.Adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

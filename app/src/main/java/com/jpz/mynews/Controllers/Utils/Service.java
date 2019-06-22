@@ -16,7 +16,9 @@ import retrofit2.http.Query;
 public interface Service {
     // Interface for requests of the New York Times APIs
 
+    // ----------------------------------------------------------------------------
     // Fields to complete requests
+
     String API_BASE_URL = "https://api.nytimes.com/svc/";
     String API_KEY = "ZFLWOr4Llj4dNQEA4itSAoJJm2ggwLJx";
 
@@ -34,6 +36,8 @@ public interface Service {
 
     // Sort order ; the following values are allowed: newest, oldest, relevance
     String API_FILTER_SORT_ORDER = "newest";
+
+    // ----------------------------------------------------------------------------
 
     // Create a Retrofit Object to do a request network
     Retrofit retrofit = new Retrofit.Builder()

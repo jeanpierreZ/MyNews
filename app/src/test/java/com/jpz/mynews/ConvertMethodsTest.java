@@ -54,8 +54,8 @@ public class ConvertMethodsTest {
     }
 
     @Test
-    public void convertBeginOrEndDate() {
-        assertEquals("20190613", convertMethods.convertBeginOrEndDate(dateBeginOrEnd));
+    public void convertDateToSearchTest() {
+        assertEquals("20190613", convertMethods.convertDateToSearch(dateBeginOrEnd));
 
     }
 }

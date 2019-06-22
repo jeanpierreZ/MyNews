@@ -24,13 +24,12 @@ import static com.jpz.mynews.Controllers.Utils.Service.API_FILTER_SORT_ORDER;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
-    // To load data from the activity
+    // To load data from the notifications request
     private MySharedPreferences prefs;
     private SearchQuery searchQuery = new SearchQuery();
 
-    // Field used for the notification of articles in the request
+    // Fields used for the notification of articles in the request
     private String selectedDesks;
-    int page;
     private int articlesCounter;
 
     // For data and Notification/Manager/Compat
@@ -46,11 +45,11 @@ public class NotificationReceiver extends BroadcastReceiver {
     }
 
     private void startRequest() {
-        // Call methods to fetch fields for the request
+        // Get the fields for the request
         fetchQueryTerms();
-        fetchBeginDate();
-        fetchEndDate();
+        fetchDates();
         fetchDesks();
+        int page = 0;
 
         Log.i("LOG","Notif Receiver " + searchQuery.queryTerms);
         Log.i("LOG","Notif Receiver " + searchQuery.beginDate);
@@ -66,20 +65,19 @@ public class NotificationReceiver extends BroadcastReceiver {
                    @Override
                    public void onNext(ArticleSearchResponse searchResponse) {
                        Log.i("TAG", "On Next Notif Receiver");
-                       // Check if the number of articles in the list
+                       // Check the number of articles in the request
                        articlesCounter = searchResponse.getResponse().getMeta().getHits();
-                       Log.i("TAG", " Notif Receiver numb = " + articlesCounter);
                    }
 
                    @Override
                    public void onError(Throwable e) {
-                       Log.e("TAG", "On Error ResultQueryFragment"
+                       Log.e("TAG", "On Error Notif Receiver"
                                + Log.getStackTraceString(e));
                    }
 
                    @Override
                    public void onComplete() {
-                       Log.i("TAG", "On Complete ResultQueryFragment");
+                       Log.i("TAG", "On Complete Notif Receiver");
                        notifications();
                    }
                 });
@@ -90,19 +88,12 @@ public class NotificationReceiver extends BroadcastReceiver {
         searchQuery.queryTerms = prefs.getQueryTerms();
     }
 
-    private void fetchBeginDate() {
-        // Get the begin date to notify
-        // Make the begin date equals today
+    private void fetchDates() {
+        // Get the begin and end dates to notify
+        // Make the dates equal today
         Date today = Calendar.getInstance().getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
         searchQuery.beginDate = sdf.format(today);
-    }
-
-    private void fetchEndDate() {
-        // Get the end date to notify
-        // Make the end date equals today
-        Date today = Calendar.getInstance().getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
         searchQuery.endDate = sdf.format(today);
     }
 
@@ -123,18 +114,22 @@ public class NotificationReceiver extends BroadcastReceiver {
         String text;
         switch (articlesCounter) {
             case 0:
-                text = "Today there isn't new article for your request \"" + searchQuery.queryTerms + "\".";
+                text = "Today there isn't new article for your request \""
+                        + searchQuery.queryTerms + "\".";
                 break;
             case 1:
-                text = "Today there is " + articlesCounter + " new article for your request \"" + searchQuery.queryTerms + "\".";
+                text = "Today there is " + articlesCounter + " new article for your request \""
+                        + searchQuery.queryTerms + "\".";
                 break;
             default:
-                text = "Today there are " + articlesCounter + " new articles for your request \"" + searchQuery.queryTerms + "\".";
+                text = "Today there are " + articlesCounter + " new articles for your request \""
+                        + searchQuery.queryTerms + "\".";
         }
 
-        NotificationManager notificationManager = (NotificationManager)_context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager
+                = (NotificationManager)_context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Set the notification's content and channel
+        // Set the content and channel of the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(_context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_event_note_black_48dp)
                 .setContentTitle(title)

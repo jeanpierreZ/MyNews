@@ -40,8 +40,6 @@ public class NotificationsFragment extends SearchAndNotificationsFragment {
                 mCallback.onSearchOrNotifyClicked(searchQuery);
 
                 Log.i("TAG", "NotificationsFragment save queryTerms : "+ searchQuery.queryTerms);
-                Log.i("TAG", "NotificationsFragment save beginDate : "+ searchQuery.beginDate);
-                Log.i("TAG", "NotificationsFragment save endDate : "+ searchQuery.endDate);
                 Log.i("TAG", "NotificationsFragment desks : "
                         +searchQuery.desks[0]+searchQuery.desks[1]+searchQuery.desks[2]
                         +searchQuery.desks[3]+searchQuery.desks[4]+searchQuery.desks[5]);

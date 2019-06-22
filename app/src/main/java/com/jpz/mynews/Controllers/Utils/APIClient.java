@@ -1,5 +1,7 @@
 package com.jpz.mynews.Controllers.Utils;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.jpz.mynews.Models.ArticleSearchResponse;
 import com.jpz.mynews.Models.Doc;
 import com.jpz.mynews.Models.GenericNews;
@@ -18,9 +20,10 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class APIClient {
-    // Class for streams the New York Times APIs with Observables of RxJava
+    // Class for streams of the New York Times APIs with Observables of RxJava
 
     // Public method to start fetching the result for Top Stories
+    @VisibleForTesting
     public static Observable<TopStoriesResponse> fetchTopStories(String section){
         // Get a Retrofit instance and the related Observable of the Interface
         Service service = Service.retrofit.create(Service.class);
@@ -31,18 +34,18 @@ public class APIClient {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    // Public method to generify the result for Top Stories
+    // Public method to generify the result list of Top Stories
     public static Observable<List<GenericNews>> getTopStoriesNews(){
         return fetchTopStories(Service.API_TOPSTORIES_SECTION)
                 .map(new Function<TopStoriesResponse, List<Result>>() {
                     @Override
-                    public List<Result> apply(TopStoriesResponse response) throws Exception {
+                    public List<Result> apply(TopStoriesResponse response) {
 
                         return response.getResultList();
                     }
                 }).map(new Function<List<Result>, List<GenericNews>>() {
                     @Override
-                    public List<GenericNews> apply(List<Result> resultList) throws Exception {
+                    public List<GenericNews> apply(List<Result> resultList) {
 
                         List<GenericNews> genericNewsList = new ArrayList<>();
 
@@ -66,8 +69,9 @@ public class APIClient {
                 });
     }
 
+    @SuppressWarnings("SameParameterValue")
     // Public method to start fetching the result for Most Popular
-    public static Observable<MostPopularResponse> fetchMostPopular(int period) {
+    private static Observable<MostPopularResponse> fetchMostPopular(int period) {
         // Get a Retrofit instance and the related Observable of the Interface
         Service service = Service.retrofit.create(Service.class);
         // Create the call on Most Popular API
@@ -77,18 +81,18 @@ public class APIClient {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    // Public method to generify the result for Most Popular
+    // Public method to generify the result list of Most Popular
     public static Observable<List<GenericNews>> getMostPopularNews(){
         return fetchMostPopular(Service.API_PERIOD)
                 .map(new Function<MostPopularResponse, List<Result>>() {
                     @Override
-                    public List<Result> apply(MostPopularResponse response) throws Exception {
+                    public List<Result> apply(MostPopularResponse response) {
 
                         return response.getResultList();
                     }
                 }).map(new Function<List<Result>, List<GenericNews>>() {
                     @Override
-                    public List<GenericNews> apply(List<Result> resultList) throws Exception {
+                    public List<GenericNews> apply(List<Result> resultList) {
 
                         List<GenericNews> genericNewsList = new ArrayList<>();
 
@@ -114,6 +118,7 @@ public class APIClient {
     }
 
     // Public method to start fetching the result for Article Search
+    @SuppressWarnings("WeakerAccess")
     public static Observable<ArticleSearchResponse>
     fetchArticleSearch(String newsDesk, String sortOrder, int page, String query,
                        String beginDate, String endDate) {
@@ -126,19 +131,19 @@ public class APIClient {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    // Public method to generify the result for Article Search
+    // Public method to generify the result list of Article Search
     public static Observable<List<GenericNews>>
     getArticleSearchNews(String desk, int page, String query, String beginDate, String endDate){
         return fetchArticleSearch(desk, Service.API_FILTER_SORT_ORDER, page, query, beginDate, endDate)
                 .map(new Function<ArticleSearchResponse, List<Doc>>() {
                     @Override
-                    public List<Doc> apply(ArticleSearchResponse response) throws Exception {
+                    public List<Doc> apply(ArticleSearchResponse response) {
 
                         return response.getResponse().getDocs();
                     }
                 }).map(new Function<List<Doc>, List<GenericNews>>() {
                     @Override
-                    public List<GenericNews> apply(List<Doc> docList) throws Exception {
+                    public List<GenericNews> apply(List<Doc> docList) {
 
                         List<GenericNews> genericNewsList = new ArrayList<>();
 

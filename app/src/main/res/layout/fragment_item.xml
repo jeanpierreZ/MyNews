@@ -37,7 +37,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/fragment_item_guideline_vertical_first"
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:contentDescription="@string/image"/>
 
         <TextView
             android:id="@+id/fragment_item_section"
@@ -55,7 +56,8 @@
             android:lines="1"
             android:ellipsize="end"
             android:paddingTop="16dp"
-            android:paddingStart="8dp"/>
+            android:paddingStart="8dp"
+            android:paddingEnd="0dp"/>
 
         <TextView
             android:id="@+id/fragment_item_date"
@@ -70,7 +72,8 @@
             android:textAlignment="gravity"
             android:gravity="end"
             android:paddingTop="16dp"
-            android:paddingEnd="8dp"/>
+            android:paddingEnd="8dp"
+            android:paddingStart="0dp"/>
 
         <TextView
             android:id="@+id/fragment_item_title"

@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.jpz.mynews.Models.GenericNews;
 import com.jpz.mynews.R;
-import com.jpz.mynews.Views.AdapterNews;
+import com.jpz.mynews.Controllers.Adapters.AdapterNews;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,6 @@ import io.reactivex.disposables.Disposable;
  * A simple {@link Fragment} subclass.
  */
 public abstract class NewsFragment extends Fragment implements AdapterNews.Listener {
-
 
     // Declare Containers, View, Disposable, Adapter & a list of news
     protected SwipeRefreshLayout swipeRefreshLayout;

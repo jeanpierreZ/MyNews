@@ -1,4 +1,4 @@
-package com.jpz.mynews.Views;
+package com.jpz.mynews.Controllers.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.RequestManager;
 import com.jpz.mynews.Models.GenericNews;
 import com.jpz.mynews.R;
+import com.jpz.mynews.Views.ViewHolderNews;
 
 import java.util.List;
 

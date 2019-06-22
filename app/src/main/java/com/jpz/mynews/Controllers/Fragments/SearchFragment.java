@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -51,7 +52,7 @@ public class SearchFragment extends SearchAndNotificationsFragment {
         // Actions when click on editText under "Begin Date"
         // ---  --- --- --- --- --- --- --- --- --- --- ---
 
-        // Display and save the begin date chosen
+        // Set and save the begin date chosen
         final DatePickerDialog.OnDateSetListener beginDateSetListener =
                 new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -59,7 +60,7 @@ public class SearchFragment extends SearchAndNotificationsFragment {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                displayBeginDate();
+                displayDate(editBeginDate);
                 searchQuery.beginDate = editBeginDate.getText().toString();
             }
         };
@@ -78,7 +79,7 @@ public class SearchFragment extends SearchAndNotificationsFragment {
         // Actions when click on editText under "End Date"
         // ---  --- --- --- --- --- --- --- --- --- --- ---
 
-        // Display and save the end date chosen
+        // Set and save the end date chosen
         final DatePickerDialog.OnDateSetListener EndDateSetListener =
                 new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -86,7 +87,7 @@ public class SearchFragment extends SearchAndNotificationsFragment {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                displayEndDate();
+                displayDate(editEndDate);
                 searchQuery.endDate = editEndDate.getText().toString();
             }
         };
@@ -100,7 +101,6 @@ public class SearchFragment extends SearchAndNotificationsFragment {
                         calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
 
         //---------------------------------------------------------------
 
@@ -119,21 +119,14 @@ public class SearchFragment extends SearchAndNotificationsFragment {
     }
 
     //---------------------------------------------------------------
-    // Private methods to display and format the dates in the editTexts
 
-    private void displayBeginDate() {
+    // Method to display and format the dates in the editTexts
+    private void displayDate(EditText editText) {
         // Set date format
         String dateFormat = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.getDefault());
-        // Show calendar to choose begin date
-        editBeginDate.setText(sdf.format(calendar.getTime()));
+        // Update the editText with the chosen date
+        editText.setText(sdf.format(calendar.getTime()));
     }
 
-    private void displayEndDate() {
-        // Set date format
-        String dateFormat = "dd/MM/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.getDefault());
-        // Show calendar to choose begin date
-        editEndDate.setText(sdf.format(calendar.getTime()));
-    }
 }

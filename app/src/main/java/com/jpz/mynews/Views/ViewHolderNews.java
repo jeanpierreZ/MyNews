@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 
+import com.jpz.mynews.Controllers.Adapters.AdapterNews;
 import com.jpz.mynews.Controllers.Utils.ConvertMethods;
 import com.jpz.mynews.Models.GenericNews;
 import com.jpz.mynews.R;
@@ -52,7 +53,7 @@ public class ViewHolderNews extends RecyclerView.ViewHolder implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        // When a click happens, we fire our listener.
+        // When a click happens, we fire our listener to get the item position in the list
         AdapterNews.Listener callback = callbackWeakRef.get();
         if (callback != null) callback.onClickItem(getAdapterPosition());
     }
