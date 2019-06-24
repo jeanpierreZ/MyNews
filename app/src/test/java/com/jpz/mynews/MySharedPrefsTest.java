@@ -8,25 +8,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
-
 import static org.junit.Assert.assertEquals;
 
 public class MySharedPrefsTest {
 
     private MySharedPreferences prefs;
     private String queryTerms;
-    private String beginDate;
-    private String endDate;
+    private Boolean isChecked;
     private String[] checkBoxes = new String[6];
 
     @Before
     public void setStringsForTests() {
-        // Query terms for research
         queryTerms = "query terms";
-
-        beginDate = "20190514";
-        endDate = "20190531";
 
         String checkBoxOne = Desk.Foreign.toDesk();
         String checkBoxTwo = Desk.Business.toDesk();
@@ -41,6 +36,8 @@ public class MySharedPrefsTest {
         checkBoxes[3] = checkBoxFour;
         checkBoxes[4] = checkBoxFive;
         checkBoxes[5] = checkBoxSix;
+
+        isChecked = true;
     }
 
     @Test
@@ -53,21 +50,13 @@ public class MySharedPrefsTest {
     }
 
     @Test
-    public void getBeginDateTest() {
+    public void getSwitchStateTest() {
         // Mock context
         prefs = mock(MySharedPreferences.class);
-        // Mock with value put in method saveBeginDate()
-        when(prefs.getQueryTerms()).thenReturn(beginDate);
-        assertEquals("20190514", prefs.getQueryTerms());
-    }
+        // Mock with value put in method saveBoxesValues()
+        when(prefs.getSwitchState()).thenReturn(isChecked);
 
-    @Test
-    public void getEndDateTest() {
-        // Mock context
-        prefs = mock(MySharedPreferences.class);
-        // Mock with value put in method saveEndDate()
-        when(prefs.getQueryTerms()).thenReturn(endDate);
-        assertEquals("20190531", prefs.getQueryTerms());
+        assertTrue("true", prefs.getSwitchState());
     }
 
     @Test

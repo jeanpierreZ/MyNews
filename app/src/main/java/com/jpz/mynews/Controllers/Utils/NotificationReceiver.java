@@ -44,6 +44,9 @@ public class NotificationReceiver extends BroadcastReceiver {
         startRequest();
     }
 
+    //---------------------------------------------------------------
+
+    // Search if there are articles with terms of the request
     private void startRequest() {
         // Get the fields for the request
         fetchQueryTerms();
@@ -83,13 +86,15 @@ public class NotificationReceiver extends BroadcastReceiver {
                 });
     }
 
+    //---------------------------------------------------------------
+
+    // Get the query terms to notify
     private void fetchQueryTerms() {
-        // Get the query terms to notify
         searchQuery.queryTerms = prefs.getQueryTerms();
     }
 
+    // Get the begin and end dates to notify
     private void fetchDates() {
-        // Get the begin and end dates to notify
         // Make the dates equal today
         Date today = Calendar.getInstance().getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
@@ -97,8 +102,8 @@ public class NotificationReceiver extends BroadcastReceiver {
         searchQuery.endDate = sdf.format(today);
     }
 
+    // Get the desk values to notify
     private void fetchDesks() {
-        // Get the desk values to notify
         searchQuery.desks = prefs.getDesksValues();
         // Formatting desks chosen for the notification
         selectedDesks =
@@ -107,6 +112,9 @@ public class NotificationReceiver extends BroadcastReceiver {
                         "\" \"" + searchQuery.desks[4] + "\" \"" + searchQuery.desks[5] +"\")";
     }
 
+    //---------------------------------------------------------------
+
+    // Display he notification with the result of the request
     private void notifications() {
         Log.i("TAG", "Notif Receiver articlesCounter = " + articlesCounter);
 
@@ -114,16 +122,13 @@ public class NotificationReceiver extends BroadcastReceiver {
         String text;
         switch (articlesCounter) {
             case 0:
-                text = "Today there isn't new article for your request \""
-                        + searchQuery.queryTerms + "\".";
+                text = _context.getString(R.string.zeroArticle, searchQuery.queryTerms);
                 break;
             case 1:
-                text = "Today there is " + articlesCounter + " new article for your request \""
-                        + searchQuery.queryTerms + "\".";
+                text = _context.getString(R.string.oneArticle, searchQuery.queryTerms, articlesCounter);
                 break;
             default:
-                text = "Today there are " + articlesCounter + " new articles for your request \""
-                        + searchQuery.queryTerms + "\".";
+                text = _context.getString(R.string.articles, searchQuery.queryTerms, articlesCounter);
         }
 
         NotificationManager notificationManager

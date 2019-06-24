@@ -21,7 +21,7 @@
         https://github.com/jeanpierreZ/MyNews.</string>
     <string name="cancel">@android:string/cancel</string>
 
-    <!-- Strings used for the Fragment Research -->
+    <!-- Strings used for the Fragment Search -->
     <string name="searchQueryTerm">Search query term</string>
     <string name="beginDate">Begin Date</string>
     <string name="endDate">End Date</string>
@@ -29,8 +29,13 @@
 
     <!-- Strings used for the Fragment Notifications -->
     <string name="enableNotifications">Enable notifications (once per day)</string>
-    <string name="canceledNotifications">Notifications are canceled.</string>
-    <string name="activatedNotifications">Notifications are activated.</string>
+    <string name="activatedNotifications">Notifications are ACTIVATED.</string>
+    <string name="canceledNotifications">Notifications are CANCELED.</string>
+
+    <!-- Strings used for the NotificationReceiver -->
+    <string name="zeroArticle">Today there isn\'t new article for your request \"%1$s\".</string>
+    <string name="oneArticle">Today there is %2$d new article for your request \"%1$s\".</string>
+    <string name="articles">Today there are %2$d new articles for your request \"%1$s\".</string>
 
     <!-- Strings used for the Channel Notifications -->
     <string name="channel_name">"Channel</string>

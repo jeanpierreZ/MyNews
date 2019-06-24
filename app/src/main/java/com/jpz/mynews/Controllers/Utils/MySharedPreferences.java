@@ -12,8 +12,7 @@ public class MySharedPreferences {
 
     // Keys for the notifications
     private static final String QUERY_KEY = "QUERY_KEY";
-    private static final String BEGIN_DATE_KEY = "BEGIN_DATE_KEY";
-    private static final String END_DATE_KEY = "END_DATE_KEY";
+    private static final String SWITCH_KEY = "SWITCH_KEY";
     private static final String CHECK_BOX_ONE_KEY = "CHECK_BOX_ONE_KEY";
     private static final String CHECK_BOX_TWO_KEY = "CHECK_BOX_TWO_KEY";
     private static final String CHECK_BOX_THREE_KEY = "CHECK_BOX_THREE_KEY";
@@ -26,6 +25,8 @@ public class MySharedPreferences {
         prefs = context.getSharedPreferences("Preferences", MODE_PRIVATE);
     }
 
+    //---------------------------------------------------------------
+
     // Save the query terms
     public void saveQueryTerms(String queryTerms) {
         prefs.edit().putString(QUERY_KEY, queryTerms).apply();
@@ -36,25 +37,19 @@ public class MySharedPreferences {
         return prefs.getString(QUERY_KEY, null);
     }
 
-    // Save the begin date
-    public void saveBeginDate(String beginDate) {
-        prefs.edit().putString(BEGIN_DATE_KEY, beginDate).apply();
+    //---------------------------------------------------------------
+
+    // Save the state of the switch
+    public void saveSwitchState(Boolean isChecked) {
+        prefs.edit().putBoolean(SWITCH_KEY, isChecked).apply();
     }
 
-    // Get the begin date
-    public String getBeginDate() {
-        return prefs.getString(BEGIN_DATE_KEY, null);
+    // Get the state of the switch
+    public Boolean getSwitchState() {
+        return prefs.getBoolean(SWITCH_KEY, false);
     }
 
-    // Save the end date
-    public void saveEndDate(String endDate) {
-        prefs.edit().putString(END_DATE_KEY, endDate).apply();
-    }
-
-    // Get the end date
-    public String getEndDate() {
-        return prefs.getString(END_DATE_KEY, null);
-    }
+    //---------------------------------------------------------------
 
     // Save the desks values associated to checkBoxes
     public void saveDesksValues(String checkBoxOne, String checkBoxTwo, String checkBoxThree,

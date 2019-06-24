@@ -4,15 +4,17 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.TextView;
 
+import com.jpz.mynews.Controllers.Fragments.BaseSearchFragment;
 import com.jpz.mynews.Controllers.Fragments.NotificationsFragment;
-import com.jpz.mynews.Controllers.Fragments.SearchAndNotificationsFragment;
 import com.jpz.mynews.Controllers.Utils.MySharedPreferences;
 import com.jpz.mynews.Controllers.Utils.NotificationReceiver;
 import com.jpz.mynews.Models.SearchQuery;
@@ -22,12 +24,11 @@ import java.util.Calendar;
 
 import static android.app.AlarmManager.INTERVAL_DAY;
 
-public class NotificationsActivity extends AppCompatActivity implements SearchAndNotificationsFragment.OnSearchOrNotifyClickedListener {
+public class NotificationsActivity extends AppCompatActivity
+        implements BaseSearchFragment.OnSearchOrNotifyClickedListener {
 
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
-
-    private Context context;
 
     private MySharedPreferences prefs;
 
@@ -37,7 +38,7 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
         setContentView(R.layout.activity_notifications);
 
         // Get context for AlarmManager, Intent and sharedPreferences
-        context = getApplicationContext();
+        Context context = getApplicationContext();
         alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, NotificationReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
@@ -76,31 +77,42 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
     }
 
     //----------------------------------------------------------------------------------
-
-    // Implements method from SearchAndNotificationsFragment to set data for AlarmManager
+    // Implements method from BaseSearchFragment to set data for AlarmManager
     @Override
     public void onSearchOrNotifyClicked(SearchQuery searchQuery) {
+        // Save the state of the switch and reuse it with data when NotificationsFragment is open
+
         // If the switch is checked, activate notifications...
-        if (searchQuery.isChecked) {
+        if (searchQuery.switchIsChecked) {
             startNotifications();
 
             // ...wih values form the fragment
+            prefs.saveSwitchState(true);
+            Log.i("LOG","Notif Activity switchIsChecked :" + searchQuery.switchIsChecked);
+
             prefs.saveQueryTerms(searchQuery.queryTerms);
-            Log.i("LOG","Notif Activity queryTerms" + searchQuery.queryTerms);
+            Log.i("LOG","Notif Activity queryTerms :" + searchQuery.queryTerms);
 
             prefs.saveDesksValues(searchQuery.desks[0], searchQuery.desks[1], searchQuery.desks[2],
                     searchQuery.desks[3], searchQuery.desks[4], searchQuery.desks[5]);
 
-            Log.i("LOG","Notif Activity desks" +
+            Log.i("LOG","Notif Activity desks :" +
                     searchQuery.desks[0] + searchQuery.desks[1] +
                     searchQuery.desks[2] + searchQuery.desks[3] +
                     searchQuery.desks[4] + searchQuery.desks[5]);
         }
-        else
-            // If the switch is unchecked, deactivate notifications
+        else {
+            // If the switch is unchecked, deactivate notifications...
             cancelNotifications();
+            // ... and reset data in MySharedPreferences
+            prefs.saveSwitchState(false);
+            prefs.saveQueryTerms(null);
+            prefs.saveDesksValues(null, null, null,
+                    null, null, null);
+        }
     }
 
+    //----------------------------------------------------------------------------------
     // Methods to start or cancel notifications
 
     private void startNotifications() {
@@ -119,14 +131,32 @@ public class NotificationsActivity extends AppCompatActivity implements SearchAn
         // Set alarmMgr to start at the schedule fixed and once per day
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, notificationCalendar.getTimeInMillis(),
                 INTERVAL_DAY, alarmIntent);
-        // Confirm with a toast message
-        Toast.makeText(context, R.string.activatedNotifications, Toast.LENGTH_SHORT).show();
+
+        // Confirm with a message
+        // Create instance of snackBar
+        Snackbar snackBarActivate = Snackbar.make(findViewById(R.id.activity_notifications_frame_layout),
+                R.string.activatedNotifications, Snackbar.LENGTH_SHORT);
+        // Get snackBar view
+        View snackViewActivate = snackBarActivate.getView();
+        // Change snackBar text color
+        TextView textSnackActivate = snackViewActivate.findViewById(android.support.design.R.id.snackbar_text);
+        textSnackActivate.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        textSnackActivate.setTextColor(getResources().getColor(R.color.colorAccent));
+
+        snackBarActivate.show();
     }
 
     private void cancelNotifications() {
         // Cancel alarmMgr
         alarmMgr.cancel(alarmIntent);
-        // Confirm with a toast message
-        Toast.makeText(context, R.string.canceledNotifications, Toast.LENGTH_SHORT).show();
+
+        // Confirm with a message
+        Snackbar snackBarCancel = Snackbar.make(findViewById(R.id.activity_notifications_frame_layout),
+                R.string.canceledNotifications, Snackbar.LENGTH_SHORT);
+        View snackViewCancel = snackBarCancel.getView();
+        TextView textSnackCancel = snackViewCancel.findViewById(android.support.design.R.id.snackbar_text);
+        textSnackCancel.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        textSnackCancel.setTextColor(getResources().getColor(R.color.colorPrimary));
+        snackBarCancel.show();
     }
 }

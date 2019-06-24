@@ -19,7 +19,7 @@ import java.util.Locale;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchFragment extends SearchAndNotificationsFragment {
+public class SearchFragment extends BaseSearchFragment {
 
     private Calendar calendar;
     private Context context;

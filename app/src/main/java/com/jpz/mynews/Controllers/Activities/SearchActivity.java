@@ -32,7 +32,7 @@ public class SearchActivity extends AppCompatActivity implements SearchFragment.
 
         // Display settings of Toolbar & SearchFragment
         configureToolbar();
-        configureResearchFragment();
+        configureSearchFragment();
     }
 
     private void configureToolbar(){
@@ -47,7 +47,7 @@ public class SearchActivity extends AppCompatActivity implements SearchFragment.
             ab.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void configureResearchFragment(){
+    private void configureSearchFragment(){
         // Get FragmentManager (Support) and Try to find existing instance of fragment in FrameLayout container
         searchFragment = (SearchFragment)
                 getSupportFragmentManager().findFragmentById(R.id.activity_search_frame_layout);

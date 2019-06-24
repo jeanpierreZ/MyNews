@@ -25,7 +25,7 @@ import com.jpz.mynews.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public abstract class SearchAndNotificationsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
+public abstract class BaseSearchFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
 
     // Widgets layout
     protected EditText editQuery;
@@ -43,17 +43,17 @@ public abstract class SearchAndNotificationsFragment extends Fragment implements
     protected SearchQuery searchQuery = new SearchQuery();
 
     // Declare callback
-    protected SearchAndNotificationsFragment.OnSearchOrNotifyClickedListener mCallback;
+    protected BaseSearchFragment.OnSearchOrNotifyClickedListener mCallback;
 
-    public SearchAndNotificationsFragment() {
+    public BaseSearchFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Get layout for SearchAndNotificationsFragment
-        View view = inflater.inflate(R.layout.fragment_search_and_notifications, container, false);
+        // Get layout for BaseSearchFragment
+        View view = inflater.inflate(R.layout.fragment_base_search, container, false);
 
         // Get widgets from layout
         editQuery = view.findViewById(R.id.search_notifications_fragment_query);

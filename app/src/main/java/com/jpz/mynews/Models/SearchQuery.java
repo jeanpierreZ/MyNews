@@ -11,5 +11,5 @@ public class SearchQuery implements Serializable {
     public String[] desks = new String[6];
 
     // Boolean to verify the state of the notificationSwitch
-    public Boolean isChecked;
+    public Boolean switchIsChecked;
 }
