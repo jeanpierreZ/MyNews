@@ -56,7 +56,6 @@ public class NotificationsActivity extends BaseActivity
         prefs = new MySharedPreferences(getApplicationContext());
 
         // Display settings Toolbar and NotificationsFragment
-        configureToolbar();
         configureNotificationsFragment();
     }
 
