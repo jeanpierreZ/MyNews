@@ -2,8 +2,13 @@ package com.jpz.mynews.Controllers.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,7 +20,13 @@ import com.jpz.mynews.Controllers.Fragments.NewsFragment;
 import com.jpz.mynews.R;
 import com.jpz.mynews.Controllers.Adapters.PageAdapter;
 
-public class MainActivity extends AppCompatActivity implements NewsFragment.OnWebClickedListener {
+public class MainActivity extends AppCompatActivity
+        implements NewsFragment.OnWebClickedListener, NavigationView.OnNavigationItemSelectedListener {
+
+    // For design
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private ViewPager pager;
 
     // Create a key for the url of the chosen article to be consulted on the website
     public static final String KEY_URL = "url";
@@ -25,10 +36,15 @@ public class MainActivity extends AppCompatActivity implements NewsFragment.OnWe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Display settings of Toolbar and ViewPager
+        // Display settings of Navigation Drawer (layout + view), Toolbar and ViewPager
         configureToolbar();
+        configureDrawerLayout();
         configureViewPagerAndTabs();
+        configureNavigationView();
     }
+
+    //----------------------------------------------------------------------------------
+    // Methods for Menu in Toolbar
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,25 +96,89 @@ public class MainActivity extends AppCompatActivity implements NewsFragment.OnWe
         }
     }
 
+    //----------------------------------------------------------------------------------
+    // Methods for NavigationView in NavigationDrawer
+
+    @Override
+    public void onBackPressed() {
+        // 5 - Handle back click to close menu
+        if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            this.drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle Navigation Item Click
+        switch (item.getItemId()){
+            case R.id.activity_main_drawer_topStories:
+                pager.setCurrentItem(0);
+                break;
+            case R.id.activity_main_drawer_mostPopular:
+                pager.setCurrentItem(1);
+                break;
+            case R.id.activity_main_drawer_foreign:
+                pager.setCurrentItem(2);
+                break;
+            case R.id.activity_main_drawer_business:
+                pager.setCurrentItem(3);
+                break;
+            case R.id.activity_main_drawer_magazine:
+                pager.setCurrentItem(4);
+                break;
+            case R.id.activity_main_drawer_search:
+                Intent searchActivity = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(searchActivity);
+                break;
+            case R.id.activity_main_drawer_notifications:
+                Intent notificationsActivity = new Intent(MainActivity.this, NotificationsActivity.class);
+                startActivity(notificationsActivity);
+                break;
+            default:
+                break;
+        }
+        this.drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    //----------------------------------------------------------------------------------
+    // Private methods to configure design
+
     private void configureToolbar(){
         // Get the toolbar view inside the activity layout
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         // Set the Toolbar
         setSupportActionBar(toolbar);
     }
 
-    private void configureViewPagerAndTabs(){
+    private void configureViewPagerAndTabs() {
         // Get ViewPager from layout
-        ViewPager pager = findViewById(R.id.activity_main_viewpager);
+        pager = findViewById(R.id.activity_main_viewpager);
         // Set PageAdapter and glue it together
-        pager.setAdapter(new PageAdapter(getSupportFragmentManager()));
+        pager.setAdapter(new PageAdapter(getSupportFragmentManager(), getApplicationContext()));
         pager.setCurrentItem(0);
         // Get TabLayout from layout
-        TabLayout tabs= findViewById(R.id.activity_main_tabs);
+        TabLayout tabs = findViewById(R.id.activity_main_tabs);
         //  Glue TabLayout and ViewPager together
         tabs.setupWithViewPager(pager);
         // Design purpose. Tabs are displayed with scrolling
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
+    }
+
+    private void configureDrawerLayout(){
+        drawerLayout = findViewById(R.id.activity_main_drawer_layout);
+        // "Hamburger icon"
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    private void configureNavigationView(){
+        NavigationView navigationView = findViewById(R.id.activity_main_nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     //----------------------------------------------------------------------------------

@@ -1,17 +1,32 @@
 <resources>
 
-    <!-- Strings used for Labels in the ToolBar -->
+    <!-- Used for Labels in the ToolBar -->
     <string name="app_name">My News</string>
     <string name="notifications_name">Notifications</string>
     <string name="search_articles">Search Articles</string>
 
-    <!-- Strings used for Menu in the ToolBar -->
+    <!-- Used for Menu in the ToolBar -->
     <string name="searchIcon">Search</string>
     <string name="notifications">Notifications</string>
     <string name="help">Help</string>
     <string name="about">About</string>
 
-    <!-- Strings used for AlertDialog in Menu-->
+    <!-- Used in NavigationDrawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Used in ToolBar & NavigationDrawer for title -->
+    <string name="categoryNews">News by category</string>
+    <string name="topStories">TOP STORIES</string>
+    <string name="mostPopular">MOST POPULAR</string>
+    <string name="foreign">FOREIGN</string>
+    <string name="business">BUSINESS</string>
+    <string name="magazine">MAGAZINE</string>
+    <string name="tools">Tools</string>
+    <string name="searchNavigation">SEARCH</string>
+    <string name="notificationsNavigation">NOTIFICATIONS</string>
+
+    <!-- Used for AlertDialog in Menu-->
     <string name="helpDialog">My News is a mobile application that allows you to consult
         New York Times news articles by topic.\nYou also have the opportunity to search for an
         article by keywords, themes, with a start date and an end date.\nFinally, you can
@@ -21,27 +36,27 @@
         https://github.com/jeanpierreZ/MyNews.</string>
     <string name="cancel">@android:string/cancel</string>
 
-    <!-- Strings used for the Fragment Search -->
+    <!-- Used for the Fragment Search -->
     <string name="searchQueryTerm">Search query term</string>
     <string name="beginDate">Begin Date</string>
     <string name="endDate">End Date</string>
     <string name="searchButton">SEARCH</string>
 
-    <!-- Strings used for the Fragment Notifications -->
+    <!-- Used for the Fragment Notifications -->
     <string name="enableNotifications">Enable notifications (once per day)</string>
     <string name="activatedNotifications">Notifications are ACTIVATED.</string>
     <string name="canceledNotifications">Notifications are CANCELED.</string>
 
-    <!-- Strings used for the NotificationReceiver -->
+    <!-- Used for the NotificationReceiver -->
     <string name="zeroArticle">Today there isn\'t new article for your request \"%1$s\".</string>
     <string name="oneArticle">Today there is %2$d new article for your request \"%1$s\".</string>
     <string name="articles">Today there are %2$d new articles for your request \"%1$s\".</string>
 
-    <!-- Strings used for the Channel Notifications -->
+    <!-- Used for the Channel Notifications -->
     <string name="channel_name">"Channel</string>
     <string name="channel_description">Channel for notifications</string>
 
-    <!-- Strings used for the Image (contentDescription) -->
+    <!-- Used for the Image (contentDescription) -->
     <string name="image">Image</string>
 
 </resources>
