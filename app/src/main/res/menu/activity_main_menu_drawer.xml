@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view" >
 
+    <item
+        android:id="@+id/activity_main_drawer_homepage"
+        android:checkableBehavior="single"
+        android:title="@string/homepage"
+        android:visible="false"/>
+
     <item android:title="@string/categoryNews">
         <menu>
             <group android:checkableBehavior="single">

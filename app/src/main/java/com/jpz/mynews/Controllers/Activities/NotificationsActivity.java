@@ -4,13 +4,12 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.jpz.mynews.Controllers.Fragments.BaseSearchFragment;
@@ -24,7 +23,7 @@ import java.util.Calendar;
 
 import static android.app.AlarmManager.INTERVAL_DAY;
 
-public class NotificationsActivity extends AppCompatActivity
+public class NotificationsActivity extends BaseActivity
         implements BaseSearchFragment.OnSearchOrNotifyClickedListener {
 
     private AlarmManager alarmMgr;
@@ -35,7 +34,18 @@ public class NotificationsActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notifications);
+
+        // This is the FrameLayout area within the activity_base.xml
+        FrameLayout contentFrameLayout = findViewById(R.id.activity_base_frame_layout);
+        // Inflate the activity to load
+        getLayoutInflater().inflate(R.layout.activity_notifications, contentFrameLayout);
+
+        // Display settings of Toolbar & NavigationView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            toolbar.setElevation(8);
+
+        navigationView.getMenu().getItem(0).setVisible(true);
+        navigationView.getMenu().getItem(1).setVisible(false);
 
         // Get context for AlarmManager, Intent and sharedPreferences
         Context context = getApplicationContext();
@@ -48,18 +58,6 @@ public class NotificationsActivity extends AppCompatActivity
         // Display settings Toolbar and NotificationsFragment
         configureToolbar();
         configureNotificationsFragment();
-    }
-
-    private void configureToolbar(){
-        //Get the toolbar (Serialise)
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        //Set the toolbar
-        setSupportActionBar(toolbar);
-        // Get a support ActionBar corresponding to this toolbar
-        ActionBar ab = getSupportActionBar();
-        // Enable the Up button
-        if (ab != null)
-            ab.setDisplayHomeAsUpEnabled(true);
     }
 
     private void configureNotificationsFragment(){

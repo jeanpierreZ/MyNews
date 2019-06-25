@@ -81,24 +81,25 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
                     // it's useless to load another page
                     if (totalItems < 10)
                         loading = false;
+                    else {
+                        // If totalItems is less than previousTotal (because of SwipeRefresh), the
+                        // list is invalidated and should be reset back to initial state
+                        if (totalItems < previousTotal) {
+                            previousTotal = totalItems;
+                            loading = true;
+                        }
 
-                    // If totalItems is less than previousTotal (because of SwipeRefresh), the
-                    // list is invalidated and should be reset back to initial state
-                    if (totalItems < previousTotal) {
-                        previousTotal = totalItems;
-                        loading = true;
-                    }
+                        // Data are loading and previousTotal is actualized with totalItems
+                        if ((loading) && (totalItems > previousTotal)) {
+                            loading = false;
+                            previousTotal = totalItems;
+                        }
 
-                    // Data are loading and previousTotal is actualized with totalItems
-                    if ((loading) && (totalItems > previousTotal)) {
-                        loading = false;
-                        previousTotal = totalItems;
-                    }
-
-                    // Data aren't loading and end of the list has been reached, so call next page
-                    if (!loading && (totalItems - visibleItem) <= firstVisibleItem) {
-                        fetchNextPage();
-                        loading = true;
+                        // Data aren't loading and end of the list has been reached, so call next page
+                        if (!loading && (totalItems - visibleItem) <= firstVisibleItem) {
+                            fetchNextPage();
+                            loading = true;
+                        }
                     }
                 }
             }

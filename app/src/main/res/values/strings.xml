@@ -16,6 +16,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!-- Used in ToolBar & NavigationDrawer for title -->
+    <string name="homepage">HOMEPAGE</string>
     <string name="categoryNews">News by category</string>
     <string name="topStories">TOP STORIES</string>
     <string name="mostPopular">MOST POPULAR</string>
