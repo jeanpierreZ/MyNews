@@ -49,9 +49,9 @@
     <string name="canceledNotifications">Notifications are CANCELED.</string>
 
     <!-- Used for the NotificationReceiver -->
-    <string name="zeroArticle">Today there isn\'t new article for your request \"%1$s\".</string>
-    <string name="oneArticle">Today there is %2$d new article for your request \"%1$s\".</string>
-    <string name="articles">Today there are %2$d new articles for your request \"%1$s\".</string>
+    <string name="zeroArticle">Today there isn\'t new article for your request.</string>
+    <string name="oneArticle">Today there is %1$d new article for your request.</string>
+    <string name="articles">Today there are %1$d new articles for your request.</string>
 
     <!-- Used for the Channel Notifications -->
     <string name="channel_name">"Channel</string>

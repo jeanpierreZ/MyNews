@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jpz.mynews">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.jpz.mynews"
+    tools:ignore="GoogleAppIndexingWarning">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".Controllers.Utils.ApplicationNotification"
+        android:name=".controllers.utils.ApplicationNotification"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/ic_launcher_my_news"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_my_news"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Controllers.Activities.NotificationsActivity"
+            android:name=".controllers.activities.NotificationsActivity"
             android:label="@string/notifications"
-            android:parentActivityName=".Controllers.Activities.MainActivity" />
+            android:parentActivityName=".controllers.activities.MainActivity" />
         <activity
-            android:name=".Controllers.Activities.SearchActivity"
+            android:name=".controllers.activities.SearchActivity"
             android:label="@string/search_articles"
-            android:parentActivityName=".Controllers.Activities.MainActivity" />
+            android:parentActivityName=".controllers.activities.MainActivity" />
         <activity
-            android:name=".Controllers.Activities.WebViewActivity"
-            android:parentActivityName=".Controllers.Activities.MainActivity" />
+            android:name=".controllers.activities.WebViewActivity"
+            android:parentActivityName=".controllers.activities.MainActivity" />
         <activity
-            android:name=".Controllers.Activities.MainActivity"
+            android:name=".controllers.activities.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -34,7 +37,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".Controllers.Utils.NotificationReceiver" />
+        <receiver android:name=".controllers.utils.NotificationReceiver" />
     </application>
 
 </manifest>

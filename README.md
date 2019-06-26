@@ -42,4 +42,6 @@ accessible depuis le point de menu de l’écran principal de l’application.
 Si les notifications sont activées, alors l’application ira vérifier une fois par jour si des news correspondent aux critères 
 de recherche, puis vous avertira grâce à un message de notification.
 
+Icon launcher made by Freepik from www.flaticon.com.
+
 Jean-Pierre Zingraff
