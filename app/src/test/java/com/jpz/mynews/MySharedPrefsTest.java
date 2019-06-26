@@ -1,8 +1,8 @@
 package com.jpz.mynews;
 
 
-import com.jpz.mynews.Controllers.Utils.Desk;
-import com.jpz.mynews.Controllers.Utils.MySharedPreferences;
+import com.jpz.mynews.controllers.utils.Desk;
+import com.jpz.mynews.controllers.utils.MySharedPreferences;
 
 import org.junit.Before;
 import org.junit.Test;

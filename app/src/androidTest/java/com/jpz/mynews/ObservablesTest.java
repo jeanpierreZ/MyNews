@@ -1,9 +1,9 @@
 package com.jpz.mynews;
 
 import android.support.test.runner.AndroidJUnit4;
-import com.jpz.mynews.Controllers.Utils.APIClient;
-import com.jpz.mynews.Controllers.Utils.Service;
-import com.jpz.mynews.Models.TopStoriesResponse;
+import com.jpz.mynews.controllers.utils.APIClient;
+import com.jpz.mynews.controllers.utils.Service;
+import com.jpz.mynews.models.TopStoriesResponse;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +15,7 @@ import static junit.framework.TestCase.assertEquals;
 public class ObservablesTest {
 
     @Test
-    public void fetchTopStoriesTest() throws Exception {
+    public void fetchTopStoriesTest() {
         // Get the stream
         Observable<TopStoriesResponse> topStoriesObservable = APIClient
                 .fetchTopStories(Service.API_TOPSTORIES_SECTION);

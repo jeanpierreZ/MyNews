@@ -1,10 +1,10 @@
 package com.jpz.mynews;
 
-import com.jpz.mynews.Models.ArticleSearchResponse;
-import com.jpz.mynews.Models.Doc;
-import com.jpz.mynews.Models.Headline;
-import com.jpz.mynews.Models.Multimedium;
-import com.jpz.mynews.Models.Response;
+import com.jpz.mynews.models.ArticleSearchResponse;
+import com.jpz.mynews.models.Doc;
+import com.jpz.mynews.models.Headline;
+import com.jpz.mynews.models.Multimedium;
+import com.jpz.mynews.models.Response;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +54,7 @@ public class DocListTest {
     }
 
     @Test
-    public void testArticleSearchResponse() throws Exception
+    public void testArticleSearchResponse()
     {
         for (Doc doc : articleSearchResponse.getResponse().getDocs())
         {

@@ -1,7 +1,7 @@
 package com.jpz.mynews;
 
-import com.jpz.mynews.Controllers.Fragments.ResultQueryFragment;
-import com.jpz.mynews.Controllers.Utils.Desk;
+import com.jpz.mynews.controllers.fragments.ResultQueryFragment;
+import com.jpz.mynews.controllers.utils.Desk;
 
 import org.junit.Before;
 import org.junit.Test;

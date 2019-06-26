@@ -1,4 +1,4 @@
-package com.jpz.mynews.Controllers.Activities;
+package com.jpz.mynews.controllers.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -51,34 +51,34 @@ public abstract class BaseActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle Navigation Item Click
         switch (item.getItemId()){
-            case R.id.activity_main_drawer_homepage:
+            case R.id.activity_base_drawer_homepage:
                 startMainActivity();
                 break;
-            case R.id.activity_main_drawer_topStories:
+            case R.id.activity_base_drawer_topStories:
                 pager.setCurrentItem(0);
                 break;
-            case R.id.activity_main_drawer_mostPopular:
+            case R.id.activity_base_drawer_mostPopular:
                 pager.setCurrentItem(1);
                 break;
-            case R.id.activity_main_drawer_foreign:
+            case R.id.activity_base_drawer_foreign:
                 pager.setCurrentItem(2);
                 break;
-            case R.id.activity_main_drawer_business:
+            case R.id.activity_base_drawer_business:
                 pager.setCurrentItem(3);
                 break;
-            case R.id.activity_main_drawer_magazine:
+            case R.id.activity_base_drawer_magazine:
                 pager.setCurrentItem(4);
                 break;
-            case R.id.activity_main_drawer_search:
+            case R.id.activity_base_drawer_search:
                 startSearchActivity();
                 break;
-            case R.id.activity_main_drawer_notifications:
+            case R.id.activity_base_drawer_notifications:
                 startNotificationsActivity();
                 break;
             default:
                 break;
         }
-        this.drawerLayout.closeDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Controllers.Fragments.NewsFragment">
+    tools:context=".controllers.fragments.NewsFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/fragment_news_swipe_container"

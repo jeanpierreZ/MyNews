@@ -1,4 +1,4 @@
-package com.jpz.mynews.Controllers.Utils;
+package com.jpz.mynews.controllers.utils;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.jpz.mynews.Models.ArticleSearchResponse;
-import com.jpz.mynews.Models.SearchQuery;
+import com.jpz.mynews.models.ArticleSearchResponse;
+import com.jpz.mynews.models.SearchQuery;
 import com.jpz.mynews.R;
 
 import java.text.SimpleDateFormat;
@@ -19,8 +19,8 @@ import java.util.Locale;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
-import static com.jpz.mynews.Controllers.Utils.ApplicationNotification.CHANNEL_ID;
-import static com.jpz.mynews.Controllers.Utils.Service.API_FILTER_SORT_ORDER;
+import static com.jpz.mynews.controllers.utils.ApplicationNotification.CHANNEL_ID;
+import static com.jpz.mynews.controllers.utils.Service.API_FILTER_SORT_ORDER;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
@@ -122,13 +122,13 @@ public class NotificationReceiver extends BroadcastReceiver {
         String text;
         switch (articlesCounter) {
             case 0:
-                text = _context.getString(R.string.zeroArticle, searchQuery.queryTerms);
+                text = _context.getString(R.string.zeroArticle);
                 break;
             case 1:
-                text = _context.getString(R.string.oneArticle, searchQuery.queryTerms, articlesCounter);
+                text = _context.getString(R.string.oneArticle, articlesCounter);
                 break;
             default:
-                text = _context.getString(R.string.articles, searchQuery.queryTerms, articlesCounter);
+                text = _context.getString(R.string.articles, articlesCounter);
         }
 
         NotificationManager notificationManager
@@ -138,7 +138,8 @@ public class NotificationReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(_context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_event_note_black_48dp)
                 .setContentTitle(title)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
+                .setContentText(text)
+                //.setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         // Notify the builder

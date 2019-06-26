@@ -1,6 +1,6 @@
 package com.jpz.mynews;
 
-import com.jpz.mynews.Controllers.Utils.ConvertMethods;
+import com.jpz.mynews.controllers.utils.ConvertMethods;
 
 import org.junit.Before;
 import org.junit.Test;

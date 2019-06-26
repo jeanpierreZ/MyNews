@@ -5,7 +5,7 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.jpz.mynews.Controllers.Activities.SearchActivity;
+import com.jpz.mynews.controllers.activities.SearchActivity;
 
 import org.junit.Before;
 import org.junit.Rule;

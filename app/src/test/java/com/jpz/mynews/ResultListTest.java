@@ -1,11 +1,11 @@
 package com.jpz.mynews;
 
-import com.jpz.mynews.Models.MediaMetadatum;
-import com.jpz.mynews.Models.Medium;
-import com.jpz.mynews.Models.MostPopularResponse;
-import com.jpz.mynews.Models.Multimedium;
-import com.jpz.mynews.Models.Result;
-import com.jpz.mynews.Models.TopStoriesResponse;
+import com.jpz.mynews.models.MediaMetadatum;
+import com.jpz.mynews.models.Medium;
+import com.jpz.mynews.models.MostPopularResponse;
+import com.jpz.mynews.models.Multimedium;
+import com.jpz.mynews.models.Result;
+import com.jpz.mynews.models.TopStoriesResponse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +50,7 @@ public class ResultListTest {
     }
 
     @Test
-    public void testTopStoriesResponse() throws Exception
+    public void testTopStoriesResponse()
     {
         for (Result result : topStoriesResponse.getResultList())
         {
@@ -100,7 +100,7 @@ public class ResultListTest {
     }
 
     @Test
-    public void testMostPopularResponse() throws Exception
+    public void testMostPopularResponse()
     {
         for (Result result : mostPopularResponse.getResultList())
         {
