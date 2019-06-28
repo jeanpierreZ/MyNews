@@ -29,7 +29,7 @@ public abstract class BaseSearchFragment extends Fragment implements CompoundBut
 
     // Widgets layout
     protected EditText editQuery;
-    protected TextView textOne, textTwo;
+    protected TextView textBeginDate, textEndDate;
     protected EditText editBeginDate, editEndDate;
     protected CheckBox boxOne, boxTwo, boxThree, boxFour, boxFive, boxSix;
     protected Button searchButton;
@@ -56,25 +56,25 @@ public abstract class BaseSearchFragment extends Fragment implements CompoundBut
         View view = inflater.inflate(R.layout.fragment_base_search, container, false);
 
         // Get widgets from layout
-        editQuery = view.findViewById(R.id.search_notifications_fragment_query);
+        editQuery = view.findViewById(R.id.base_search_fragment_query);
 
-        textOne = view.findViewById(R.id.search_notifications_fragment_text_one);
-        textTwo = view.findViewById(R.id.search_notifications_fragment_text_two);
+        textBeginDate = view.findViewById(R.id.base_search_fragment_text_beginDate);
+        textEndDate = view.findViewById(R.id.base_search_fragment_text_endDate);
 
-        editBeginDate = view.findViewById(R.id.search_notifications_fragment_edit_begin_date);
-        editEndDate = view.findViewById(R.id.search_notifications_fragment_edit_end_date);
+        editBeginDate = view.findViewById(R.id.base_search_fragment_edit_begin_date);
+        editEndDate = view.findViewById(R.id.base_search_fragment_edit_end_date);
 
-        boxOne = view.findViewById(R.id.search_notifications_fragment_checkbox_one);
-        boxTwo = view.findViewById(R.id.search_notifications_fragment_checkbox_two);
-        boxThree = view.findViewById(R.id.search_notifications_fragment_checkbox_three);
-        boxFour = view.findViewById(R.id.search_notifications_fragment_checkbox_four);
-        boxFive = view.findViewById(R.id.search_notifications_fragment_checkbox_five);
-        boxSix = view.findViewById(R.id.search_notifications_fragment_checkbox_six);
+        boxOne = view.findViewById(R.id.base_search_fragment_checkbox_one);
+        boxTwo = view.findViewById(R.id.base_search_fragment_checkbox_two);
+        boxThree = view.findViewById(R.id.base_search_fragment_checkbox_three);
+        boxFour = view.findViewById(R.id.base_search_fragment_checkbox_four);
+        boxFive = view.findViewById(R.id.base_search_fragment_checkbox_five);
+        boxSix = view.findViewById(R.id.base_search_fragment_checkbox_six);
 
-        searchButton = view.findViewById(R.id.search_notifications_fragment_button);
+        searchButton = view.findViewById(R.id.base_search_fragment_button);
 
-        notificationSwitch = view.findViewById(R.id.search_notifications_switch);
-        divider = view.findViewById(R.id.search_notifications_divider);
+        notificationSwitch = view.findViewById(R.id.base_search_switch);
+        divider = view.findViewById(R.id.base_search_divider);
 
         //Initialize the switch and the button to be disabled on fragment creation
         searchButton.setEnabled(false);
@@ -137,32 +137,32 @@ public abstract class BaseSearchFragment extends Fragment implements CompoundBut
         // If a checkBox is checked, load the desk value in a string
         // Also verify it as the second condition to enable the button
         switch (buttonView.getId()) {
-            case R.id.search_notifications_fragment_checkbox_one:
+            case R.id.base_search_fragment_checkbox_one:
                 searchQuery.desks[0] = getDeskFromBox(isChecked, boxOne);
                 setSearchOrNotifyEnabled();
                 break;
 
-            case R.id.search_notifications_fragment_checkbox_two:
+            case R.id.base_search_fragment_checkbox_two:
                 searchQuery.desks[1] = getDeskFromBox(isChecked, boxTwo);
                 setSearchOrNotifyEnabled();
                 break;
 
-            case R.id.search_notifications_fragment_checkbox_three:
+            case R.id.base_search_fragment_checkbox_three:
                 searchQuery.desks[2] = getDeskFromBox(isChecked, boxThree);
                 setSearchOrNotifyEnabled();
                 break;
 
-            case R.id.search_notifications_fragment_checkbox_four:
+            case R.id.base_search_fragment_checkbox_four:
                 searchQuery.desks[3] = getDeskFromBox(isChecked, boxFour);
                 setSearchOrNotifyEnabled();
                 break;
 
-            case R.id.search_notifications_fragment_checkbox_five:
+            case R.id.base_search_fragment_checkbox_five:
                 searchQuery.desks[4] = getDeskFromBox(isChecked, boxFive);
                 setSearchOrNotifyEnabled();
                 break;
 
-            case R.id.search_notifications_fragment_checkbox_six:
+            case R.id.base_search_fragment_checkbox_six:
                 searchQuery.desks[5] = getDeskFromBox(isChecked, boxSix);
                 setSearchOrNotifyEnabled();
                 break;

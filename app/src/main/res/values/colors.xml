@@ -5,4 +5,8 @@
     <color name="colorAccent">#FFC400</color>
     <color name="textColorPrimary">#000000</color>
     <color name="textColorPrimaryLight">#424242</color>
+
+    <color name="textColorTab">#FFFFFF</color>
+    <color name="textColorTabLight">#99FFFFFF</color>
+
 </resources>

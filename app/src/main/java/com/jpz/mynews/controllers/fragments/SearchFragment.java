@@ -38,8 +38,8 @@ public class SearchFragment extends BaseSearchFragment {
 
         // Make the button, the texts and  the editTexts visible, because they are used for search
         searchButton.setVisibility(View.VISIBLE);
-        textOne.setVisibility(View.VISIBLE);
-        textTwo.setVisibility(View.VISIBLE);
+        textBeginDate.setVisibility(View.VISIBLE);
+        textEndDate.setVisibility(View.VISIBLE);
         editBeginDate.setVisibility(View.VISIBLE);
         editEndDate.setVisibility(View.VISIBLE);
 

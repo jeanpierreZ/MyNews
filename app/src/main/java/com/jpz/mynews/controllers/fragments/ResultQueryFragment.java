@@ -37,6 +37,8 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
     private ConvertMethods convertMethods = new ConvertMethods();
     private SearchQuery searchQuery = new SearchQuery();
 
+    String toastNoResult;
+
     // Fields to detect more scrolling
     private LinearLayoutManager layoutManager;
     private ProgressBar progressBar;
@@ -133,14 +135,16 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
                     @Override
                     public void onNext(List<GenericNews> genericNewsList) {
                         Log.i("TAG", "On Next ResultQueryFragment");
+                        // Get string for no result
+                        if (context != null)
+                            toastNoResult = context.getString(R.string.toastNoResult, searchQuery.queryTerms);
+
                         // Check if there is no result in the first page of the list...
                         if (page == 0) {
                             if (genericNewsList.size() == 0)
                                 // ...and inform the user
                                 Toast.makeText(context,
-                                        "There is no result for your request \""+searchQuery.queryTerms
-                                                +"\" from "+searchQuery.beginDate+" to "
-                                                +searchQuery.endDate+" with the categories chosen.",
+                                        toastNoResult,
                                         Toast.LENGTH_LONG).show();
                             else
                                 // Else update UI with the result list of ArticleSearch

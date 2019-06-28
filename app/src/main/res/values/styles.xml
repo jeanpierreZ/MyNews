@@ -7,7 +7,39 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <!-- Button application theme. -->
         <item name="colorButtonNormal">@color/colorAccent</item>
+    </style>
+
+    <!-- ToolBar theme -->
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@color/textColorTab</item>
+        <item name="android:textColorSecondary">@color/textColorTab</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <!-- ToolBar Overflow Menu : text and background color -->
+    <style name="PopupMenuStyle" parent="android:Widget.Holo.Light.PopupMenu">
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <!-- TabLayout application theme. -->
+    <style name="AppTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabMaxWidth">@dimen/tab_max_width</item>
+        <item name="tabIndicatorColor">?attr/colorAccent</item>
+        <item name="tabBackground">?attr/colorPrimary</item>
+        <item name="tabSelectedTextColor">@color/textColorTab</item>
+        <item name="tabTextAppearance">@style/AppTabTextAppearance</item>
+        <item name="tabMode">scrollable</item>
+    </style>
+
+    <!-- TabLayout application theme for text -->
+    <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/textColorTabLight</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
 </resources>
