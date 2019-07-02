@@ -1,7 +1,5 @@
 package com.jpz.mynews.controllers.utils;
 
-import android.support.annotation.VisibleForTesting;
-
 import com.jpz.mynews.models.ArticleSearchResponse;
 import com.jpz.mynews.models.Doc;
 import com.jpz.mynews.models.GenericNews;
@@ -22,9 +20,9 @@ import io.reactivex.schedulers.Schedulers;
 public class APIClient {
     // Class for streams of the New York Times APIs with Observables of RxJava
 
+    @SuppressWarnings("SameParameterValue")
     // Public method to start fetching the result for Top Stories
-    @VisibleForTesting
-    public static Observable<TopStoriesResponse> fetchTopStories(String section){
+    private static Observable<TopStoriesResponse> fetchTopStories(String section){
         // Get a Retrofit instance and the related Observable of the Interface
         Service service = Service.retrofit.create(Service.class);
         // Create the call on Top Stories API
@@ -40,7 +38,6 @@ public class APIClient {
                 .map(new Function<TopStoriesResponse, List<Result>>() {
                     @Override
                     public List<Result> apply(TopStoriesResponse response) {
-
                         return response.getResultList();
                     }
                 }).map(new Function<List<Result>, List<GenericNews>>() {
@@ -87,7 +84,6 @@ public class APIClient {
                 .map(new Function<MostPopularResponse, List<Result>>() {
                     @Override
                     public List<Result> apply(MostPopularResponse response) {
-
                         return response.getResultList();
                     }
                 }).map(new Function<List<Result>, List<GenericNews>>() {
@@ -138,7 +134,6 @@ public class APIClient {
                 .map(new Function<ArticleSearchResponse, List<Doc>>() {
                     @Override
                     public List<Doc> apply(ArticleSearchResponse response) {
-
                         return response.getResponse().getDocs();
                     }
                 }).map(new Function<List<Doc>, List<GenericNews>>() {
@@ -167,5 +162,4 @@ public class APIClient {
                     }
                 });
     }
-
 }

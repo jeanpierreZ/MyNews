@@ -3,34 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view" >
 
-    <item
-        android:id="@+id/activity_base_drawer_homepage"
-        android:checkableBehavior="single"
-        android:title="@string/homepage"
-        android:visible="false"
-        android:checkable="false" />
-
     <item android:title="@string/categoryNews">
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/activity_base_drawer_topStories"
+                    android:id="@+id/activity_main_drawer_topStories"
                     android:title="@string/topStories"
                     android:checkable="false" />
                 <item
-                    android:id="@+id/activity_base_drawer_mostPopular"
+                    android:id="@+id/activity_main_drawer_mostPopular"
                     android:title="@string/mostPopular"
                     android:checkable="false" />
                 <item
-                    android:id="@+id/activity_base_drawer_foreign"
+                    android:id="@+id/activity_main_drawer_foreign"
                     android:title="@string/foreign"
                     android:checkable="false" />
                 <item
-                    android:id="@+id/activity_base_drawer_business"
+                    android:id="@+id/activity_main_drawer_business"
                     android:title="@string/business"
                     android:checkable="false" />
                 <item
-                    android:id="@+id/activity_base_drawer_magazine"
+                    android:id="@+id/activity_main_drawer_magazine"
                     android:title="@string/magazine"
                     android:checkable="false" />
             </group>
@@ -41,11 +34,11 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/activity_base_drawer_search"
+                    android:id="@+id/activity_main_drawer_search"
                     android:title="@string/searchNavigation"
                     android:checkable="false" />
                 <item
-                    android:id="@+id/activity_base_drawer_notifications"
+                    android:id="@+id/activity_main_drawer_notifications"
                     android:title="@string/notificationsNavigation"
                     android:checkable="false" />
             </group>

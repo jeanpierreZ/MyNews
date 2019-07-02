@@ -19,21 +19,18 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static com.jpz.mynews.Delay.waitFor;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class MainActivityTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> activityRule
+    public ActivityTestRule<MainActivity> mainActivityRule
             = new ActivityTestRule<>(MainActivity.class);
 
     // Input Intents then...
@@ -46,15 +43,6 @@ public class MainActivityTest {
     @After
     public void releaseIntents() {
         Intents.release();
-    }
-
-    @Test
-    public void ensureSearchFragmentStarted() {
-        // Check if a text, which is only on searchFragment, is displayed when click to the searchIcon in the toolBar
-        onView(isRoot()).perform(waitFor(2000));
-        onView(withId(R.id.menu_activity_main_search)).perform(click());
-        onView(withId(R.id.base_search_fragment_text_beginDate))
-                .check(matches(withText(R.string.beginDate)));
     }
 
     @Test

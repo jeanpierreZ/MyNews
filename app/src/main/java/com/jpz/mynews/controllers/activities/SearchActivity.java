@@ -1,10 +1,11 @@
 package com.jpz.mynews.controllers.activities;
 
 import android.content.Intent;
-import android.os.Build;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.widget.FrameLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.jpz.mynews.controllers.fragments.NewsFragment;
 import com.jpz.mynews.controllers.fragments.SearchFragment;
@@ -14,8 +15,8 @@ import com.jpz.mynews.R;
 
 import static com.jpz.mynews.controllers.activities.MainActivity.KEY_URL;
 
-public class SearchActivity extends BaseActivity
-        implements SearchFragment.OnSearchOrNotifyClickedListener, NewsFragment.OnWebClickedListener {
+public class SearchActivity extends AppCompatActivity
+implements SearchFragment.OnSearchOrNotifyClickedListener, NewsFragment.OnWebClickedListener {
 
     SearchFragment searchFragment = new SearchFragment();
     ResultQueryFragment resultQueryFragment = new ResultQueryFragment();
@@ -28,20 +29,23 @@ public class SearchActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
 
-        // This is the FrameLayout area within the activity_base.xml
-        FrameLayout contentFrameLayout = findViewById(R.id.activity_base_frame_layout);
-        // Inflate the activity to load
-        getLayoutInflater().inflate(R.layout.activity_search, contentFrameLayout);
-
-        // Display settings of Toolbar & NavigationView
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            toolbar.setElevation(8);
-
-        navigationView.getMenu().getItem(0).setVisible(true);
-        navigationView.getMenu().getItem(1).setVisible(false);
-
+        // Display settings of Toolbar & SearchFragment
+        configureToolbar();
         configureSearchFragment();
+    }
+
+    private void configureToolbar(){
+        //Get the toolbar (Serialise)
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        //Set the toolbar
+        setSupportActionBar(toolbar);
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+        // Enable the Up button
+        if (ab != null)
+            ab.setDisplayHomeAsUpEnabled(true);
     }
 
     private void configureSearchFragment(){

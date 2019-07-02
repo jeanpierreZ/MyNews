@@ -54,13 +54,6 @@ public class NotificationReceiver extends BroadcastReceiver {
         fetchDesks();
         int page = 0;
 
-        Log.i("LOG","Notif Receiver " + searchQuery.queryTerms);
-        Log.i("LOG","Notif Receiver " + searchQuery.beginDate);
-        Log.i("LOG","Notif Receiver " + searchQuery.endDate);
-        Log.i("LOG","Notif Receiver " + searchQuery.desks[0] + searchQuery.desks[1]
-                + searchQuery.desks[2] + searchQuery.desks[3]
-                + searchQuery.desks[4] + searchQuery.desks[5]);
-
         this.disposable = APIClient.fetchArticleSearch
                 (selectedDesks, API_FILTER_SORT_ORDER, page, searchQuery.queryTerms,
                         searchQuery.beginDate, searchQuery.endDate)
@@ -116,8 +109,6 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     // Display he notification with the result of the request
     private void notifications() {
-        Log.i("TAG", "Notif Receiver articlesCounter = " + articlesCounter);
-
         String title = _context.getString(R.string.app_name);
         String text;
         switch (articlesCounter) {

@@ -1,6 +1,5 @@
 package com.jpz.mynews.controllers.fragments;
 
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -114,7 +113,6 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
         if (getArguments() != null) {
             Desk desk = (Desk) getArguments().getSerializable(KEY_POSITION);
 
-            Log.i("TAG", "On Next ArticleSearch Page : " + page);
             if (desk != null)
             // Execute the stream subscribing to Observable defined inside APIClient
             this.disposable = APIClient.getArticleSearchNews

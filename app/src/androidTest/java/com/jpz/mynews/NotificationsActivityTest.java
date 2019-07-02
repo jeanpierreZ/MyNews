@@ -16,10 +16,8 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isNotChecked;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.jpz.mynews.Delay.waitFor;
 
 public class NotificationsActivityTest {
 
@@ -28,7 +26,7 @@ public class NotificationsActivityTest {
             = new ActivityTestRule<>(NotificationsActivity.class);
 
     @Test
-    public void ensureNotificationsAreActivated() {
+    public void ensureNotificationsAreActivated() throws Exception {
         // Check if Notifications are activated when click on the switch
 
         // Put a space as a query (to have always a result !)...
@@ -37,15 +35,12 @@ public class NotificationsActivityTest {
         // ...and check a CheckBox to enable the switch...
         onView(withId(R.id.base_search_fragment_checkbox_one))
                 .check(matches(isNotChecked())).perform(click());
-
         // ...then click on the switch
         onView(withId(R.id.base_search_switch)).perform(click());
-
-        // wait 1 second and check if the snackBar with the message of activation is displayed
-        onView(isRoot()).perform(waitFor(1000));
+        // wait 0,5 second and check if the snackBar with the message of activation is displayed
+        Thread.sleep(500);
         onView(withText(R.string.activatedNotifications))
                 .check(matches(isDisplayed()));
-
         // Then reinitialize the screen
         onView(withId(R.id.base_search_switch)).perform(click());
         onView(withId(R.id.base_search_fragment_checkbox_one))

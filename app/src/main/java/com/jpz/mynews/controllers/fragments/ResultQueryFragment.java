@@ -1,6 +1,5 @@
 package com.jpz.mynews.controllers.fragments;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -115,57 +114,47 @@ public class ResultQueryFragment extends NewsFragment implements AdapterNews.Lis
         if (getArguments() != null)
             searchQuery = (SearchQuery) getArguments().getSerializable(KEY_SEARCH_QUERY);
 
-        // Just for tags
-        if (searchQuery != null) {
-            Log.i("TAG", "ResultQuery queryTerms : "+ searchQuery.queryTerms);
-            Log.i("TAG", "ResultQuery Page : " + page);
-            Log.i("TAG", "ResultQuery dateAfterConversion : begin "
-                    + fetchDate(searchQuery.beginDate) + " end " + fetchDate(searchQuery.endDate));
-            Log.i("TAG", "ResultQuery desks : " +
-                    searchQuery.desks[0]+searchQuery.desks[1]+searchQuery.desks[2]+
-                    searchQuery.desks[3]+searchQuery.desks[4]+searchQuery.desks[5]);
-        }
-
         if (searchQuery != null)
-        // Execute the stream subscribing to Observable defined inside APIClient
-        this.disposable = APIClient.getArticleSearchNews
-                (fetchDesksValues(searchQuery.desks), page, searchQuery.queryTerms,
-                        fetchDate(searchQuery.beginDate), fetchDate(searchQuery.endDate))
-                .subscribeWith(new DisposableObserver<List<GenericNews>>() {
-                    @Override
-                    public void onNext(List<GenericNews> genericNewsList) {
-                        Log.i("TAG", "On Next ResultQueryFragment");
-                        // Get string for no result
-                        if (context != null)
-                            toastNoResult = context.getString(R.string.toastNoResult, searchQuery.queryTerms);
+            // Execute the stream subscribing to Observable defined inside APIClient
+            this.disposable = APIClient.getArticleSearchNews
+                    (fetchDesksValues(searchQuery.desks), page, searchQuery.queryTerms,
+                            fetchDate(searchQuery.beginDate), fetchDate(searchQuery.endDate))
+                    .subscribeWith(new DisposableObserver<List<GenericNews>>() {
+                        @Override
+                        public void onNext(List<GenericNews> genericNewsList) {
+                            Log.i("TAG", "On Next ResultQueryFragment");
+                            // Get string for no result
+                            if (context != null)
+                                toastNoResult = context
+                                        .getString(R.string.toastNoResult, searchQuery.queryTerms);
 
-                        // Check if there is no result in the first page of the list...
-                        if (page == 0) {
-                            if (genericNewsList.size() == 0)
-                                // ...and inform the user
-                                Toast.makeText(context,
-                                        toastNoResult,
-                                        Toast.LENGTH_LONG).show();
+                            // Check if there is no result in the first page of the list...
+                            if (page == 0) {
+                                if (genericNewsList.size() == 0)
+                                    // ...and inform the user
+                                    Toast.makeText(context,
+                                            toastNoResult,
+                                            Toast.LENGTH_LONG).show();
+                                else
+                                    // Else update UI with the result list of ArticleSearch
+                                    updateUI(genericNewsList);
+                            }
+                            // For following pages, update UI with a list of ArticleSearch
                             else
-                                // Else update UI with the result list of ArticleSearch
                                 updateUI(genericNewsList);
                         }
-                        // For following pages, update UI with a list of ArticleSearch
-                        else
-                            updateUI(genericNewsList);
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("TAG", "On Error ResultQueryFragment"
-                                + Log.getStackTraceString(e));
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e("TAG", "On Error ResultQueryFragment"
+                                    + Log.getStackTraceString(e));
+                        }
 
-                    @Override
-                    public void onComplete() {
-                        Log.i("TAG", "On Complete ResultQueryFragment");
-                    }
-                });
+                        @Override
+                        public void onComplete() {
+                            Log.i("TAG", "On Complete ResultQueryFragment");
+                        }
+                    });
     }
 
     // Load the next page when end of the list has been reached

@@ -1,11 +1,9 @@
 package com.jpz.mynews.controllers.fragments;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,12 +42,6 @@ public class NotificationsFragment extends BaseSearchFragment {
         searchQuery.queryTerms = prefs.getQueryTerms();
         searchQuery.desks = prefs.getDesksValues();
 
-        Log.i("TAG", "NotificationsFragment give queryTerms : "+ searchQuery.queryTerms);
-        Log.i("TAG", "NotificationsFragment give checkedState : "+ searchQuery.switchIsChecked);
-        Log.i("TAG", "NotificationsFragment give boxOne : "
-                + searchQuery.desks[0] + searchQuery.desks[1] + searchQuery.desks[2]
-                + searchQuery.desks[3] + searchQuery.desks[4] + searchQuery.desks[5]);
-
         // If the switch was checked to notify, remember the state of widgets
         if (searchQuery.switchIsChecked) {
 
@@ -83,12 +75,6 @@ public class NotificationsFragment extends BaseSearchFragment {
                 // Spread the click to the parent activity with values for the notifications
                 searchQuery.switchIsChecked = isChecked;
                 mCallback.onSearchOrNotifyClicked(searchQuery);
-
-                Log.i("TAG", "NotificationsFragment save switchIsChecked : "+ searchQuery.switchIsChecked);
-                Log.i("TAG", "NotificationsFragment save queryTerms : "+ searchQuery.queryTerms);
-                Log.i("TAG", "NotificationsFragment desks : "
-                        +searchQuery.desks[0]+searchQuery.desks[1]+searchQuery.desks[2]
-                        +searchQuery.desks[3]+searchQuery.desks[4]+searchQuery.desks[5]);
             }
         });
 

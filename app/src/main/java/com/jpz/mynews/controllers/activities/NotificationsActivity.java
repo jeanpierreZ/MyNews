@@ -4,12 +4,12 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.jpz.mynews.controllers.fragments.BaseSearchFragment;
@@ -23,7 +23,7 @@ import java.util.Calendar;
 
 import static android.app.AlarmManager.INTERVAL_DAY;
 
-public class NotificationsActivity extends BaseActivity
+public class NotificationsActivity extends AppCompatActivity
         implements BaseSearchFragment.OnSearchOrNotifyClickedListener {
 
     private AlarmManager alarmMgr;
@@ -34,18 +34,7 @@ public class NotificationsActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // This is the FrameLayout area within the activity_base.xml
-        FrameLayout contentFrameLayout = findViewById(R.id.activity_base_frame_layout);
-        // Inflate the activity to load
-        getLayoutInflater().inflate(R.layout.activity_notifications, contentFrameLayout);
-
-        // Display settings of Toolbar & NavigationView
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            toolbar.setElevation(8);
-
-        navigationView.getMenu().getItem(0).setVisible(true);
-        navigationView.getMenu().getItem(1).setVisible(false);
+        setContentView(R.layout.activity_notifications);
 
         // Get context for AlarmManager, Intent and sharedPreferences
         Context context = getApplicationContext();
@@ -56,7 +45,20 @@ public class NotificationsActivity extends BaseActivity
         prefs = new MySharedPreferences(getApplicationContext());
 
         // Display settings Toolbar and NotificationsFragment
+        configureToolbar();
         configureNotificationsFragment();
+    }
+
+    private void configureToolbar(){
+        //Get the toolbar (Serialise)
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        //Set the toolbar
+        setSupportActionBar(toolbar);
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+        // Enable the Up button
+        if (ab != null)
+            ab.setDisplayHomeAsUpEnabled(true);
     }
 
     private void configureNotificationsFragment(){
@@ -82,21 +84,8 @@ public class NotificationsActivity extends BaseActivity
         // If the switch is checked, activate notifications...
         if (searchQuery.switchIsChecked) {
             startNotifications();
-
             // ...wih values form the fragment
             prefs.saveSwitchState(true);
-            Log.i("LOG","Notif Activity switchIsChecked :" + searchQuery.switchIsChecked);
-
-            prefs.saveQueryTerms(searchQuery.queryTerms);
-            Log.i("LOG","Notif Activity queryTerms :" + searchQuery.queryTerms);
-
-            prefs.saveDesksValues(searchQuery.desks[0], searchQuery.desks[1], searchQuery.desks[2],
-                    searchQuery.desks[3], searchQuery.desks[4], searchQuery.desks[5]);
-
-            Log.i("LOG","Notif Activity desks :" +
-                    searchQuery.desks[0] + searchQuery.desks[1] +
-                    searchQuery.desks[2] + searchQuery.desks[3] +
-                    searchQuery.desks[4] + searchQuery.desks[5]);
         }
         else {
             // If the switch is unchecked, deactivate notifications...
