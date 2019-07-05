@@ -86,6 +86,9 @@ public class NotificationsActivity extends AppCompatActivity
             startNotifications();
             // ...wih values form the fragment
             prefs.saveSwitchState(true);
+            prefs.saveQueryTerms(searchQuery.queryTerms);
+            prefs.saveDesksValues(searchQuery.desks[0], searchQuery.desks[1], searchQuery.desks[2],
+                    searchQuery.desks[3], searchQuery.desks[4], searchQuery.desks[5]);
         }
         else {
             // If the switch is unchecked, deactivate notifications...
