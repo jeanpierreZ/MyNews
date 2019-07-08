@@ -1,6 +1,8 @@
 package com.jpz.mynews.controllers.activities;
 
 import android.content.Intent;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -10,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import com.jpz.mynews.controllers.fragments.NewsFragment;
 import com.jpz.mynews.controllers.fragments.SearchFragment;
 import com.jpz.mynews.controllers.fragments.ResultQueryFragment;
+import com.jpz.mynews.controllers.utils.MyIdlingResources;
 import com.jpz.mynews.models.SearchQuery;
 import com.jpz.mynews.R;
 
@@ -26,10 +29,15 @@ implements SearchFragment.OnSearchOrNotifyClickedListener, NewsFragment.OnWebCli
     // Create a key for Bundle, used to save data in SearchQuery
     public static final String KEY_SEARCH_QUERY = "KEY_SEARCH_QUERY";
 
+    private MyIdlingResources myIdlingResources = new MyIdlingResources();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        // For testing
+        myIdlingResources.configureEspressoIdlingResource();
 
         // Display settings of Toolbar & SearchFragment
         configureToolbar();
@@ -66,7 +74,9 @@ implements SearchFragment.OnSearchOrNotifyClickedListener, NewsFragment.OnWebCli
     // Implements listener from SearchFragment to open ResultQueryFragment
 
     @Override
-    public void onSearchOrNotifyClicked(SearchQuery searchQuery) {
+    public void onSearchOrNotifyClicked(final SearchQuery searchQuery) {
+        // For testing
+        myIdlingResources.incrementIdleResource();
         // Put values from SearchFragment to set Arguments for ResultQueryFragment
         bundle.putSerializable(KEY_SEARCH_QUERY, searchQuery);
         resultQueryFragment.setArguments(bundle);
@@ -78,6 +88,8 @@ implements SearchFragment.OnSearchOrNotifyClickedListener, NewsFragment.OnWebCli
         transaction.addToBackStack(null);
         // Commit the transaction
         transaction.commit();
+        // For testing
+        myIdlingResources.decrementIdleResource();
     }
 
     //----------------------------------------------------------------------------------
@@ -89,5 +101,10 @@ implements SearchFragment.OnSearchOrNotifyClickedListener, NewsFragment.OnWebCli
         Intent webViewActivity = new Intent(SearchActivity.this, WebViewActivity.class);
         webViewActivity.putExtra(KEY_URL, url);
         startActivity(webViewActivity);
+    }
+
+    @VisibleForTesting
+    public CountingIdlingResource getEspressoIdlingResourceForSearchActivity() {
+        return this.myIdlingResources.getEspressoIdlingResource();
     }
 }

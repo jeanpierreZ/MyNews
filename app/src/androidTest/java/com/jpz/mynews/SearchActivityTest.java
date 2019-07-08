@@ -1,11 +1,13 @@
 package com.jpz.mynews;
 
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.jpz.mynews.controllers.activities.SearchActivity;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -40,6 +42,18 @@ public class SearchActivityTest {
         hintText = "Search query term";
     }
 
+    @Before
+    public void registerIdling() {
+        IdlingRegistry.getInstance()
+                .register(activityRule.getActivity().getEspressoIdlingResourceForSearchActivity());
+    }
+
+        @After
+    public void unregisterIdling() {
+        IdlingRegistry.getInstance()
+                .unregister(activityRule.getActivity().getEspressoIdlingResourceForSearchActivity());
+    }
+
     @Test
     public void hintVisibilityTest(){
         // Check hint visibility for query
@@ -55,7 +69,7 @@ public class SearchActivityTest {
     }
 
     @Test
-    public void ensureResultQueryFragmentStarted() throws Exception {
+    public void ensureResultQueryFragmentStarted() {
         // Check if ResultQueryFragment starts when click on searchButton
 
         // Put a space as a query (to have always a result !)...
@@ -66,8 +80,7 @@ public class SearchActivityTest {
                 .check(matches(isNotChecked())).perform(click());
         // ...then click on searchButton
         onView(withId(R.id.base_search_fragment_button)).perform(click());
-        // wait 2 seconds and check if the recycler view is displayed
-        Thread.sleep(2000);
+        // Check if the recycler view is displayed
         onView(withId(R.id.fragment_news_recycler_view)).check(matches(isDisplayed()));
     }
 }
