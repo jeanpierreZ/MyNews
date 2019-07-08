@@ -82,4 +82,8 @@ dependencies {
 
     // Robolectric
     testImplementation 'org.robolectric:robolectric:4.3'
+
+    //IDLING RESOURCES
+    implementation 'com.android.support.test.espresso.idling:idling-concurrent:3.0.2'
+    androidTestImplementation 'com.android.support.test.espresso.idling:idling-concurrent:3.0.2'
 }
