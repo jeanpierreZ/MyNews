@@ -103,6 +103,8 @@ implements SearchFragment.OnSearchOrNotifyClickedListener, NewsFragment.OnWebCli
         startActivity(webViewActivity);
     }
 
+    //----------------------------------------------------------------------------------
+    // For testing
     @VisibleForTesting
     public CountingIdlingResource getEspressoIdlingResourceForSearchActivity() {
         return this.myIdlingResources.getEspressoIdlingResource();

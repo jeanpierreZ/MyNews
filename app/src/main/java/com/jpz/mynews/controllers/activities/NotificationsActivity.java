@@ -4,8 +4,10 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 import com.jpz.mynews.controllers.fragments.BaseSearchFragment;
 import com.jpz.mynews.controllers.fragments.NotificationsFragment;
+import com.jpz.mynews.controllers.utils.MyIdlingResources;
 import com.jpz.mynews.controllers.utils.MySharedPreferences;
 import com.jpz.mynews.controllers.utils.NotificationReceiver;
 import com.jpz.mynews.models.SearchQuery;
@@ -31,10 +34,15 @@ public class NotificationsActivity extends AppCompatActivity
 
     private MySharedPreferences prefs;
 
+    private MyIdlingResources myIdlingResources = new MyIdlingResources();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
+
+        // For testing
+        myIdlingResources.configureEspressoIdlingResource();
 
         // Get context for AlarmManager, Intent and sharedPreferences
         Context context = getApplicationContext();
@@ -121,6 +129,8 @@ public class NotificationsActivity extends AppCompatActivity
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, notificationCalendar.getTimeInMillis(),
                 INTERVAL_DAY, alarmIntent);
 
+        // For testing
+        myIdlingResources.incrementIdleResource();
         // Confirm with a message
         // Create instance of snackBar
         Snackbar snackBarActivate = Snackbar.make(findViewById(R.id.activity_notifications_frame_layout),
@@ -131,14 +141,17 @@ public class NotificationsActivity extends AppCompatActivity
         TextView textSnackActivate = snackViewActivate.findViewById(android.support.design.R.id.snackbar_text);
         textSnackActivate.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         textSnackActivate.setTextColor(getResources().getColor(R.color.colorAccent));
-
         snackBarActivate.show();
+        // For testing
+        myIdlingResources.decrementIdleResource();
     }
 
     private void cancelNotifications() {
         // Cancel alarmMgr
         alarmMgr.cancel(alarmIntent);
 
+        // For testing
+        myIdlingResources.incrementIdleResource();
         // Confirm with a message
         Snackbar snackBarCancel = Snackbar.make(findViewById(R.id.activity_notifications_frame_layout),
                 R.string.canceledNotifications, Snackbar.LENGTH_SHORT);
@@ -147,5 +160,14 @@ public class NotificationsActivity extends AppCompatActivity
         textSnackCancel.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         textSnackCancel.setTextColor(getResources().getColor(R.color.colorPrimary));
         snackBarCancel.show();
+        // For testing
+        myIdlingResources.decrementIdleResource();
+    }
+
+    //----------------------------------------------------------------------------------
+    // For testing
+    @VisibleForTesting
+    public CountingIdlingResource getEspressoIdlingResourceForNotificationsActivity() {
+        return this.myIdlingResources.getEspressoIdlingResource();
     }
 }

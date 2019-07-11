@@ -80,14 +80,13 @@ public class ArticleSearchFragment extends NewsFragment implements AdapterNews.L
                     // it's useless to load another page
                     if (totalItems < 10)
                         loading = false;
+                    // If totalItems is less than previousTotal (because of SwipeRefresh), the
+                    // list is invalidated and should be reset back to initial state
+                    if (totalItems < previousTotal) {
+                        previousTotal = totalItems;
+                        loading = true;
+                    }
                     else {
-                        // If totalItems is less than previousTotal (because of SwipeRefresh), the
-                        // list is invalidated and should be reset back to initial state
-                        if (totalItems < previousTotal) {
-                            previousTotal = totalItems;
-                            loading = true;
-                        }
-
                         // Data are loading and previousTotal is actualized with totalItems
                         if ((loading) && (totalItems > previousTotal)) {
                             loading = false;

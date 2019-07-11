@@ -1,9 +1,12 @@
 package com.jpz.mynews;
 
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.rule.ActivityTestRule;
 
 import com.jpz.mynews.controllers.activities.NotificationsActivity;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -25,8 +28,20 @@ public class NotificationsActivityTest {
     public ActivityTestRule<NotificationsActivity> activityRule
             = new ActivityTestRule<>(NotificationsActivity.class);
 
+    @Before
+    public void registerIdling() {
+        IdlingRegistry.getInstance()
+                .register(activityRule.getActivity().getEspressoIdlingResourceForNotificationsActivity());
+    }
+
+    @After
+    public void unregisterIdling() {
+        IdlingRegistry.getInstance()
+                .unregister(activityRule.getActivity().getEspressoIdlingResourceForNotificationsActivity());
+    }
+
     @Test
-    public void ensureNotificationsAreActivated() throws Exception {
+    public void ensureActivateDeactivateNotifications() {
         // Check if Notifications are activated when click on the switch
 
         // Put a space as a query (to have always a result !)...
@@ -37,12 +52,14 @@ public class NotificationsActivityTest {
                 .check(matches(isNotChecked())).perform(click());
         // ...then click on the switch
         onView(withId(R.id.base_search_switch)).perform(click());
-        // wait 0,5 second and check if the snackBar with the message of activation is displayed
-        Thread.sleep(500);
+        // Check if the snackBar with the message of activation is displayed
         onView(withText(R.string.activatedNotifications))
                 .check(matches(isDisplayed()));
-        // Then reinitialize the screen
+        // Then reinitialize the screen...
         onView(withId(R.id.base_search_switch)).perform(click());
+        //...and check if the snackBar with the message of deactivation is displayed
+        onView(withText(R.string.canceledNotifications))
+                .check(matches(isDisplayed()));
         onView(withId(R.id.base_search_fragment_checkbox_one))
                 .check(matches(isChecked())).perform(click());
         onView(withId(R.id.base_search_fragment_query))
