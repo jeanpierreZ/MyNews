@@ -48,7 +48,7 @@ public class SearchActivityTest {
                 .register(activityRule.getActivity().getEspressoIdlingResourceForSearchActivity());
     }
 
-        @After
+    @After
     public void unregisterIdling() {
         IdlingRegistry.getInstance()
                 .unregister(activityRule.getActivity().getEspressoIdlingResourceForSearchActivity());
