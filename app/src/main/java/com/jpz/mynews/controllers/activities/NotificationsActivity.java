@@ -166,6 +166,7 @@ public class NotificationsActivity extends AppCompatActivity
 
     //----------------------------------------------------------------------------------
     // For testing
+
     @VisibleForTesting
     public CountingIdlingResource getEspressoIdlingResourceForNotificationsActivity() {
         return this.myIdlingResources.getEspressoIdlingResource();

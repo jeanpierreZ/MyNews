@@ -93,10 +93,10 @@ implements SearchFragment.OnSearchOrNotifyClickedListener, NewsFragment.OnWebCli
     }
 
     //----------------------------------------------------------------------------------
-    // Implement listener from NewsFragment to open WebViewActivity
+    // Implement listener from NewsFragment to open WebViewActivity when click on an article
 
     @Override
-    public void OnWebClicked(int position, String url) {
+    public void onWebClicked(int position, String url) {
         // Spread the click with the url of the article to open WebViewActivity
         Intent webViewActivity = new Intent(SearchActivity.this, WebViewActivity.class);
         webViewActivity.putExtra(KEY_URL, url);
@@ -105,6 +105,7 @@ implements SearchFragment.OnSearchOrNotifyClickedListener, NewsFragment.OnWebCli
 
     //----------------------------------------------------------------------------------
     // For testing
+
     @VisibleForTesting
     public CountingIdlingResource getEspressoIdlingResourceForSearchActivity() {
         return this.myIdlingResources.getEspressoIdlingResource();

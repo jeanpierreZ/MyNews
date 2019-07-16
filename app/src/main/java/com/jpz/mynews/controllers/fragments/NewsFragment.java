@@ -87,7 +87,7 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
         String url = adapterNews.getPosition(position).url;
 
         // Spread the click to the parent activity
-        callbackUrl.OnWebClicked(position, url);
+        callbackUrl.onWebClicked(position, url);
     }
 
     // ----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
     }
 
     // ----------------------------------------------------------------------------
-    // Interface for callback to parent activity and associated methods
+    // Interface for callback to parent activity and associated methods when click on an article
 
     @Override
     public void onAttach(Context context) {
@@ -146,7 +146,7 @@ public abstract class NewsFragment extends Fragment implements AdapterNews.Liste
 
     // Declare our interface that will be implemented by any container activity
     public interface OnWebClickedListener {
-        void OnWebClicked(int position, String url);
+        void onWebClicked(int position, String url);
     }
 
     // Create callback to parent activity

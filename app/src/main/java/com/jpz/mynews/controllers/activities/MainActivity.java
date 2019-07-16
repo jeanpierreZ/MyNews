@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        // 5 - Handle back click to close menu
+        // Handle back click to close menu
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -193,10 +193,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     //----------------------------------------------------------------------------------
-    // Implements methods from NewsFragment to create Intent for WebViewActivity
+    // Implement listener from NewsFragment to open WebViewActivity when click on an article
 
     @Override
-    public void OnWebClicked(int position, String url) {
+    public void onWebClicked(int position, String url) {
         // Spread the click with the url of the article to open WebViewActivity
         Intent webViewActivity = new Intent(MainActivity.this, WebViewActivity.class);
         webViewActivity.putExtra(KEY_URL, url);
